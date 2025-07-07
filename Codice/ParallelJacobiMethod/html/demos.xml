@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<demos>
+    <name>Parallel Jacobi Method Examples</name>
+    <type>toolbox</type>
+    <description>Use the Parallel Jacobi Method Toolbox for solving systems of linear equations
+    </description>
+
+    <demosection>
+        <label>Use Distributed Arrays to Solve Systems of Linear Equations with Jacobi Method</label>
+        <demoitem>
+            <label>Use Distributed Arrays to Solve Systems of Linear Equations with Jacobi Method</label>
+            <type>M-file</type>
+            <source>JacobiMethodLinearSystems</source>
+        </demoitem>
+    </demosection>
+
+</demos>
