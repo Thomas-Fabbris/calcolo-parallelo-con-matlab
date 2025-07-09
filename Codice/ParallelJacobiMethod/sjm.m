@@ -10,7 +10,7 @@ arguments (Output)
     x (:,1) {mustBeFloat}
     flag (1,1) {mustBeMember(flag, [0, 1])}
     relres (1,1) {mustBeFloat, mustBeBetween(relres, 0, 1)}
-    iter (1,1) {mustBeInteger, mustBeNonNegative}
+    iter (1,1) {mustBeInteger, mustBeNonnegative}
     resvec (:,1) {mustBeFloat, mustBeNonnegative}
 end
 

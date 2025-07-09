@@ -15,4 +15,6 @@
     <icon></icon>
     <!-- (Required if you supply help) Relative path to help (HTML) folder -->
     <help_location>html</help_location>
+    <!-- (Required if you supply help) Icon used in the Help browser TOC -->
+    <help_contents_icon></help_contents_icon>
 </productinfo>
