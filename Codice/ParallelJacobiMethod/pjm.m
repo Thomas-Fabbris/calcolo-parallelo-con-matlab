@@ -54,6 +54,7 @@ end
 nargoutchk(PjmHelper.MinOutArgs,PjmHelper.MaxOutArgs);
 
 isInputDistributed = isa(A, 'distributed') || isa(b, 'distributed');
+n = size(A,1);
 
 x_dist = distributed(zeros(n,1));
 
