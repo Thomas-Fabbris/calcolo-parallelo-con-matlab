@@ -1,0 +1,26 @@
+I primi progettisti di calcolatori, negli anni '50 del secolo scorso, hanno avuto sin da subito l'intuizione di interconnettere
+una moltitudine di calcolatori tradizionali, al fine di ottenere un sistema di elaborazione sempre più potente.
+Questo sogno primordiale ha portato alla nascita dei \textit{cluster} di elaboratori trent'anni dopo e allo sviluppo delle architetture
+\textit{multicore} a partire dall'inizio del 2000.
+Oggi la maggior parte delle applicazioni in ambito scientifico, tra cui quelle impiegate nella risoluzione di problemi di analisi numerica
+su larga scala, possono funzionare solo disponendo di sistemi di calcolo in grado di fornire una capacità di elaborazione molto elevata.
+
+\vspace*{0.5cm}
+Nel capitolo \ref{cap1} di questo lavoro di tesi, ci concentreremo sul concetto di calcolo parallelo e sulle principali sfide da affrontare
+durante la scrittura di software eseguito su più processori simultaneamente, tra cui spicca una crescita delle prestazioni non proporzionale
+al miglioramento apportato al sistema di elaborazione, un risultato espresso quantitativamente dalla legge di Ahmdal.
+
+\vspace*{0.5cm}
+Nel corso del capitolo 2, analizzeremo i principali costrutti di programmazione parallela messi a disposizione dall’ambiente di calcolo numerico
+e programmazione MATLAB\textsuperscript{\textregistered}, nonché le scelte di progettazione fondamentali che hanno influenzato
+le attuali caratteristiche del linguaggio dedicate alla scrittura di programmi ad esecuzione parallela.
+
+\vspace*{0.5cm}
+Nel capitolo 3, descriveremo dal punto di vista formale il metodo di Jacobi, un metodo iterativo dell’analisi numerica per la risoluzione
+approssimata di sistemi di equazioni lineari, dopo aver introdotto alcune nozioni di algebra lineare la cui conoscenza è necessaria per un'adeguato
+sviluppo dell'argomento.
+
+Successivamente, proporremo un’implementazione parallela dell'algoritmo dietro al metodo di Jacobi, sfruttando le potenzialità fornite
+dagli \textit{array} globali, utili per aumentare il livello di astrazione di un programma parallelo.
+
+Infine, ci occuperemo dell’analisi dei risultati ottenuti dall’esecuzione dell’algoritmo su problemi di grandi dimensioni.

@@ -1,11 +1,13 @@
 \documentclass[
 	a4paper,
+	twoside,
 	12pt
 ]{book}
 
 \usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
 \usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
+\usepackage{fancyhdr}
 \usepackage{setspace}
 \usepackage{graphicx}
 \usepackage{frontespizio}
@@ -17,6 +19,16 @@
 
 \graphicspath{{./Immagini}}
 \onehalfspacing
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[LE,RO]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
 
 \begin{document}
 %Inizio Introduzione Tei
@@ -33,4 +45,22 @@
 \chapter*{Introduzione}
 \addcontentsline{toc}{chapter}{Introduzione}
 \input{Capitoli/Introduzione/Introduzione.tex}
+
+% Capitolo 1 (Calcolo parallelo: sfida o opportunità?)
+\chapter{Calcolo parallelo: sfida o opportunit\'a?}
+\label{cap1}
+L'obiettivo di questo capitolo \'e dare una definizione precisa di calcolo parallelo, un termine spesso impiegato all'interno del mondo
+del supercalcolo per descrivere l’uso simultaneo di molteplici risorse di calcolo per la risoluzione di problemi ad elevata intensità computazionale
+in tempi ragionevolmente brevi, tipici delle applicazioni sviluppate in ambito scientifico.
+
+In seguito, andremo ad investigare le cause che hanno portato alla nascita del parallelismo e a descrivere le principali difficolt'\a tradizionalmente incontrate dai programmatori durante l'implementazione di programmi ad esecuzione parallela.
+
+% Parte Finale della tesi
+\backmatter
+
+%Bibliografia
+\bibliographystyle{IEEEtrans}
+\addcontentsline{toc}{chapter}{Bibliografia}
+\bibliography{./Bibliografia/Bibliografia.bib}
+
 \end{document}
