@@ -1,15 +1,36 @@
 \documentclass[
 	a4paper,
+	12pt
 ]{book}
 
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
+\usepackage{setspace}
 \usepackage{graphicx}
-\graphicspath{{./Immagini}}
 \usepackage{frontespizio}
 \usepackage{placeins}
 \usepackage{adjustbox}
+\usepackage{bm} 
+\usepackage{amsmath}
+\usepackage{todonotes}
+
+\graphicspath{{./Immagini}}
+\onehalfspacing
+
 \begin{document}
-	%Inizio Introduzione 
-	\frontmatter
-	%Frontespizio
-	\input{Frontespizio/Frontespizio.tex}
+%Inizio Introduzione Tei
+\frontmatter
+%Frontespizio
+\input{Frontespizio/Frontespizio.tex}
+
+% Indice
+\tableofcontents
+
+\mainmatter
+
+% Introduzione della tesi
+\chapter*{Introduzione}
+\addcontentsline{toc}{chapter}{Introduzione}
+\input{Capitoli/Introduzione/Introduzione.tex}
 \end{document}
