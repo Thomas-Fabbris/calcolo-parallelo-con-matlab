@@ -1,0 +1,38 @@
+L'idea alla base del calcolo parallelo \'e che gli utenti di un qualsiasi sistema di elaborazione possono avere a disposizione tanti processori
+quanti ne desiderano, per poi interconnetterli a formare un sistema
+multiprocessore, le cui prestazioni sono, con buona approssimazione,
+proporzionali al numero di processori montati.
+
+La sostituzione di un singolo processore caratterizzato da un'elevata
+capacit\'a di calcolo, tipicamente presente nelle architetture di sistemi
+\textit{mainframe}, con un insieme di processori pi\'u efficienti
+dal punto di vista energetico permette di raggiungere migliori prestazioni
+per unit\'a di energia, a condizione che i programmi eseguiti siano
+appositamente progettati per sfruttare pienamente la potenza di calcolo di ogni
+singolo processore; approfondiremo questi aspetti nei paragrafi \ref{par1.2} e \ref{par1.3}.
+
+Una tendenza introdotta da IBM nel 2001 nell'ambito della progettazione di sistemi paralleli \cite{tendler2001power4} è il raggruppamento
+di diverse unit\'a di calcolo all'interno di un singolo circuito integrato; in questo contesto, i processori montati su un singolo \textit{chip} di silicio vengono chiamati \textit{core}.
+Il microprocessore \textit{multicore} risultante appare al sistema operativo in esecuzione sull'elaboratore come l'insieme di $N$ processori, ognuno dei quali dotato di un set di registri e di una memoria \textit{cache} dedicati; solitamente si tratta di sistemi multiprocessore a memoria condivisa, in cui i \textit{core} condividono lo stesso spazio di indirizzamento fisico.\newline
+Il funzionamento di questa categoria di sistemi multiprocessore si basa sul parallelismo a livello di attività (o a livello di processo): più
+processori sono impiegati per svolgere diverse attivit\'a simultaneamente e ciascuna attivit\'a corrisponde ad applicazioni a singolo
+\textit{thread}. In generale, ogni \textit{thread} esegue un'operazione ben definita e \textit{thread} differenti possono agire sugli stessi
+dati o su insiemi di dati diversi.
+
+D'altro canto, tutte le applicazioni che richiedono un utilizzo intensivo di risorse computazionali, oggi diffuse non pi\'u esclusivamente in ambito
+scientifico ma anche in settori come quello dei motori di ricerca o dell'\textit{hosting} di siti Web, possono essere eseguite solo su \textit{cluster} di elaboratori, una tipologia di sistemi multiprocessore che si differenzia dai microprocessori \textit{multicore} per il fatto di essere costituita da un insieme di calcolatori completi, chiamati nodi, collegati tra loro per mezzo di una rete LAN (\textit{Local Area Network}).\newline
+In ogni caso, il funzionamento di un sistema di elaborazione parallelo si basa sull'uso congiunto di processori diversi.\newline
+Per sfruttare al meglio le potenzialit\'a offerte dai \textit{cluster} di elaboratori, i programmatori di applicazioni devono sviluppare programmi a esecuzione parallela efficienti e scalabili a seconda del numero di processori a disposizione durante l'esecuzione; risulta necessario applicare il parallelismo a livello di dati, un approccio che prevede la distribuzione di un insieme di dati di partenza sulle CPU del \textit{cluster} per poi eseguire la medesima operazione, ma su un insieme di dati diverso, su ogni processore.
+
+Una tipica operazione parallelizzabile a livello di dati è la somma vettoriale poichè ogni componente del vettore risultante viene ottenuta
+sommando le corrispondenti componenti omologhe dei due vettori di partenza, in modo indipendente dalle altre; possiamo sin da subito intuire che una condizione necessaria per la parallelizzazione di un qualsiasi algoritmo è l'indipendenza tra le operazioni eseguite in un certo passo.
+Ad esempio, supponiamo di dover sommare due vettori di numeri reali di dimensione $N$ avvalendoci di un sistema \textit{dual-core}, ossia di un sistema parallelo dotato di un microprocessore con
+due \text{core} distinti. Sarebbe conveniente avviare un thread separato su ogni \textit{core} specializzato nella somma di due componenti omologhe dei vettori operandi; attraverso una opulata distribuzione dei dati, otterremmo che il \textit{thread} sul primo \textit{core} somma le componenti omologhe dei vettori di partenza
+da $1$ a $\left\lfloor\frac{N}{2}\right\rfloor$, mentre il secondo \textit{core} si occuperebbe della somma delle componenti da $\left\lceil\frac{N}{2}\right\rceil$ a $N$.
+
+In realtà, la rigida classificazione proposta tra parallelismo a livello di attivit\'a e parallelismo a livello di dati non ritrova un diretto
+riscontro nella realt\'a, in quanto sono stati sviluppati programmi che sfruttano entrambi gli approcci al fine di massimizzare le prestazioni.
+
+Cogliamo l'occasione per precisare la terminologia, in parte gi\'a utilizzata, impiegata per descrivere la componente hardware e la componente software di un sistema di elaborazione: l'hardware, descrivendo con questo termine il processore del sistema, pu\'o essere classificato in seriale, come nel caso di un processore \textit{single core}, o parallelo, come nel caso di un processore \textit{multicore}, mentre il software viene detto sequenziale o concorrente, a seconda della presenza o meno di diversi processi cooperanti la cui esecuzione \'e influenzata dagli altri processi presenti nel sistema.\newline
+Naturalmente, un programma concorrente pu\'o essere eseguito sia su hardware seriale che su hardware parallelo.\newline
+Infine, con il termine programma ad esecuzione parallela, o pi\'u semplicemente software parallelo, indicheremo un programma (sequenziale o concorrente) eseguito su hardware parallelo.
