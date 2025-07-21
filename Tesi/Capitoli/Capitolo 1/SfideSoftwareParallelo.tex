@@ -1,2 +1,67 @@
-Una caratteristica fondamentale posseduta da ogni programma a esecuzione parallela
-è la scalabilit\'a, ovvero la capacit\'a del sistema software di incrementare le proprie prestazioni in funzione della potenza di calcolo richiesta in un preciso istante \cite{Michael2007}; ci\'o permette incidentalmente di realizzare sistemi tolleranti ai guasti e ad elevata disponibilit\'a.
+Le motivazioni che rendono lo sviluppo di programmi a esecuzione parallela una vera e propria sfida per i programmatori 
+sono molteplici e appartengono a diverse aree di intervento.
+
+Innanzitutto, una caratteristica contraddistintiva di ogni programma a esecuzione parallela
+è la scalabilit\'a, ovvero la capacit\'a del sistema software di incrementare le proprie prestazioni in funzione della potenza 
+di calcolo richiesta in un preciso istante, adeguando di conseguenza le risorse computazionali impiegate\cite{Michael2007}.\newline
+Da un lato la scalabilit\'a, sfruttando la stretta sinergia tra hardware e software di un sistema informatico, consente di ottenere 
+sistemi multiprocessore tolleranti ai guasti e a elevata disponibilit\'a, ma dall'altro richiede che il software venga progettato 
+in maniera tale da sfruttare al meglio i diversi processori e che il codice sorgente sia quasi completamente riscritto a ogni ù
+incremento nel numero di \textit{core}.
+
+La profonda ristrutturazione richiesta durante il ciclo di vita di tutti i  programmi a esecuzione parallela, radicata sia nella 
+fase di \textit{design} che durante la fase di manutenzione, \'e necessaria per ottenere le massime prestazioni da un 
+sistema di calcolo parallelo; a questo proposito, la programmazione parallela \'e per definizione ad alte prestazioni e richiede una 
+velocit\'a di esecuzione molto elevata, altrimenti sarebbe sufficiente sviluppare solo programmi sequenziali.
+
+Un'ulteriore sfida da tenere in considerazione durante la progettazione di software parallelo \'e rappresentata dalla legge di
+Amdahl, che limita il miglioramento prestazionale complessivamente ottenuto dall'ottimizzazione di una singola parte di un sistema di
+elaborazione.
+\subsection{La legge di Amdahl}
+La legge di Amdahl, esposta per la prima volta dall’ingegnere statunitense Gene Myron Amdahl al AFIPS \textit{Spring Joint Computer
+    Conference} del 1967, è una legge empirica, considerata un'espressione quantitativa dalla legge dei rendimenti decrescenti,
+enunciata dall’economista classico David Ricardo nel XIX secolo.
+
+Amdahl utilizza il termine \textit{enhancement} per indicare un qualsiasi miglioramento introdotto in un sistema di
+elaborazione.\newline
+Il beneficio, in termini di prestazioni, attribuibile a esso dipende da due fattori: la frazione del tempo di esecuzione iniziale,
+che diminuisce a seguito dell'\textit{enhancement}, e dall'entità del miglioramento.\newline
+In aggiunta, il concetto di incremento di velocità, detto anche \textit{speedup}, ricopre un ruolo centrale nell'intero impianto teorico.
+
+Dato un generico programma e un calcolatore a cui viene apportato un \textit{enhancement}, denominato calcolatore migliorato,
+lo \textit{speedup} è definito come il fattore secondo il quale il calcolatore migliorato riesce ad eseguire più
+velocemente il programma rispetto al calcolatore originale, calcolato secondo la seguente formula
+\[
+    Speedup=\frac{Performance\ programma\ con\ miglioramento}{Performance\ programma\ senza\ miglioramento}
+\]
+sotto l’ipotesi in cui le prestazioni del calcolatore migliorato siano effettivamente rilevabili attraverso le metriche
+prestazionali
+scelte.
+
+A questo punto, il tempo di esecuzione per il calcolatore migliorato, denotato $T_{dopo}$, pu\'o essere espresso come somma 
+del tempo di esecuzione modificato dal miglioramento $T_{modificato}$ e di quello non interessato dal cambiamento 
+$T_{nonModificato}$.
+\[
+    T_{dopo}=\frac{T_{modificato}}{Entit\grave{a}~miglioramento} + T_{nonModificato}
+\]
+
+A questo punto, possiamo riformulare la legge di Amdahl in termini di incremento di velocit\'a rispetto al tempo di esecuzione iniziale
+\[
+    \mathit{Speedup}=\frac{T_{dopo}}{T_{prima}-T_{dopo}}+\frac{T_{dopo}}{Entit\grave{a}~miglioramento}
+\]
+con $T_{prima}$ tempo di esecuzione prima del miglioramento.
+
+La formula precedente viene comunemente riscritta ponendo pari a $1$ il tempo di esecuzione prima del miglioramento e supponendo che
+il tempo modificato dal miglioramento sia espresso in termini del tempo originario di esecuzione attraverso una frazione, ottenendo
+\[
+\mathit{Speedup} = \frac{1}{1 - \mathit{Frazione~tempo~modificato} + \frac{\mathit{Frazione~tempo~modificato}}{\mathit{Entit\grave{a}~miglioramento}}}
+\]
+
+Come \'e intuibile dalla spiegazione precedente, la legge di Amdahl pu\'o essere applicata alla stima del miglioramento delle 
+prestazioni solo se il tempo in cui viene sfruttata una certa funzione all'interno del sistema \'e noto, cos\'i come il 
+potenziale \textit{speedup}.
+
+Un adattamento della legge di Amdahl al calcolo parallelo è il seguente
+
+\blockquote{Anche le più piccole parti di un programma devono essere rese parallele se si vuole eseguire il programma in modo efficiente su un sistema multiprocessore}
+
