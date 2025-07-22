@@ -11,7 +11,7 @@ dal punto di vista energetico permette di raggiungere migliori prestazioni
 per unit\'a di energia, a condizione che i programmi eseguiti siano
 appositamente progettati per essere eseguiti su hardware parallelo; approfondiremo questi aspetti nei paragrafi \ref{par1.2} e \ref{par1.3}.
 
-Una tendenza introdotta da IBM nel 2001 nell'ambito della progettazione di sistemi paralleli \cite{tendler2001power4} è il raggruppamento
+Una tendenza introdotta da IBM nel 2001 nell'ambito della progettazione di sistemi paralleli \cite{Tendler2001} è il raggruppamento
 di diverse unit\'a di calcolo all'interno di un singolo circuito integrato; in questo contesto, i processori montati su un singolo \textit{chip} di silicio vengono chiamati \textit{core}.\newline
 Il microprocessore \textit{multicore} risultante appare al sistema operativo in esecuzione sull'elaboratore come l'insieme di $N$ processori, ciascuno dotato di un set di registri e di una memoria \textit{cache} dedicati; solitamente i microprocessori \textit{multicore} sono impiegati in sistemi a memoria condivisa, in cui i \textit{core} condividono lo stesso spazio di indirizzamento fisico.\newline
 Il funzionamento di questa categoria di sistemi multiprocessore si basa sul parallelismo a livello di attività (o a livello di processo): più

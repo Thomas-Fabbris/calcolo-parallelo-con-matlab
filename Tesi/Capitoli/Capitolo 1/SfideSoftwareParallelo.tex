@@ -1,20 +1,35 @@
-Le motivazioni che rendono lo sviluppo di programmi a esecuzione parallela una vera e propria sfida per i programmatori 
+Le motivazioni che rendono lo sviluppo di programmi a esecuzione parallela una vera e propria sfida per i programmatori
 sono molteplici e appartengono a diverse aree di intervento.
 
-Innanzitutto, una caratteristica contraddistintiva di ogni programma a esecuzione parallela
-è la scalabilit\'a, ovvero la capacit\'a del sistema software di incrementare le proprie prestazioni in funzione della potenza 
-di calcolo richiesta in un preciso istante, adeguando di conseguenza le risorse computazionali impiegate\cite{Michael2007}.\newline
-Da un lato la scalabilit\'a, sfruttando la stretta sinergia tra hardware e software di un sistema informatico, consente di ottenere 
-sistemi multiprocessore tolleranti ai guasti e a elevata disponibilit\'a, ma dall'altro richiede che il software venga progettato 
-in maniera tale da sfruttare al meglio i diversi processori e che il codice sorgente sia quasi completamente riscritto a ogni ù
-incremento nel numero di \textit{core}.
+Innanzitutto, una caratteristica contraddistintiva del software parallelo
+è la scalabilit\'a, definibile come la capacit\'a del sistema software di incrementare le proprie prestazioni in funzione della potenza
+di calcolo richiesta in un preciso istante, adeguando di conseguenza le risorse computazionali impiegate \cite{Michael2007}.\newline
+Da un lato la scalabilit\'a, sfruttando la stretta sinergia tra hardware e software di un sistema informatico, consente di ottenere
+sistemi multiprocessore tolleranti ai guasti e a elevata disponibilit\'a, ma dall'altro richiede che il software venga progettato
+in maniera tale da sfruttare al meglio i diversi processori e che il codice sorgente sia quasi completamente riscritto a ogni
+incremento del numero di \textit{core}.\newline
+Chiaramente, la difficolt\'a di sviluppare programmi a esecuzione parallela corretti ed efficienti va di pari passo al numero
+di processori presenti nel sistema.
 
-La profonda ristrutturazione richiesta durante il ciclo di vita di tutti i  programmi a esecuzione parallela, radicata sia nella 
-fase di \textit{design} che durante la fase di manutenzione, \'e necessaria per ottenere le massime prestazioni da un 
-sistema di calcolo parallelo; a questo proposito, la programmazione parallela \'e per definizione ad alte prestazioni e richiede una 
-velocit\'a di esecuzione molto elevata, altrimenti sarebbe sufficiente sviluppare solo programmi sequenziali.
+La profonda ristrutturazione richiesta durante il ciclo di vita di tutti i  programmi a esecuzione parallela, radicata sia nella
+fase di \textit{design} che durante la fase di manutenzione, \'e necessaria per ottenere le massime prestazioni da un
+sistema di calcolo parallelo.\newline
+A questo proposito, la programmazione parallela \'e per definizione ad alte prestazioni e richiede una
+velocit\'a di esecuzione molto elevata; in caso contrario, sarebbe sufficiente avere a disposizione programmi sequenziali eseguiti su sistemi monoprocessore, la cui programmazione \'e di gran lunga pi\'u agevole.
 
-Un'ulteriore sfida da tenere in considerazione durante la progettazione di software parallelo \'e rappresentata dalla legge di
+Come abbiamo gi\'a accennato nel paragrafo \ref{par1.1}, le attivit\'a, chiamate anche \textit{task} in cui \'e suddiviso un \textit{job} svolto da un
+programma a esecuzione parallela devono essere indipendenti le une dalle altre per poter essere eseguite su pi\'u processori simultaneamente.\newline
+Di conseguenza, \'e necessario suddividere l'applicazione in maniera tale che ogni processore compi circa lo stesso carico di lavoro nel medesimo intervallo
+di tempo; se un processore impiegasse un tempo maggiore per terminare le \textit{task} a esso assegnate rispetto agli altri, i benefici prestazionali portati
+dall'impiego di un sistema multiprocessore svanirebbero rapidamente.
+
+Oltre allo \textit{scheduling} delle attivit\'a e al bilanciamento del carico di lavoro tra i processori, altri problemi derivano dalla presenza di
+\textit{overhead} di comunicazione tra le diverse unit\'a di lavoro e di sincronizzazione, qualora si rendesse necessaria la cooperazione tra diverse
+\textit{task} per portare a termine il loro compito.\newline
+Una regola generale per gestire queste problematiche \'e evitare di sprecare la maggior parte del tempo di esecuzione di un software parallelo
+per la comunicazione e la sincronizzazione tra i processori, idealmente dedicando un lasso di tempo irrilevante a questi due aspetti.
+
+Un'ulteriore sfida da affrontare durante la progettazione di software parallelo \'e descritta dalla legge di
 Amdahl, che limita il miglioramento prestazionale complessivamente ottenuto dall'ottimizzazione di una singola parte di un sistema di
 elaborazione.
 \subsection{La legge di Amdahl}
@@ -38,8 +53,8 @@ sotto l’ipotesi in cui le prestazioni del calcolatore migliorato siano effetti
 prestazionali
 scelte.
 
-A questo punto, il tempo di esecuzione per il calcolatore migliorato, denotato $T_{dopo}$, pu\'o essere espresso come somma 
-del tempo di esecuzione modificato dal miglioramento $T_{modificato}$ e di quello non interessato dal cambiamento 
+A questo punto, il tempo di esecuzione per il calcolatore migliorato, denotato $T_{dopo}$, pu\'o essere espresso come somma
+del tempo di esecuzione modificato dal miglioramento $T_{modificato}$ e di quello non interessato dal cambiamento
 $T_{nonModificato}$.
 \[
     T_{dopo}=\frac{T_{modificato}}{Entit\grave{a}~miglioramento} + T_{nonModificato}
@@ -54,14 +69,73 @@ con $T_{prima}$ tempo di esecuzione prima del miglioramento.
 La formula precedente viene comunemente riscritta ponendo pari a $1$ il tempo di esecuzione prima del miglioramento e supponendo che
 il tempo modificato dal miglioramento sia espresso in termini del tempo originario di esecuzione attraverso una frazione, ottenendo
 \[
-\mathit{Speedup} = \frac{1}{1 - \mathit{Frazione~tempo~modificato} + \frac{\mathit{Frazione~tempo~modificato}}{\mathit{Entit\grave{a}~miglioramento}}}
+    \mathit{Speedup} = \frac{1}{1 - \mathit{Frazione~tempo~modificato} + \frac{\mathit{Frazione~tempo~modificato}}{\mathit{Entit\grave{a}~miglioramento}}}
 \]
 
-Come \'e intuibile dalla spiegazione precedente, la legge di Amdahl pu\'o essere applicata alla stima del miglioramento delle 
-prestazioni solo se il tempo in cui viene sfruttata una certa funzione all'interno del sistema \'e noto, cos\'i come il 
+Come \'e intuibile dalla spiegazione precedente, la legge di Amdahl pu\'o essere applicata alla stima quantitativa del miglioramento delle
+prestazioni solo se il tempo in cui viene sfruttata una certa funzione all'interno del sistema \'e noto, cos\'i come il
 potenziale \textit{speedup}.
 
 Un adattamento della legge di Amdahl al calcolo parallelo è il seguente
 
 \blockquote{Anche le più piccole parti di un programma devono essere rese parallele se si vuole eseguire il programma in modo efficiente su un sistema multiprocessore}
 
+\subsection{Verso i problemi \enquote{massicciamente paralleli}}
+Nel contesto del calcolo parallelo vengono usati termini diversi per contraddistinguere diverse classi di problemi secondo svariati criteri.\newline
+Per esempio, un problema \enquote{\textit{embarrassingly parallel}} \'e un problema che richiede uno sforzo minimo per essere suddiviso in un insieme di
+\textit{task}, a causa del loro debole accoppiamento \cite{Herlihy2012}, mentre il termine \enquote{\textit{massively parallel}}, in italiano \enquote{massicciamente parallelo}, 
+descrive tutti quei problemi di grandi dimensioni suddivisibili in un numero enorme di \textit{task} esegubili simultaneamente su migliaia di processori.
+
+Un problema \enquote{\textit{embarrassingly parallel}} di interesse nell'ambito dell'analisi numerica \'e il calcolo approssimato di integrali definiti per 
+funzioni di una o pi\'u variabili; diversamente, il processo di addestramento di modelli complessi di \textit{machine learning}, come le 
+\textit{Deep Neural Network}, richiede l'esecuzione di migliaia di moltiplicazioni matriciali, inserendolo di diritto all'interno della classe dei problemi 
+\enquote{massicciamente paralleli}.
+
+\begin{esempio}[Analisi prestazionale di un problema \enquote{massicciamente parallelo}]
+    \label{esempio:analisiMassicciamenteParallelo}
+    Supponiamo di moltiplicare trenta variabili scalari e due matrici quadrate di dimensione $3000 \times 3000$ servendoci prima di un tradizionale sistema 
+    monoprocessore e poi di un sistema multiprocessore con $30$ CPU in grado di parallelizzare solo il prodotto tra matrici. \newline
+    Vogliamo calcolare l'aumento di velocit\'a quando:
+    \begin{enumerate}[label=\alph*),noitemsep]
+        \item il numero di processori del sistema multiprocessore passa da $30$ a $120$;\label{item:primoAnalisiMassicciamenteParallelo}
+        \item le matrici diventano di dimensione $6000 \times 6000$ \label{item:ultimoAnalisiMassicciamenteParallelo}.
+    \end{enumerate}
+    La tabella \ref{tab:RisultatiAnalisiMassicciamenteParallelo} riporta lo \textit{speedup} registrato negli scenari 
+    \ref{item:primoAnalisiMassicciamenteParallelo} e \ref{item:ultimoAnalisiMassicciamenteParallelo}.
+    \begin{table}[htbp]
+        \centering
+        \begin{tabular}{c|cc}
+            \hline
+            \diagbox{Dim. matrici}{Num. processori} & \textbf{30} & \textbf{120} \\
+            \hline
+            \textbf{3000 x 3000}                    & 0.55    & 0.22    \\
+            \textbf{6000 x 6000}                    & 0.82    & 0.51    \\
+            \hline
+        \end{tabular}
+
+        \caption{\textit{Speedup} relativo al problema dell'esempio \ref{esempio:analisiMassicciamenteParallelo}}
+        \label{tab:RisultatiAnalisiMassicciamenteParallelo}
+    \end{table}
+\end{esempio}
+
+L'esempio \ref{esempio:analisiMassicciamenteParallelo} rende evidente un problema fondamentale del calcolo parallelo: aumentare la velocit\'a di esecuzione 
+di un programma a esecuzione parallela su un sistema multiprocessore mantenendo fisse le dimensioni del problema \'e pi\'u difficile rispetto che migliorare 
+le prestazioni incrementando le dimensioni del problema proporzionalmente al numero di processori.\newline
+Questo particolare comportamento porta alla definizione dei concetti di scalabilit\'a forte e di scalabilit\'a debole:
+\begin{itemize}
+    \item dato un sistema multiprocessore e un problema da risolvere, definiamo scalabilità forte l'incremento di velocit\'a ottenuto nel multiprocessore 
+    senza aumentare la dimensione del problema;
+    \item dato un sistema multiprocessore con $P > 1$ processori e un problema da risolvere, definiamo scalabilità debole l'incremento di velocit'\a ottenuto 
+    nel multiprocessore aumentando la dimensione del problema proporzionalmente a P.
+\end{itemize}
+Possiamo giustificare il comportamento descritto in precedenza tramite la seguente osservazione.
+
+Consideriamo un qualsiasi sistema multiprocessore e un problema ad esecuzione parallela da risolvere; denotiamo $P$ il numero di processori presenti nel 
+sistema ed $M$ la dimensione del problema (per semplicit\'a supponiamo che $M$ sia pari alla dimensione dello spazio da allocare in memoria centrale per la 
+risoluzione del problema).\newline
+Sotto queste ipotesi, ogni processore possieder\'a uno spazio di memoria dedicato pari a $M$ nel caso della scalabilit\'a debole e pari a $\frac{M}{P}$ nel 
+caso della scalabilit\'a forte.
+
+Potremmo essere erroneamente indotti a pensare che la scalabilit\'a debole sia pi\'u facilmente ottenibile rispetto alla scalabilit\'a forte, ma a seconda 
+del contesto applicativo considerato, possiamo individuare validi motivi a supporto di ciascuno dei due approcci; vale la pena notare che problemi di grandi 
+dimensioni solitamente richiedono molti dati in input, andando a favorire la scalabilit\'a debole in questo confronto.

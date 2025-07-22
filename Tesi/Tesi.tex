@@ -6,21 +6,37 @@
 
 \usepackage{adjustbox}
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage[italian]{babel}
 \usepackage{bm} 
 \usepackage{caption}
 \usepackage[style=italian]{csquotes}
+\usepackage{diagbox}
+\usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage[T1]{fontenc}
 \usepackage{frontespizio}
 \usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
 \usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
 \usepackage{parskip}
 \usepackage{placeins}
 \usepackage{setspace}
 \usepackage{siunitx} 
 \usepackage{todonotes}
+\usepackage{xcolor}
+
+\newtheoremstyle{StileEsempio}
+  {1.5em}   
+  {1.5em} 
+  {\normalfont}
+  {}         
+  {\bfseries}
+  {.}         
+  {.5em}     
+  {} 
+\theoremstyle{StileEsempio}
+\newtheorem{esempio}{Esempio}
 
 \graphicspath{{./Immagini}}
 \onehalfspacing
@@ -40,7 +56,7 @@
 \raggedbottom
 
 \begin{document}
-%Inizio Introduzione Tei
+%Inizio Introduzione Tesi
 \frontmatter
 %Frontespizio
 \input{Frontespizio/Frontespizio.tex}
@@ -56,22 +72,21 @@
 % Capitolo 1 (Calcolo parallelo: sfida o opportunità?)
 \chapter{Calcolo parallelo: sfida o opportunit\'a?}
 \label{cap1}
-%Introduzione Capitolo 1
+% Introduzione Capitolo 1
 L'obiettivo di questo capitolo \'e dare una definizione precisa di calcolo parallelo, un termine spesso impiegato nel mondo
 del supercalcolo per riferirsi all’uso simultaneo di molteplici risorse di calcolo per la risoluzione di problemi ad elevata intensità computazionale in tempi ragionevolmente brevi.
 
 In seguito, investigheremo le cause che hanno portato alla nascita del parallelismo e a descrivere le principali difficolt\'a incontrate dai programmatori durante l'implementazione di programmi ad esecuzione parallela.
-%Paragrafo 1.1: Introduzione al calcolo parallelo
+% Paragrafo 1.1: Introduzione al calcolo parallelo
 \section{Introduzione al calcolo parallelo}
 \label{par1.1}
 \input{Capitoli/Capitolo 1/IntroduzioneCalcoloParallelo.tex}
-
-%Paragrafo 1.2: Le cause a supporto del parallelismo
+% Paragrafo 1.2: Le cause a supporto del parallelismo
 \section{Le cause a supporto del parallelismo}
 \label{par1.2}
 \input{Capitoli/Capitolo 1/CauseParallelismo.tex}
-%Paragrafo 1.3: Sfide della progettazione di software parallelo
-\section{Sfide della progettazione di software parallelo}
+% Paragrafo 1.3: Le sfide nella progettazione di software parallelo
+\section{Le sfide nella progettazione di software parallelo}
 \label{par1.3}
 \input{Capitoli/Capitolo 1/SfideSoftwareParallelo.tex}
 % Parte Finale della tesi
