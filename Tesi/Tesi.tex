@@ -18,23 +18,23 @@
 \usepackage{frontespizio}
 \usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
 \usepackage{graphicx}
-\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
 \usepackage{parskip}
 \usepackage{placeins}
 \usepackage{setspace}
 \usepackage{siunitx} 
 \usepackage{todonotes}
 \usepackage{xcolor}
+\usepackage[colorlinks=false,linkbordercolor=blue,urlbordercolor=blue,citebordercolor=blue]{hyperref}
 
 \newtheoremstyle{StileEsempio}
-  {1.5em}   
-  {1.5em} 
-  {\normalfont}
-  {}         
-  {\bfseries}
-  {.}         
-  {.5em}     
-  {} 
+  {\topsep}     % Spazio sopra
+  {\topsep}     % Spazio sotto
+  {\normalfont} % Font del corpo del testo
+  {}            % Indentazione
+  {\bfseries}   % Font dell'intestazione
+  {}            % Indentazione
+  {\newline}    % A capo dopo il titolo
+  {}            % Specifica dell'intestazione
 \theoremstyle{StileEsempio}
 \newtheorem{esempio}{Esempio}
 
@@ -73,10 +73,10 @@
 \chapter{Calcolo parallelo: sfida o opportunit\'a?}
 \label{cap1}
 % Introduzione Capitolo 1
-L'obiettivo di questo capitolo \'e dare una definizione precisa di calcolo parallelo, un termine spesso impiegato nel mondo
-del supercalcolo per riferirsi all’uso simultaneo di molteplici risorse di calcolo per la risoluzione di problemi ad elevata intensità computazionale in tempi ragionevolmente brevi.
+L'obiettivo di questo capitolo \`e esibire una definizione puntuale di calcolo parallelo, un termine spesso impiegato nel mondo
+del HPC (\textit{High Performance Computing}) per riferirsi all’uso simultaneo di molteplici risorse di calcolo, consentendo la risoluzione di problemi a elevata intensit\'a computazionale in tempi ragionevolmente brevi.
 
-In seguito, investigheremo le cause che hanno portato alla nascita del parallelismo e a descrivere le principali difficolt\'a incontrate dai programmatori durante l'implementazione di programmi ad esecuzione parallela.
+In seguito, investigheremo le cause che hanno portato alla nascita del parallelismo e descriveremo le principali difficolt\`a incontrate dai programmatori durante l'implementazione di programmi ad esecuzione parallela.
 % Paragrafo 1.1: Introduzione al calcolo parallelo
 \section{Introduzione al calcolo parallelo}
 \label{par1.1}
