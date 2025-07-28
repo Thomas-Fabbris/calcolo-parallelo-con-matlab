@@ -57,28 +57,26 @@ isInputDistributed = isa(A, 'distributed') || isa(b, 'distributed');
 n = size(A,1);
 
 x_dist = distributed(zeros(n,1));
-
 b_dist = distributed(b);
-
 norm_b_dist = norm(b_dist);
 
 if (norm_b_dist == 0)
-
+    
     if(~isInputDistributed)
         x = gather(x_dist);
     end
-
+    
     flag = 0; relres = 0; iter = 0; resvec = 0;
-
+    
     if(nargout < 2)
         fprintf(['The right hand side vector is all zero so pjm returned an all zero solution ' ...
             ' without iterating.']);
     end
+    
     return;
 end
 
 A_dist = distributed(A);
-
 P_dist = diag(A_dist);
 
 r_dist = b_dist;
@@ -87,25 +85,25 @@ relres = 1;
 resvec = zeros(maxit+1, 1);
 resvec(1) = norm_r_dist;
 k = 0;
-flag = 1; %Assume failure until convergence
+flag = 1;
 
 while (relres > tol && k < maxit)
-
+    
     k = k+1;
     z_dist = r_dist ./ P_dist;
     x_dist = x_dist + z_dist;
     r_dist = r_dist - A_dist * z_dist;
-
+    
     norm_r_dist = norm(r_dist);
-
+    
     if(isnan(norm_r_dist) || isinf (norm_r_dist))
         flag = 2;
         break;
     end
-
+    
     resvec(k+1) = norm_r_dist;
     relres = norm_r_dist / norm_b_dist;
-
+    
 end
 
 if ~isInputDistributed
@@ -148,11 +146,11 @@ end
 end
 
 function mustBeSameSize(A,b)
-    n = size(A,1);
-    if (n ~= length(b))
-        errID = 'pjm:DimensionMismatch';
-        msg = sprintf(['Right-hand side must be a column vector of length %u to match the ' ...
+n = size(A,1);
+if (n ~= length(b))
+    errID = 'pjm:DimensionMismatch';
+    msg = sprintf(['Right-hand side must be a column vector of length %u to match the ' ...
         'coefficient matrix'], n);
-        throw(MException(errID,msg));
-    end
+    throw(MException(errID,msg));
+end
 end

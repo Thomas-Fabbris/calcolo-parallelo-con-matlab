@@ -8,6 +8,7 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage[italian]{babel}
+\usepackage[backend=biber, style=ieee, dashed=false]{biblatex}
 \usepackage{bm} 
 \usepackage{caption}
 \usepackage[style=italian]{csquotes}
@@ -24,8 +25,11 @@
 \usepackage{siunitx} 
 \usepackage{todonotes}
 \usepackage{xcolor}
-\usepackage[colorlinks=false,linkbordercolor=blue,urlbordercolor=blue,citebordercolor=blue]{hyperref}
+\usepackage{xurl}
+\usepackage[breaklinks=true,colorlinks=false,linkbordercolor=blue,urlbordercolor=blue,citebordercolor=blue]{hyperref}
 \usepackage{listings}
+
+\addbibresource{./Bibliografia/Bibliografia.bib}
 
 \newtheoremstyle{StileEsempio}
   {\topsep}     % Spazio sopra
@@ -46,10 +50,10 @@
 \fancyhf{}
 \fancyfoot[LE,RO]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
-\fancypagestyle{plain}{%
-  \fancyhf{}%
-  \fancyfoot[LE,RO]{\thepage}%
-  \renewcommand{\headrulewidth}{0pt}%
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[LE,RO]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
 }
 
 \hyphenation{MATLAB}
@@ -145,8 +149,9 @@ con un particolare focus sulle motivazioni e sulle scelte di design che hanno gu
 \backmatter
 
 %Bibliografia
-\bibliographystyle{IEEEtrans}
+%\bibliographystyle{IEEEtrans}
+\printbibliography
 \addcontentsline{toc}{chapter}{Bibliografia}
-\bibliography{./Bibliografia/Bibliografia.bib}
+%\bibliography{./Bibliografia/Bibliografia.bib}
 
 \end{document}
