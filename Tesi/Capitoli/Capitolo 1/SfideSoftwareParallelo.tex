@@ -84,60 +84,88 @@ Un adattamento della legge di Amdahl al calcolo parallelo è il seguente:
 \subsection{Verso i problemi \enquote{massicciamente paralleli}}
 Nel contesto del calcolo parallelo, vengono usati termini specifici per contraddistinguere classi di problemi da risolvere.\newline
 A titolo di esempio, un problema \enquote{\textit{embarrassingly parallel}} \`e un problema che richiede un minimo sforzo per essere suddiviso in un insieme di
-\textit{task} indipendenti, a causa del loro debole accoppiamento \cite{Herlihy2012}, mentre il termine \enquote{\textit{massively parallel}}, in italiano \enquote{massicciamente parallelo}, 
+\textit{task} indipendenti, a causa del loro debole accoppiamento \cite{Herlihy2012}, mentre il termine \enquote{\textit{massively parallel}}, in italiano \enquote{massicciamente parallelo},
 descrive i problemi di grandi dimensioni suddivisibili in un numero elevato di \textit{task} eseguite simultaneamente su migliaia di processori.
 
-Un problema \enquote{\textit{embarrassingly parallel}}, di particolare interesse per l'analisi numerica, \`e il calcolo approssimato di integrali definiti per 
-funzioni di una o pi\`u variabili; diversamente, il processo di addestramento di modelli avanzati di \textit{machine learning}, come le 
-\textit{deep neural network}, richiede l'esecuzione di migliaia di operazioni aritmetiche, inserendolo di diritto all'interno della classe dei problemi 
+Un problema \enquote{\textit{embarrassingly parallel}}, di particolare interesse per l'analisi numerica, \`e il calcolo approssimato di integrali definiti per
+funzioni di una o pi\`u variabili; diversamente, il processo di addestramento di modelli avanzati di \textit{machine learning}, come le
+\textit{deep neural network}, richiede l'esecuzione di migliaia di operazioni aritmetiche, inserendolo di diritto all'interno della classe dei problemi
 \enquote{\textit{massively parallel}}.
 
-Di seguito, effettuiamo una semplice analisi prestazionale di un problema di grandi dimensioni per studiare da vicino le insidie che si nascondono  nella distribuzione e nell'esecuzione di software parallelo su sistemi reali. 
+Di seguito, effettuiamo una semplice analisi prestazionale di un problema di grandi dimensioni per studiare da vicino le insidie che si nascondono  nella distribuzione e nell'esecuzione di software parallelo su sistemi reali.
 
 \begin{esempio}[Analisi prestazionale di un problema di grandi dimensioni]
     \label{esempio:analisiGrandiDimensioni}
-    Supponiamo di sommare trenta variabili scalari e due matrici quadrate di dimensione $3000 \times 3000$ servendoci dapprima di un tradizionale sistema 
+    Supponiamo di sommare trenta variabili scalari e due matrici quadrate di dimensione \numproduct{3000 x 3000} servendoci dapprima di un tradizionale sistema
     monoprocessore e, successivamente, di un sistema multiprocessore con $30$ CPU che supporta la parallelizzazione della somma tra matrici. \newline
     Vogliamo analizzare la variazione delle prestazioni dei due sistemi quando:
     \begin{enumerate}[label=\alph*),noitemsep]
         \item il numero di processori del sistema multiprocessore aumenta a $120$;\label{item:primoAnalisiGrandiDimensioni}
-        \item le matrici diventano di dimensione $6000 \times 6000$.\label{item:ultimoAnalisiGrandiDimensioni}
+        \item le matrici diventano di dimensione \numproduct{6000 x 6000}.\label{item:ultimoAnalisiGrandiDimensioni}
     \end{enumerate}
     La tabella \ref{tab:RisultatiAnalisiGrandiDimensioni} riporta la frazione dello \textit{speedup} potenziale raggiunta nei quattro possibili scenari di esecuzione, calcolata applicando le formule \ref{eq:Tdopo} e \ref{eq:speedup}.
-    
-    \begin{table}[htbp]
-        \centering
-        \begin{tabular}{c|cc}
-            \hline
-            \diagbox{Dim. matrice}{Num. processori} & \textbf{30} & \textbf{120} \\
-            \hline
-            \textbf{3000 x 3000}                    & 0,7770    & 0,4727    \\
-            \textbf{6000 x 6000}                    & 0,8739    & 0,6375    \\
-            \hline
-        \end{tabular}
 
-        \caption{Frazione dello \textit{speedup} potenziale nei casi proposti nell'esempio \ref{esempio:analisiGrandiDimensioni}}
-        \label{tab:RisultatiAnalisiGrandiDimensioni}
-    \end{table}
+    \begin{table}[htbp]
+    \centering
+    \begin{tabular}{l | S[table-format=1.4] S[table-format=1.4]}
+        \hline
+        \diagbox{Dim. matrice}{Num. processori} & {\textbf{30}} & {\textbf{120}} \\
+        \hline
+        \textbf{\numproduct{3000 x 3000}} & 0.7770 & 0.4727 \\
+        \textbf{\numproduct{6000 x 6000}} & 0.8739 & 0.6375 \\
+        \hline
+    \end{tabular}
+    \caption{Frazione dello \textit{speedup} potenziale nei casi proposti dall'esempio \ref{esempio:analisiGrandiDimensioni}.}
+    \label{tab:RisultatiAnalisiGrandiDimensioni}
+\end{table}
 \end{esempio}
 
-L'esempio \ref{esempio:analisiGrandiDimensioni} evidenzia il problema fondamentale del calcolo parallelo: aumentare la velocit\`a di esecuzione 
-di un programma a esecuzione parallela su un sistema multiprocessore mantenendo fisse le dimensioni del problema \`e pi\`u difficile rispetto a migliorare 
+L'esempio \ref{esempio:analisiGrandiDimensioni} evidenzia il problema fondamentale del calcolo parallelo: aumentare la velocit\`a di esecuzione
+di un programma a esecuzione parallela su un sistema multiprocessore mantenendo fisse le dimensioni del problema \`e pi\`u difficile rispetto a migliorare
 le prestazioni incrementando le dimensioni del problema proporzionalmente al numero di unit\`a di calcolo montate nel sistema.
 
 Questo particolare comportamento porta alla definizione dei concetti di scalabilit\`a forte e di scalabilit\`a debole.\newline
-La prima si riferisce all'incremento della velocit\`a di esecuzione che si ottiene in un sistema multiprocessore senza aumentare la dimensione del problema da 
-risolvere, mentre la seconda descrive l'incremento di velocit\`a ottenuto quando la dimensione del problema viene aumentata proporzionalmente al numero 
+La prima si riferisce all'incremento della velocit\`a di esecuzione che si ottiene in un sistema multiprocessore senza aumentare la dimensione del problema da
+risolvere, mentre la seconda descrive l'incremento di velocit\`a ottenuto quando la dimensione del problema viene aumentata proporzionalmente al numero
 di processori.
 
-Possiamo giustificare il comportamento descritto in precedenza prendendo come modelli un qualsiasi sistema multiprocessore e un programma a esecuzione parallela.\newline 
-Indichiamo con $P > 1$ il numero di processori presenti nel 
-sistema e denotiamo con $M$ la dimensione del problema risolto dal programma \footnote{Per semplicit\`a possiamo pensare a $M$ come la dimensione dello spazio da allocare in memoria centrale per la 
-risoluzione del problema.}.\newline
-Sotto queste ipotesi, ogni processore possieder\`a uno spazio di memoria dedicato pari a $M$ nel caso della scalabilit\`a debole e pari a $\frac{M}{P}$ nel 
+Possiamo giustificare il comportamento descritto in precedenza prendendo come modelli un qualsiasi sistema multiprocessore e un programma a esecuzione parallela.\newline
+Indichiamo con $P > 1$ il numero di processori presenti nel
+sistema e denotiamo con $M$ la dimensione del problema risolto dal programma \footnote{Per semplicit\`a possiamo pensare a $M$ come la dimensione dello spazio da allocare in memoria centrale per la
+    risoluzione del problema.}.\newline
+Sotto queste ipotesi, ogni processore possieder\`a uno spazio di memoria dedicato pari a $M$ nel caso della scalabilit\`a debole e pari a $\frac{M}{P}$ nel
 caso della scalabilit\`a forte.
 
-Potremmo essere erroneamente indotti a pensare che la scalabilit\`a debole sia pi\`u facilmente ottenibile rispetto alla scalabilit\`a forte, data la maggiore quantit\`a di memoria disponibile per ogni CPU, ma a seconda 
+Potremmo essere erroneamente indotti a pensare che la scalabilit\`a debole sia pi\`u facilmente ottenibile rispetto alla scalabilit\`a forte, data la maggiore quantit\`a di memoria disponibile per ogni CPU, ma a seconda
 del contesto applicativo considerato possiamo individuare validi motivi a supporto di ciascuno dei due approcci.\newline
-In linea di massima, problemi di grandi 
+In linea di massima, problemi di grandi
 dimensioni richiedono moli di dati in input, rendendo la scalabilit\`a debole pi\`u agevole da raggiungere.
+
+Quest'ultimo esempio chiarisce l'importanza del bilanciamento del carico.
+
+\begin{esempio}[Bilanciamento del carico per un problema di grandi dimensioni]
+    \label{esempio:bilanciamentoCarico}
+    Per ottenere un aumento di velocit\`a di \num{75.4} volte per il problema di grandi dimensioni considerato nel caso \ref{item:ultimoAnalisiGrandiDimensioni}
+    dell'esempio \ref{esempio:analisiGrandiDimensioni}, abbiamo implicitamente supposto che il carico fosse perfettamente bilanciato tra i $120$ processori del sistema.\newline
+    Ora vogliamo determinare l'impatto sulle prestazioni nei casi in cui a uno dei processori viene assegnato:
+    \begin{enumerate}[label=\alph*),noitemsep]
+        \item il \num{2.5}\% del carico totale, ovvero deve eseguire 150 addizioni;\label{item:primoBilanciamentoCarico}
+        \item il \num{12.5}\% del carico totale, ovvero deve eseguire 750 addizioni.\label{item:ultimoBilanciamentoCarico}
+    \end{enumerate}
+    La tabella \ref{tab:RisultatiBilanciamentoCarico} riporta lo \textit{speedup} ottenuto nei due scenari ipotizzati e la rispettiva variazione percentuale calcolata con riferimento alla situazione ideale che presenta un carico perfettamente bilanciato.
+
+    \begin{table}[htbp]
+        \centering
+        \begin{tabular}{l | S[table-format=-2.2] S[table-format=-2.2]}
+            \hline
+            {}                               & {\textbf{150 addizioni}} & {\textbf{750 addizioni}} \\
+            \hline
+            \textbf{\textit{Speedup}}        & 33.50                           & 7.73                           \\ 
+            \boldsymbol{$\Delta\%_{ideale}$} & -55.57                         & -89.74                         \\ 
+            \hline
+        \end{tabular}
+
+        \caption{\textit{Speedup} e sua variazione percentuale nei casi proposti dall'esempio \ref{esempio:bilanciamentoCarico}.}
+        \label{tab:RisultatiBilanciamentoCarico}
+    \end{table}
+\end{esempio}

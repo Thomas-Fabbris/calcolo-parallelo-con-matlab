@@ -88,6 +88,8 @@
 }
 \lstset{style=MatlabStyle}
 
+\sisetup{output-decimal-marker = {,}, product-units = single, detect-weight}
+
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1em}
 \raggedbottom
@@ -109,10 +111,10 @@
 \label{cap1}
 % Introduzione Capitolo 1
 L'obiettivo di questo capitolo \`e esibire una definizione puntuale di calcolo parallelo, un termine impiegato nel mondo
-dell'HPC (\textit{High Performance Computing}) per riferirsi all’uso simultaneo di molteplici risorse di calcolo, consentendo la risoluzione di problemi a 
+dell'HPC (\textit{High Performance Computing}) per riferirsi all’uso simultaneo di molteplici risorse di calcolo, consentendo la risoluzione di problemi a
 elevata intensit\'a computazionale in tempi ragionevolmente brevi.
 
-In seguito, investigheremo le cause che portarono alla nascita del parallelismo e descriveremo le principali difficolt\`a incontrate dai programmatori di 
+In seguito, investigheremo le cause che portarono alla nascita del parallelismo e descriveremo le principali difficolt\`a incontrate dai programmatori di
 applicazioni durante l'implementazione di programmi a esecuzione parallela.
 % Paragrafo 1.1: Introduzione al calcolo parallelo
 \section{Introduzione al calcolo parallelo}
@@ -131,12 +133,12 @@ applicazioni durante l'implementazione di programmi a esecuzione parallela.
 \chapter{Un linguaggio per il calcolo parallelo: MATLAB}
 \label{cap2}
 % Introduzione Capitolo 2
-L'accesso diffuso a sistemi di elaborazione multiprocessore ha aumentato 
-la domanda di mercato per soluzioni software a supporto dello sviluppo di programmi a esecuzione parallela. \newline 
-Da questo processo neanche MATLAB (abbreviazione di \textit{Matrix Laboratory}), un ambiente di programmazione proprietario per il calcolo scientifico, ne \`e esente, 
+L'accesso diffuso a sistemi di elaborazione multiprocessore ha aumentato
+la domanda di mercato per soluzioni software a supporto dello sviluppo di programmi a esecuzione parallela. \newline
+Da questo processo neanche MATLAB (abbreviazione di \textit{Matrix Laboratory}), un ambiente di programmazione proprietario per il calcolo scientifico, ne \`e esente,
 creando tutte le condizioni necessarie per l'aggiunta di nuove funzionalit\`a dedicate all'elaborazione parallela.
 
-L'obiettivo di questo capitolo \`e fornire una panoramica delle funzionalit\`a salienti di MATLAB per il calcolo parallelo, 
+L'obiettivo di questo capitolo \`e fornire una panoramica delle funzionalit\`a salienti di MATLAB per il calcolo parallelo,
 con un particolare focus sulle motivazioni e sulle scelte di design che hanno guidato l'implementazione di questa nuova parte del linguaggio.
 % Paragrafo 2.1: Gli ingredienti per un MATLAB parallelo
 \section{Gli ingredienti per un MATLAB parallelo}
