@@ -2,7 +2,7 @@
 Il \textit{Parallel Computing Toolbox}, spesso abbreviato in PCT, permette di risolvere problemi \textit{compute-intesive} e  \textit{data-intensive} sfruttando 
 la capacit\`a di calcolo offerta dalle moderne architetture multiprocessore, come i sistemi \textit{multicore} e i \textit{cluster} di elaboratori. \newline
 Costrutti di programmazione di alto livello, come i vettori distribuiti, consentono di sviluppare applicazioni MATLAB scalabili senza ricorrere alla programmazione 
-MPI \footnote{La \textit{Message Passing Interface}, o semplicemente MPI, rappresenta lo standard per il modello di comunicazione interprocesso, basato sullo scambio 
+MPI\footnote{La \textit{Message Passing Interface}, o semplicemente MPI, rappresenta lo standard per il modello di comunicazione interprocesso, basato sullo scambio 
 di messaggi, impiegato nelle elaborazioni parallele su sistemi distribuiti \cite{NMSUMPIIntro}}.\newline
 Inoltre, la stessa applicazione pu\`o essere eseguita su \textit{cluster} o su server in \textit{cloud} senza apportare alcuna modifica al codice grazie a MATLAB 
 \textit{Parallel Server}, cos\`i da concentrarsi esclusivamente sullo sviluppo dell'algoritmo migliore per il caso d'uso in esame.
@@ -103,7 +103,7 @@ Assembly per la programmazione parallela.\newline
 Per agevolare la scrittura di software parallelo, alcuni costrutti di programmazione di alto livello sono introdotti nel linguaggio, aumentando il livello di 
 astrazione del codice scritto e consentendo ai programmatori di scrivere algoritmi paralleli in modo simile alle loro controparti seriali.
 
-Un esempio di costrutto di alto livello per la programmazione parallela \`e incarnato dagli \textit{array} 
+Un esempio di costrutto di alto livello per la programmazione parallela \`e incarnato dagli \textit{array}
 \footnote{Nel gergo impiegato da MATLAB, la parola \textit{array} \`e un termine universale per riferirsi a vettori colonna, vettori riga e matrici} 
 distribuiti, strutture dati il cui contenuto viene partizionato tra \textit{worker} diversi.\newline
 L'impiego di \textit{array} distribuiti permette di memorizzare strutture dati di dimensioni tali da non poter essere contenute nella memoria centrale di un 

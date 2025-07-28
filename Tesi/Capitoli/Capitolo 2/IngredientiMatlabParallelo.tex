@@ -1,6 +1,6 @@
 \nocite{Sharma2009}
 \subsection{Una breve prospettiva storica}
-L'approccio seguito dai progettisti di The MathWorks \footnote{La \textit{software house} americana, con sede in Massachusetts (Stati Uniti), che si occupa dello sviluppo di MATLAB e di altri prodotti per il calcolo scientifico.}
+L'approccio seguito dai progettisti di The MathWorks\footnote{La \textit{software house} americana, con sede in Massachusetts (Stati Uniti), che si occupa dello sviluppo di MATLAB e di altri prodotti per il calcolo scientifico.}
 per introdurre in MATLAB le funzionalit\`a a supporto del calcolo parallelo \`e stato quello di modificare le caratteristiche del linguaggio 
 stesso, partendo dalla scrittura di \textit{routine} specializzate nella risoluzione di problemi \textit{embarrassingly parallel}, per i quali il principale ostacolo da considerare
 sappiamo essere la loro complessit\`a computazionale intrinseca. 
@@ -12,7 +12,7 @@ multiprocessore.
 
 Questa difficoltà causò dei rallentamenti al progetto che mirava alla parallelizzazione di MATLAB, ma le pressioni esterne per il suo completamento erano troppo insistenti per essere ignorate.\newline
 La crescente disponibilit\`a di sistemi multiprocessore aveva reso il calcolo parallelo un argomento presente sulla bocca di tutti gli specialisti del 
-settore: l'apparizione delle prime architetture \textit{multicore} e la costruzione di \textit{cluster} Beowulf \footnote{I \textit{cluster} Beowulf sono \textit{cluster} costituiti dall'interconessione di prodotti hardware commerciali, ad esempio PC giunti al termine della loro vita utile, mediante una tradizionale rete LAN. } avevano permesso una notevole diffusione dei sistemi di calcolo ad alte prestazioni, anni prima della \enquote{democratizzazione} dei WSC portata dal \textit{cloud computing}.\newline   
+settore: l'apparizione delle prime architetture \textit{multicore} e la costruzione di \textit{cluster} Beowulf\footnote{I \textit{cluster} Beowulf sono \textit{cluster} costituiti dall'interconessione di prodotti hardware commerciali, ad esempio PC giunti al termine della loro vita utile, mediante una tradizionale rete LAN. } avevano permesso una notevole diffusione dei sistemi di calcolo ad alte prestazioni, anni prima della \enquote{democratizzazione} dei WSC portata dal \textit{cloud computing}.\newline   
 Inoltre, MATLAB era gi\`a un ambiente di calcolo scientifico affermato e quindi doveva fornire alla propria comunit\`a di utenti un prodotto completo e funzionale 
 in tutti gli scenari applicativi, inclusi i progetti a elevata intensit\`a computazionale.
 
@@ -30,7 +30,7 @@ Di seguito elenchiamo, in ordine decrescente di importanza, gli obiettivi di des
     \item l'esecuzione di codice arbitrario sui sistemi multiprocessore supportati;
     \item l'astrazione da dettagli irrilevanti durante l'implementazione di programmi a esecuzione parallela; di conseguenza, lo sviluppatore medio non deve pi\`u preoccuparsi di aspetti come lo \textit{scheduling}, la sincronizzazione tra le \textit{task} e la distribuzione dei dati in input alle unit\`a di lavoro;
     \item l'indipendenza del programma dall'allocazione delle risorse computazionali: un software parallelo scritto in MATLAB deve funzionare correttamente sia quando viene eseguito su un sistema multiprocessore che su un sistema monoprocessore, adattandosi alle risorse di calcolo a disposizione durante l'esecuzione;
-    \item l'accesso a costrutti di programmazione di prima classe \footnote{Secondo la classificazione proposta dall'informatico britannico Christopher Strachey \cite{SICP96}, i costrutti di programmazione di prima classe possono essere manipolati liberamente nelle istruzioni del linguaggio; in pratica, devono poter essere passati come parametri attuali durante l'invocazione di una procedura, restituiti come valori di ritorno di una funzione e assegnati a variabili o a strutture dati.}. 
+    \item l'accesso a costrutti di programmazione di prima classe\footnote{Secondo la classificazione proposta dall'informatico britannico Christopher Strachey \cite{SICP96}, i costrutti di programmazione di prima classe possono essere manipolati liberamente nelle istruzioni del linguaggio; in pratica, devono poter essere passati come parametri attuali durante l'invocazione di una procedura, restituiti come valori di ritorno di una funzione e assegnati a variabili o a strutture dati.}. 
 \end{itemize}
 Il percorso di trasformazione di MATLAB al fine di renderlo pi\`u appetibile al calcolo parallelo non \`e ancora giunto al termine. \newline La destinazione finale fissata 
 dagli addetti ai lavori \`e la realizzazione del modello di linguaggio ideato dal direttore tecnico di TheMathWorks Roy Lurie \cite{Lurie2007}
