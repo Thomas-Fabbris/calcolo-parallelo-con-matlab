@@ -147,10 +147,10 @@ Quest'ultimo esempio chiarisce l'importanza del bilanciamento del carico.
     \label{esempio:bilanciamentoCarico}
     Per ottenere un aumento di velocit\`a di \num{75.4} volte per il problema di grandi dimensioni considerato nel caso \ref{item:ultimoAnalisiGrandiDimensioni}
     dell'esempio \ref{esempio:analisiGrandiDimensioni}, abbiamo implicitamente supposto che il carico fosse perfettamente bilanciato tra i $120$ processori del sistema.\newline
-    Ora vogliamo determinare l'impatto sulle prestazioni nei casi in cui a uno dei processori viene assegnato:
+    Ora vogliamo determinare l'impatto sulle prestazioni nel caso in cui a uno dei processori viene assegnato:
     \begin{enumerate}[label=\alph*),noitemsep]
-        \item il \num{2.5}\% del carico totale, ovvero deve eseguire 150 addizioni;\label{item:primoBilanciamentoCarico}
-        \item il \num{12.5}\% del carico totale, ovvero deve eseguire 750 addizioni.\label{item:ultimoBilanciamentoCarico}
+        \item il \num{2.5}\% del carico totale, ovvero 150 addizioni;\label{item:primoBilanciamentoCarico}
+        \item il \num{12.5}\% del carico totale, ovvero 750 addizioni.\label{item:ultimoBilanciamentoCarico}
     \end{enumerate}
     La tabella \ref{tab:RisultatiBilanciamentoCarico} riporta lo \textit{speedup} ottenuto nei due scenari ipotizzati e la rispettiva variazione percentuale calcolata con riferimento alla situazione ideale che presenta un carico perfettamente bilanciato.
 
@@ -168,4 +168,7 @@ Quest'ultimo esempio chiarisce l'importanza del bilanciamento del carico.
         \caption{\textit{Speedup} e sua variazione percentuale nei casi proposti dall'esempio \ref{esempio:bilanciamentoCarico}.}
         \label{tab:RisultatiBilanciamentoCarico}
     \end{table}
+
+    L'importanza di suddividere equamente il carico di lavoro tra i processori del sistema \'e evidente dalla variazione in diminuzione dello \textit{speedup} registrata in entrambi gli scenari di utilizzo. \newline
+    Una distribuzione non corretta delle attivit\`a da eseguire porta a una minore efficienza del sistema con intervalli di tempo non trascurabili in cui la maggioranza delle unit\`a di elaborazione \`e a riposo, attendendo che i processori in sovraccarico terminino il loro lavoro.
 \end{esempio}
