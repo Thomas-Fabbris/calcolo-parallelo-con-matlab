@@ -7,6 +7,7 @@
 \usepackage{adjustbox}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{amssymb}
 \usepackage[italian]{babel}
 \usepackage[backend=biber, style=ieee, dashed=false]{biblatex}
 \usepackage{bm} 
@@ -31,6 +32,8 @@
 
 \addbibresource{./Bibliografia/Bibliografia.bib}
 
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{definizione}{Definizione}[section]
 \newtheoremstyle{StileEsempio}
   {\topsep}     % Spazio sopra
   {\topsep}     % Spazio sotto
@@ -133,7 +136,6 @@ applicazioni durante l'implementazione di programmi a esecuzione parallela.
 \section{Le sfide nella progettazione di software parallelo}
 \label{par1.3}
 \input{Capitoli/Capitolo 1/SfideSoftwareParallelo.tex}
-% Parte Finale della tesi
 % Capitolo 2 (Un linguaggio per il calcolo parallelo: MATLAB)
 \chapter{Un linguaggio per il calcolo parallelo: MATLAB}
 \label{cap2}
@@ -153,6 +155,11 @@ con un particolare focus sulle motivazioni e sulle scelte di design che hanno gu
 \section{Parallel Computing Toolbox}
 \label{par2.2}
 \input{Capitoli/Capitolo 2/ParallelComputingToolbox.tex}
+% Capitolo 3 (Il metodo di Jacobi parallelo)
+\chapter{Il metodo di Jacobi parallelo}
+\section{Il contesto}
+\input{Capitoli/Capitolo 3/Contesto.tex}
+% Parte Finale della tesi
 \backmatter
 
 %Bibliografia
