@@ -4,6 +4,7 @@
 	12pt
 ]{book}
 
+% Importazione dei package necessari
 \usepackage{adjustbox}
 \usepackage{amsmath}
 \usepackage{amsthm}
@@ -20,6 +21,7 @@
 \usepackage{frontespizio}
 \usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
 \usepackage{graphicx}
+\usepackage{mathtools}
 \usepackage{parskip}
 \usepackage{placeins}
 \usepackage{setspace}
@@ -30,27 +32,45 @@
 \usepackage[breaklinks=true,colorlinks=false,linkbordercolor=blue,urlbordercolor=blue,citebordercolor=blue]{hyperref}
 \usepackage{listings}
 
+% Bibliografia con Biblatex
 \addbibresource{./Bibliografia/Bibliografia.bib}
-
-\newtheorem{teorema}{Teorema}[section]
+% Dichiarazione simbolo per la caratteristica di una matrice
+\DeclareMathOperator{\car}{car}
+% Dichiarazione simbolo C++
+\newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +} }
+% Dichiarazione unità di misura flops
+\DeclareSIUnit{\flops}{flops}
+% Formattazione norma 
+\DeclarePairedDelimiter{\norm}{\|}{\|}
+% Formattazione Teoremi
+\newtheoremstyle{teorema}
+  {\topsep}   % Spazio sopra
+  {\topsep}   % Spazio sotto
+  {\itshape}  % Font del corpo del testo
+  {}          % Indentazione
+  {\bfseries} % Stile dell'intestazione
+  {}          % Indentazione
+  {.5em}      % Spazio dopo l'intestazione
+  {}          % Specifica dell'intestazione
+\theoremstyle{teorema}
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{corollario}{Corollario}[chapter]
 \newtheorem{definizione}{Definizione}[section]
-\newtheoremstyle{StileEsempio}
+% Formattazione Esempi
+\newtheoremstyle{stileEsempio}
   {\topsep}     % Spazio sopra
   {\topsep}     % Spazio sotto
   {\normalfont} % Font del corpo del testo
   {}            % Indentazione
-  {\bfseries}   % Font dell'intestazione
+  {\bfseries}   % Stile dell'intestazione
   {}            % Indentazione
   {\newline}    % A capo dopo il titolo
   {}            % Specifica dell'intestazione
-\theoremstyle{StileEsempio}
+\theoremstyle{stileEsempio}
 \newtheorem{esempio}{Esempio}[chapter]
-
+% Impostazione directory per immagini
 \graphicspath{{./Immagini}}
-\onehalfspacing
-
-\newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +} }
-
+% Stile intestazioni e piè di pagina
 \pagestyle{fancy}
 \fancyhf{}
 \fancyfoot[LE,RO]{\thepage}
@@ -60,17 +80,17 @@
   \fancyfoot[LE,RO]{\thepage}
   \renewcommand{\headrulewidth}{0pt}
 }
-
+\interfootnotelinepenalty=10000
+% Definizione degli acronimi da non sillabare
 \hyphenation{MATLAB}
 \hyphenation{PCT}
 \hyphenation{LAN}
 \hyphenation{WSC}
-
+% Formattazione del codice MATLAB
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.95}
-
 \lstdefinestyle{MatlabStyle}{
     language=Matlab,
     backgroundcolor=\color{backcolour},   
@@ -95,11 +115,14 @@
     framexleftmargin=2pt
 }
 \lstset{style=MatlabStyle}
-
+% Impostazione della virgola come separatore decimale
 \sisetup{output-decimal-marker = {,}, product-units = single, detect-weight}
-
+% Impostazione interlinea a 1.5pt
+\onehalfspacing
+% Spazio tra paragrafi
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1em}
+% Terminazione delle pagine
 \raggedbottom
 
 \begin{document}
@@ -157,8 +180,31 @@ con un particolare focus sulle motivazioni e sulle scelte di design che hanno gu
 \input{Capitoli/Capitolo 2/ParallelComputingToolbox.tex}
 % Capitolo 3 (Il metodo di Jacobi parallelo)
 \chapter{Il metodo di Jacobi parallelo}
+\label{cap3}
+% Introduzione Capitolo 3
+Innumerevoli modelli matematici, come quello che descrive il processo di diffusione di un soluto in un solvente di una soluzione chimica, si formulano per mezzo di equazioni 
+differenziali. \newline
+Non \`e una novit\`a il fatto che per la maggior parte delle equazioni differenziali l'integrale generale non sia esprimibile in forma esplicita, per cui \`e 
+necessario ricorrere a metodi di integrazione numerica per la loro risoluzione.\newline
+Tra questi, spicca il metodo degli elementi finiti, un metodo per l'approssimazione di equazioni differenziali 
+attraverso sistemi di equazioni lineari.
+
+I problemi reali, in campo ingegneristico e fisico, dipendono da migliaia di variabili per cui lo sviluppo di metodi efficienti per risolvere sistemi lineari di grandi 
+dimensioni non \`e un capriccio squisitamente teorico, ma trova fondamentali applicazioni in tutti i settori in cui la modellistica \`e impiegata.
+
+L'obiettivo di questo capitolo \`e la presentazione del metodo di Jacobi, un metodo iterativo per la risoluzione di sistemi di equazioni lineari, e la sua 
+applicazione a problemi di grandi dimensioni.\newline
+I concetti esposti nei capitoli \ref{cap1} e \ref{cap2} torneranno utili nell'affrontare questo problema, matematicamente elementare ma computazionalmente 
+intrigante, sfruttando l'elevata capacit\`a di calcolo messa a disposizione dai sistemi a elaborazione parallela.
+
+Di seguito, faremo riferimento a svariati risultati propri dell'algebra lineare e dell'analisi numerica, indispensabili per una trattazione accurata degli 
+argomenti in questione, per le cui dimostrazioni si rimanda a \cite{Betti2000} e a \cite{Quarteroni2000}.
+% Paragrafo 3.1: Il contesto
 \section{Il contesto}
 \input{Capitoli/Capitolo 3/Contesto.tex}
+% Paragrafo 3.2:Risoluzione di sistemi lineari con metodi iterativi
+\section{Risoluzione di un sistema lineare con metodi iterativi}
+\input{Capitoli/Capitolo 3/MetodiIterativi.tex}
 % Parte Finale della tesi
 \backmatter
 

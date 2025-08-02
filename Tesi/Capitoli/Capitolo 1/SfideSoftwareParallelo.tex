@@ -57,7 +57,7 @@ prestazionali scelte.
 Il tempo di esecuzione per il calcolatore migliorato, denotato $T_{dopo}$, pu\`o essere espresso come somma
 del tempo di esecuzione modificato dal miglioramento, $T_{modificato}$, e di quello non interessato dal cambiamento,
 $T_{nonModificato}$.
-\begin{equation} \label{eq:Tdopo}
+\begin{equation} \label{eq:tDopo}
     T_{dopo}=\frac{T_{modificato}}{Entit\grave{a}~miglioramento} + T_{nonModificato}
 \end{equation}
 
@@ -103,7 +103,7 @@ Di seguito, effettuiamo una semplice analisi prestazionale di un problema di gra
         \item il numero di processori del sistema multiprocessore aumenta a $120$;\label{item:primoAnalisiGrandiDimensioni}
         \item le matrici diventano di dimensione \numproduct{6000 x 6000}.\label{item:ultimoAnalisiGrandiDimensioni}
     \end{enumerate}
-    La tabella \ref{tab:RisultatiAnalisiGrandiDimensioni} riporta la frazione dello \textit{speedup} potenziale raggiunta nei quattro possibili scenari di esecuzione, calcolata applicando le formule \eqref{eq:Tdopo} e \eqref{eq:speedup}.
+    La tabella \ref{tab:RisultatiAnalisiGrandiDimensioni} riporta la frazione dello \textit{speedup} potenziale raggiunta nei quattro possibili scenari di esecuzione, calcolata applicando le formule \eqref{eq:tDopo} e \eqref{eq:speedup}.
 
     \begin{table}[htbp]
     \centering
