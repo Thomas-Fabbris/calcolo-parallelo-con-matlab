@@ -1,0 +1,43 @@
+Se gli elementi sulla diagonale principale di A sono non nulli, possiamo mettere in evidenza in ogni equazione di 
+\eqref{eq:formaAlgebricaSistemiLineari} la corrispondente incognita, ottenendo il sistema lineare equivalente
+\begin{equation}
+    x_{i}=\frac{1}{a_{ii}}\Bigg(b_{i} - \sum_{j=1, \, j \neq i}^{n}a_{ij}x_{j}\Bigg),\quad i=1,\dots,n.
+\end{equation}
+
+Dato un vettore iniziale $\bm{x}^{(0)}$ scelto arbitrariamente, il metodo di Jacobi calcola $\bm{x}^{(k+1)}$ come segue
+\begin{equation}
+    \label{eq:metodoJacobi}
+    x_{i}^{(k+1)}=\frac{1}{a_{ii}}\Bigg(b_{i} - \sum_{j=1, \, j \neq i}^{n}a_{ij}x{_j}^{(k)}\Bigg),\quad i=1,\dots,n.
+\end{equation}
+La \eqref{eq:metodoJacobi} \`e un caso particolare della decomposizione additivia $A = P-N$, con
+\begin{equation*}
+    P = D,\qquad N = D - A = E + F,
+\end{equation*}
+dove $D=diag(a_{ii})\in\mathbb{R}^{n\times n}$ \`e la matrice diagonale contenente gli elementi diagonali di $A$, 
+$E=(e_{ij})\in\mathbb{R}^{n\times n}$ \`e la matrice triangolare inferiore con $e_{ij}=-a_{ij} \ \text{se} \ i>j \ \text{ed}\ e_{ij}=0 \ \text{se} \ i\le j$, 
+mentre $F=(f_{ij})\in\mathbb{R}^{n\times n}$ \`e la matrice triangolare superiore con $f_{ij}=-a_{ij} \text{ se } j>i$ e $f_{ij}=0 \text{ se } j\le i$.
+Pertanto $A = D - (E + F)$.
+
+La corrispondente matrice di iterazione $B_{J}$ \`e data da
+\begin{equation}
+    B_{J} = P^{-1}N = D^{-1}(E + F) = I - D^{-1}A.
+\end{equation}
+\subsection{Convergenza del metodo di Jacobi}
+Esistono particolari classi di matrici per le quali \`e possibile stabilire a priori la convergenza del metodo di Jacobi.
+
+Iniziamo con l'introdurre la definizione di matrice a dominanza diagonale per righe, una propriet\`a fondamentale per garantire la convergenza del metodo.
+\begin{definizione}
+    Sia $M = (m_{ij})\in\mathbb{R}^{n \times n}$ una matrice quadrata di ordine $n\ge 1$ a coefficienti reali, allora $M$ \`e detta a dominanza diagonale per righe se
+    \[
+    \abs{m_{ij}} \ge \sum_{j=1,\, j \neq i}^{n}\abs{m_{ij}},\quad i = 1,\cdots,n
+    \]
+    Se la disuguaglianza precedente \`e verificata in senso stretto, $M$ \`e detta a dominanza diagonale stretta per righe. 
+\end{definizione}
+
+Ora possiamo esporre i risultati di convergenza validi per il metodo di Jacobi.
+\begin{teorema}
+    Se $A$ \`e una matrice a dominanza diagonale stretta per righe, allora il metodo di Jacobi converge.
+\end{teorema}
+\begin{teorema}
+    Se $A \ \text{e} \ 2D - A$ sono matrici simmetriche definite positive, allora il metodo di Jacobi converge e $\rho(B_{J}) = \norm{B_{J}}_{A} = \norm{B_{J}}_{D}$.
+\end{teorema}

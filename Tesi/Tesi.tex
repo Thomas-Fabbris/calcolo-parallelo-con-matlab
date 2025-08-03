@@ -42,6 +42,8 @@
 \DeclareSIUnit{\flops}{flops}
 % Formattazione norma 
 \DeclarePairedDelimiter{\norm}{\|}{\|}
+% Formattazione valore assoluto numero reale
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 % Formattazione Teoremi
 \newtheoremstyle{teorema}
   {\topsep}   % Spazio sopra
@@ -55,7 +57,7 @@
 \theoremstyle{teorema}
 \newtheorem{teorema}{Teorema}[chapter]
 \newtheorem{corollario}{Corollario}[chapter]
-\newtheorem{definizione}{Definizione}[section]
+\newtheorem{definizione}{Definizione}[chapter]
 % Formattazione Esempi
 \newtheoremstyle{stileEsempio}
   {\topsep}     % Spazio sopra
@@ -202,9 +204,12 @@ argomenti in questione, per le cui dimostrazioni si rimanda a \cite{Betti2000} e
 % Paragrafo 3.1: Il contesto
 \section{Il contesto}
 \input{Capitoli/Capitolo 3/Contesto.tex}
-% Paragrafo 3.2:Risoluzione di sistemi lineari con metodi iterativi
+% Paragrafo 3.2: Risoluzione di sistemi lineari con metodi iterativi
 \section{Risoluzione di un sistema lineare con metodi iterativi}
 \input{Capitoli/Capitolo 3/MetodiIterativi.tex}
+% Paragrafo 3.3: Il metodo di Jacobi
+\section{Il metodo di Jacobi}
+\input{Capitoli/Capitolo 3/MetodoJacobi.tex}
 % Parte Finale della tesi
 \backmatter
 
