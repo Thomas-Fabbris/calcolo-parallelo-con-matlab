@@ -1,0 +1,142 @@
+\ProvidesPackage{thesisstyle}
+% Importazione package
+\usepackage{adjustbox}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage[italian]{babel}
+\usepackage[backend=biber, style=ieee, dashed=false]{biblatex}
+\usepackage{bm} 
+\usepackage{caption}
+\usepackage[style=italian]{csquotes}
+\usepackage{diagbox}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{emptypage} 
+\usepackage[T1]{fontenc}
+\usepackage{frontespizio}
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{parskip}
+\usepackage{placeins}
+\usepackage{pgfkeys}
+\usepackage{setspace}
+\usepackage{siunitx} 
+\usepackage{tikz}
+\usepackage{todonotes}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage[breaklinks=true,colorlinks=false,linkbordercolor=blue,urlbordercolor=blue,citebordercolor=blue]{hyperref}
+\usepackage{listings}
+% Bibliografia con Biblatex
+\addbibresource{./Bibliografia/Bibliografia.bib}
+% Dichiarazione simbolo per la caratteristica di una matrice
+\DeclareMathOperator{\car}{car}
+% Dichiarazione simbolo C++
+\newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +} }
+% Dichiarazione unità di misura flops
+\DeclareSIUnit{\flops}{flops}
+% Formattazione norma 
+\DeclarePairedDelimiter{\norm}{\|}{\|}
+% Formattazione valore assoluto numero reale
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+% Formattazione Teoremi
+\newtheoremstyle{stileTeorema}
+  {\topsep}   % Spazio sopra
+  {\topsep}   % Spazio sotto
+  {}  % Font del corpo del testo
+  {}          % Indentazione
+  {\bfseries} % Stile dell'intestazione
+  {}          % Indentazione
+  {.5em}      % Spazio dopo l'intestazione
+  {}          % Specifica dell'intestazione
+
+\theoremstyle{stileTeorema}
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{corollario}{Corollario}[chapter]
+\newtheorem{definizione}{Definizione}[chapter]
+% Formattazione Esempi
+\newtheoremstyle{stileEsempio}
+  {\topsep}     % Spazio sopra
+  {\topsep}     % Spazio sotto
+  {\normalfont} % Font del corpo del testo
+  {}            % Indentazione
+  {\bfseries}   % Stile dell'intestazione
+  {}            % Indentazione
+  {\newline}    % A capo dopo il titolo
+  {}            % Specifica dell'intestazione
+\theoremstyle{stileEsempio}
+\newtheorem{esempio}{Esempio}[chapter]
+
+% Impostazione directory per immagini
+\graphicspath{{./Immagini}}
+
+% Stile intestazioni e piè di pagina
+\pagestyle{fancy}
+\fancyhf{}
+% Intestazione
+\setlength{\headheight}{15pt}
+\fancyhead[LE]{\nouppercase{\leftmark}}
+\fancyhead[RO]{\nouppercase{\rightmark}}
+% Piè di pagina
+\fancyfoot[LE,RO]{\thepage}
+% Separatore
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[LE,RO]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+\fancypagestyle{empty}{\fancyhf{}}
+\interfootnotelinepenalty=10000
+
+% Definizione degli acronimi da non sillabare
+\hyphenation{MATLAB}
+\hyphenation{PCT}
+\hyphenation{LAN}
+\hyphenation{WSC}
+
+% Formattazione del codice MATLAB
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+\lstdefinestyle{MatlabStyle}{
+    language=Matlab,
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    frame=single,
+    framerule=0pt,
+    framesep=5pt,
+    framexleftmargin=2pt
+}
+\lstset{style=MatlabStyle}
+
+% Impostazione della virgola come separatore decimale
+\sisetup{output-decimal-marker = {,}, product-units = single, detect-weight}
+
+% Impostazione interlinea a 1.5pt
+\onehalfspacing
+% Spazio tra paragrafi
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+% Terminazione delle pagine
+\raggedbottom
+
+\endinput

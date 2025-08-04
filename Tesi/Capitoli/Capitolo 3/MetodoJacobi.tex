@@ -1,20 +1,22 @@
+Il metodo di Jacobi (o metodo degli spostamenti simultanei) \`e un metodo iterativo per la risoluzione di sistemi lineari, ideato dal matematico tedesco Carl Gustav Jacobi nel 1834\,\cite{JacobiMethod}.
+
 Se gli elementi sulla diagonale principale di A sono non nulli, possiamo mettere in evidenza in ogni equazione di 
 \eqref{eq:formaAlgebricaSistemiLineari} la corrispondente incognita, ottenendo il sistema lineare equivalente
 \begin{equation}
     x_{i}=\frac{1}{a_{ii}}\Bigg(b_{i} - \sum_{j=1, \, j \neq i}^{n}a_{ij}x_{j}\Bigg),\quad i=1,\dots,n.
 \end{equation}
 
-Dato un vettore iniziale $\bm{x}^{(0)}$ scelto arbitrariamente, il metodo di Jacobi calcola $\bm{x}^{(k+1)}$ come segue
+Dato un vettore iniziale $\mathbf{x}^{(0)}$ scelto arbitrariamente, il metodo di Jacobi calcola $\mathbf{x}^{(k+1)}$ come segue
 \begin{equation}
     \label{eq:metodoJacobi}
     x_{i}^{(k+1)}=\frac{1}{a_{ii}}\Bigg(b_{i} - \sum_{j=1, \, j \neq i}^{n}a_{ij}x{_j}^{(k)}\Bigg),\quad i=1,\dots,n.
 \end{equation}
-La \eqref{eq:metodoJacobi} \`e un caso particolare della decomposizione additivia $A = P-N$, con
+La \eqref{eq:metodoJacobi} \`e un caso particolare della decomposizione additiva $A = P-N$ con
 \begin{equation*}
-    P = D,\qquad N = D - A = E + F,
+    P = D\quad \text{e}\quad N = D - A = E + F,
 \end{equation*}
-dove $D=diag(a_{ii})\in\mathbb{R}^{n\times n}$ \`e la matrice diagonale contenente gli elementi diagonali di $A$, 
-$E=(e_{ij})\in\mathbb{R}^{n\times n}$ \`e la matrice triangolare inferiore con $e_{ij}=-a_{ij} \ \text{se} \ i>j \ \text{ed}\ e_{ij}=0 \ \text{se} \ i\le j$, 
+dove $D=diag(a_{ii})\in\mathbb{R}^{n\times n}$ \`e la matrice diagonale contenente gli elementi di $A$ sulla diagonale principale, 
+$E=(e_{ij})\in\mathbb{R}^{n\times n}$ \`e la matrice triangolare inferiore con \\ $e_{ij}=-a_{ij} \ \text{se} \ i>j \ \text{ed}\ e_{ij}=0 \ \text{se} \ i\le j$, 
 mentre $F=(f_{ij})\in\mathbb{R}^{n\times n}$ \`e la matrice triangolare superiore con $f_{ij}=-a_{ij} \text{ se } j>i$ e $f_{ij}=0 \text{ se } j\le i$.
 Pertanto $A = D - (E + F)$.
 
@@ -36,8 +38,22 @@ Iniziamo con l'introdurre la definizione di matrice a dominanza diagonale per ri
 
 Ora possiamo esporre i risultati di convergenza validi per il metodo di Jacobi.
 \begin{teorema}
-    Se $A$ \`e una matrice a dominanza diagonale stretta per righe, allora il metodo di Jacobi converge.
+    Se $A$ \`e una matrice a dominanza diagonale stretta per righe, allora il metodo di Jacobi \`e convergente.
 \end{teorema}
 \begin{teorema}
     Se $A \ \text{e} \ 2D - A$ sono matrici simmetriche definite positive, allora il metodo di Jacobi converge e $\rho(B_{J}) = \norm{B_{J}}_{A} = \norm{B_{J}}_{D}$.
 \end{teorema}
+\subsection{Aspetti computazionali}
+\nocite{BiniAnalisiNumerica2013}
+Nel caso peggiore in cui la matrice $A$ sia densa, ovvero la maggior parte dei suoi elementi siano non nulli,
+il costo computazionale del metodo di Jacobi \`e dell'ordine di $n^{2}$ \si{\flops} per ogni iterazione: una magnitudine di diversi ordini inferiore
+al costo associato alla regola di Cramer.\newline
+Al contrario, se $A$ \`e sparsa, cio\`e il numero dei suoi elementi nulli \`e dell'ordine di $n$, allora anche $E \ \text{ed} \ F$ 
+sono sparse, per cui l'esecuzione di un passo dell'algoritmo richiede un numero di operazioni in virgola mobile pari a $n$ e non 
+pi\`u a $n^2$.
+
+Dobbiamo sottolineare come in \eqref{eq:metodoJacobi} le componenti $x_{i}^{(k+1)}$ del vettore soluzione possono essere calcolate indipendentemente le une dalle altre. \newline 
+In un sistema a elaborazione parallela, la disponibilit\`a di $n$ processori in grado di eseguire operazioni aritmetiche simultaneamente consente di determinare $\mathbf{x}^{(k+1)}$ nell'intervallo di tempo richiesto dal calcolo di una singola componente su un tradizionale sistema monoprocessore.
+
+D'altro canto, il metodo aggiorna le componenti della soluzione approssimata, agendo sulle quantit\`a calcolate all'iterazione precedente, caratteristica che non gli consente di raggiungere un'elevata velocit\`a di convergenza visto che il procedimento iterativo sfrutta delle informazioni non aggiornate durante la sua esecuzione.
+
