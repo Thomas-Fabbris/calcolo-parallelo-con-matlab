@@ -1,3 +1,4 @@
+function [x,flag, relres, iter, resvec] = jacobi(A,b,tol,maxit,x0)
 %JACOBI - Solve system of linear equations - Jacobi Method
 %    This MATLAB function attempts to solve the system of linear equations
 %    A*x = b for x using an implementation of the Jacobi Method.
@@ -41,29 +42,59 @@
 
 %    Copyright 2025 Thomas Fabbris
 
-function [x,flag, relres, iter, resvec] = jacobi(A,b,tol,maxit,x0)
-arguments (Input)
-    A {mustBeMatrix, mustBeFloat, mustBeReal, mustBeSquared}
-    b {mustBeColumn, mustBeFloat, mustBeReal, mustBeSameSize(b,A,'Right-hand side')}
-    tol {mustBeScalarOrEmpty, mustBeFloat, mustBePositive} = []
-    maxit {mustBeScalarOrEmpty, mustBeInteger, mustBeNonnegative} = 100
-    x0 {mustBeColumn, mustBeFloat, mustBeSameSize(x0,A,'Initial guess')} = zeros(size(A,1),1)
+if (nargin < 2)
+    error('jacobi:NotEnoughInputs', 'Not enough input arguments.');
 end
 
-arguments (Output)
-    x (:,1) {mustBeColumn, mustBeFloat}
-    flag (1,1) {mustBeMember(flag, [0,1,2,3])}
-    relres (1,1) {mustBeFloat}
-    iter (1,1) {mustBeInteger, mustBeNonnegative}
-    resvec (:,1) {mustBeColumn, mustBeFloat, mustBeNonnegative}
+support = matlab.internal.feature("SingleSparse");
+
+% A must be a floating point real matrix
+if (~isa(A,"float") || ~isreal(A))
+   error('jacobi:InvalidInput', 'Argument must be a floating-point matrix of real elements.');
 end
 
+[m, n] = size(A);
+
+if (m ~= n)
+    error('jacobi:NonSquareMatrix', 'Matrix must be square.');
+end
+if (~isequal(size(b),[m,1]))
+  error('jacobi:RHSsizeMatchCoeffMatrix', ['Right-hand side must be a column vector of length %u to' ...
+      ' match the coefficient matrix.'], m);
+end
+useSingle = isUnderlyingType(A,'single');
+
+% b must be a floating point real array
+if (~isfloat(b) || ~isreal(b))
+    error('jacobi:RHSInvalidClass', ['Right-hand side must be a floating-point vector with real ' ...
+        'entries.']);
+end
+
+useSingle = useSingle || isUnderlyingType(b,'single');
+
+% Assign default values to optional parameters, if omitted
+if (nargin < 4) || isempty(maxit)
+    maxit = min(n,100);
+end
 maxit = max(maxit, 0);
 
-x = x0;
+if ((nargin == 5) && ~isempty(x0))
+    if (~isequal(size(x0), [n,1]))
+       error('jacobi:WrongInitGuessSize', ['Initial guess must be a column vector of length %u to ' ...
+           'match the problem size.'], n) 
+    else 
+        x = x0;
+        useSingle = useSingle || isUnderlyingType(x,'single');
+    end
+else
+    x = zeros(n,1);
+end
 
-useSingle = matlab.internal.feature("SingleSparse") && (isUnderlyingType(A,'single') || ...
-    isUnderlyingType(b,'single') || isUnderlyingType(x,'single'));
+if (nargin > 5)
+     error('jacobi:ToomanyInputs', 'Too many input arguments.');
+end
+
+useSingle = support && useSingle;
 
 if (useSingle)
     % Cast b and x to single
@@ -74,7 +105,7 @@ end
 % Helper arrays should be dense, real, and of the same underlying type than b
 prototype = real(full(zeros("like", b)));
 
-if (isempty(tol))
+if ((nargin < 3) ||isempty(tol))
     if (useSingle)
         tol = 1e-3;
     else
@@ -83,11 +114,11 @@ if (isempty(tol))
 end
 epsT = eps("like", prototype);
 if (tol <= epsT)
-    warning('MATLAB:jacobi:tooSmallTolerance', ['Tolerance may not be achievable. ' ...
+    warning('jacobi:tooSmallTolerance', ['Tolerance may not be achievable. ' ...
         'Use a larger tolerance']);
     tol = epsT;
 elseif (tol>= 1)
-    warning('MATLAB:jacobi:tooBigTolerance', ['Tolerance is greater than 1. ' ...
+    warning('jacobi:tooBigTolerance', ['Tolerance is greater than 1. ' ...
         'Use a smaller tolerance']);
     tol = 1 - epsT;
 end
@@ -181,7 +212,11 @@ for ii = 1 : maxit
         iter = ii;
         break
     end
-end                                       
+end                                           % for ii = 1: maxit
+
+if (isempty(ii)) 
+    ii = 0;
+end
 
 % Return the solution
 relres = normr / norm2b;                      % calculate the relative residual
@@ -216,20 +251,5 @@ if (nargout < 2)
                 "%0.2g because the method stagnated.\n" + ...
                 "The iterate returned has relative residual %0.2g.",iter,tol,relres);
     end
-end
-end
-
-function mustBeSquared(A)
-[m, n] = size(A);
-if (m ~= n)
-    error('jacobi:NonSquareMatrix', 'Matrix must be square');
-end
-end
-
-function mustBeSameSize(v,A,name)
-[m,n] = size(A);
-if (~isequal([m,1], size(v)))
-    error('jacobi:DimensionMismatch', ['%s must be a column vector of length %u to match the ' ...
-        'problem size.'],name,n);
 end
 end

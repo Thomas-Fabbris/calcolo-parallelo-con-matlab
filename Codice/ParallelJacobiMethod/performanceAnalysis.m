@@ -12,7 +12,6 @@ tempi_soluzione = zeros(num_sistemi, 1);
 stati_uscita = zeros(num_sistemi, 1);
 iterazioni_finali = zeros(num_sistemi, 1);
 
-
 for i = 1:num_sistemi
     if mod(i, 10) == 0
         A = rand(n, n) * 10;
