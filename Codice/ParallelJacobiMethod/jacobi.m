@@ -46,14 +46,14 @@ arguments (Input)
     A {mustBeMatrix, mustBeFloat, mustBeReal, mustBeSquared}
     b {mustBeColumn, mustBeFloat, mustBeReal, mustBeSameSize(b,A,'Right-hand side')}
     tol {mustBeScalarOrEmpty, mustBeFloat, mustBePositive} = []
-    maxit {mustBeScalarOrEmpty, mustBeInteger, mustBeNonnegative} = 20
+    maxit {mustBeScalarOrEmpty, mustBeInteger, mustBeNonnegative} = 100
     x0 {mustBeColumn, mustBeFloat, mustBeSameSize(x0,A,'Initial guess')} = zeros(size(A,1),1)
 end
 
 arguments (Output)
     x (:,1) {mustBeColumn, mustBeFloat}
     flag (1,1) {mustBeMember(flag, [0,1,2,3])}
-    relres (1,1) {mustBeFloat, mustBeBetween(relres,0,1)}
+    relres (1,1) {mustBeFloat}
     iter (1,1) {mustBeInteger, mustBeNonnegative}
     resvec (:,1) {mustBeColumn, mustBeFloat, mustBeNonnegative}
 end
@@ -145,7 +145,7 @@ end
 resvec = zeros(maxit+1,1,"like", prototype);  % preallocate vector for norm of residuals
 resvec(1,:) = normr;                          % resvec(1) = norm(b-A*x0)
 stag = 0;                                     % stagnation of the method
-maxstagsteps = 3;
+maxstagsteps = 10;
 
 % Loop over maxit iterations (unless convergence or failure)
 
@@ -206,7 +206,7 @@ if (nargout < 2)
         case 1
             fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
                 "%0.2g because the maximum number of iterations %u was reached.\nThe iterate " + ...
-                "returned has relative residual %0.2g.", iter,tol,relres);
+                "returned has relative residual %0.2g.", iter,tol,maxit, relres);
         case 2
             fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
                 "%0.2g because a scalar quantity became too small or too large to continue computing.\n " + ...
@@ -222,14 +222,14 @@ end
 function mustBeSquared(A)
 [m, n] = size(A);
 if (m ~= n)
-    error('MATLAB:jacobi:NonSquareMatrix','Coefficient matrix must be squared.');
+    error('jacobi:NonSquareMatrix', 'Matrix must be square');
 end
 end
 
 function mustBeSameSize(v,A,name)
 [m,n] = size(A);
 if (~isequal([m,1], size(v)))
-    error('MATLAB:jacobi:DimensionMismatch', ['%s must be a column vector of length %u to match the ' ...
+    error('jacobi:DimensionMismatch', ['%s must be a column vector of length %u to match the ' ...
         'problem size.'],name,n);
 end
 end

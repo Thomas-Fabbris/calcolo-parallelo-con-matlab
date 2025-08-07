@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog>
+
+    <message key = "ConvergedWithRelativeResidual">
+        %s converged at %u to a solution with relative residual %0.2g.
+    </message>
+
+    <message key = "InitialGuessHasRelativeWithinTol">
+
+    </message>
+
+    <message key = "InvalidInput">
+
+    </message>
+
+    <message key = "IterateReturnedHasRelativeResidual">
+        
+    </message>
+
+    <message key="NonSquareMatrix">
+        Matrix must be square.
+    </message>
+
+    <message key="NotEnoughInputs">
+
+    </message>
+
+    <message key="RHSVectorAllZero">
+      
+    </message>
+      
+    <message key="RHSInvalidClass">
+      
+    </message>
+
+    <message key="RHSnotColumn">
+      
+    </message>
+
+   <message key = "InitialGuessHasRelativeWithinTol">
+        
+    </message>
+
+    <message key = "StoppedMaxIterations">
+        
+    </message>
+
+    <message key = "StoppedMethodStagnated">
+        
+    </message>
+
+    <message key = "StoppedScalarTooSmallOrLarge">
+        
+    </message>
+    
+    <message key="TooSmallTolerance">
+        Tolerance may not be achievable. Use a larger tolerance.
+    </message>
+
+    <message key="TooBigTolerance">
+        Tolerance is greater than 1. Use a smaller tolerance.
+    </message>
+
+    <message key="TooManyInputs">
+        Tolerance is greater than 1. Use a smaller tolerance.
+    </message>
+
+    <message key="WrongInitGuessSize">
+      
+    </message>
+
+
+
+</message_catalog>
