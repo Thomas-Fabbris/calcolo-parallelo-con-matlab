@@ -1,7 +1,7 @@
 <productinfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:noNamespaceSchemaLocation="optional">
     <?xml-stylesheet type="text/xsl"href="optional"?>
-    <!-- info.xml file for the Parallel Jacobi Method Toolbox -->
+    <!-- info.xml file for the Jacobi Method Toolbox -->
     <!-- Version 1.0 -->
     <!-- Copyright 10-07-2025 Thomas Fabbris.-->
     

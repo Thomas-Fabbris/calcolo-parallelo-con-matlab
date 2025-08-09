@@ -25,7 +25,6 @@ for i = 1:num_sistemi
     
     x_vera = rand(n, 1);
     b = A * x_vera;
-    
     tic;
     [~, flag, ~, iter, ~] = jacobi(A, b, tol, maxit);
     tempi_soluzione(i) = toc;

@@ -1,0 +1,48 @@
+Nell'appendice A forniamo un'implementazione del metodo di Jacobi sotto forma di una funzione MATLAB che trae vantaggio delle funzionalit\`a dedicate al 
+calcolo parallelo, tra cui gli \textit{array} distribuiti e il parallelismo implicito a livello di \textit{thread}, gi\`a presentate nel capitolo 
+\ref{cap2}.
+
+L'interfaccia della funzione \lstinline|jacobi|, cos\`i come il codice vero e proprio, sono stati ispirati dalla funzione MATLAB nativa 
+\lstinline|pcg| per la risoluzione di sistemi di equazioni lineari mediante il metodo del gradiente coniugato precondizionato \, \cite{MathWorksPCG} 
+(\textit{Preconditioned Conjugate Gradients method}), un metodo iterativo spesso considerato come alternativa al metodo di Jacobi per la risoluzione 
+di alcune classi di sistemi per via delle sue notevoli propriet\`a di convergenza.\newline
+Nello specifico, il prototipo della funzione MATLAB sviluppata \`e
+\begin{lstlisting}
+    [x,flag,relres,iter,resvec]=jacobi(A,b,tol,maxit,x0)~\text{.}~
+\end{lstlisting}
+
+La funzione \lstinline|jacobi| si aspetta di ricevere in ingresso i seguenti parametri obbligatori:
+\begin{itemize}
+    \item \lstinline|A|, la matrice dei coefficienti $A$ del sistema \eqref{eq:formaMatricialeSistemiLineari};
+    \item \lstinline|b|, il vettore colonna dei termini noti $\mathbf{b}$ del sistema;
+\end{itemize}
+a cui si aggiungono alcuni parametri facoltativi:
+\begin{itemize}
+    \item \lstinline|tol|, la tolleranza $\varepsilon$ nell'approssimazione della soluzione del sistema;
+    \item \lstinline|maxit|, il numero massimo di iterazioni consentite prima di giungere a una soluzione approssimata;
+    \item \lstinline|x0|, il vettore iniziale $\mathbf{x}^{(0)}$ della successione $\mathbf{\{x^{(k)}\}}$ costruita dal metodo iterativo.
+\end{itemize}
+
+Gli argomenti restituiti in output da \lstinline|jacobi| sono:
+\begin{itemize}
+    \item \lstinline|x|, la soluzione $\mathbf{x}$ del sistema in questione;
+    \item \lstinline|flag|, un valore numerico indicante lo stato di uscita dall'esecuzione della funzione. La tabella riassume i possibili valori di \lstinline|flag| e il risultato di convergenza a essi associato;
+    \item \lstinline|iter|, il numero dell'iterazione a cui la soluzione \lstinline|x| del sistema \`e stata calcolata;
+    \item \lstinline|resvec|, un \textit{array} in cui ciascun elemento rappresenta il residuo del sistema a ogni passo dell'algoritmo;
+    \item \lstinline|relres|, il residuo normalizzato ottenuto al termine dell'esecuzione del metodo di Jacobi.
+\end{itemize}
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{c p{0.75\textwidth}}
+        \hline
+        \textbf{Flag} & \textbf{Risultato di convergenza} \\
+        \hline
+        \\[-1..5em]
+        0 & \lstinline|jacobi| \`e riuscito a convergere alla soluzione \lstinline|x|, secondo la tolleranza desiderata \lstinline{tol}, entro \lstinline{maxit} iterazioni. \\[1em]
+        1 & \lstinline{jacobi} ha completato \lstinline{maxit} iterazioni, senza raggiungere la convergenza. \\[1em]
+        2 & Una delle quantit\`a scalari determinate dall'algoritmo \`e diventata troppo piccola o troppo grande per proseguire con l'esecuzione. \\[1em]
+        3 & \lstinline|jacobi| \`e caduto in stagnazione dopo che un certo numero di iterazioni consecutive hanno restituito gli stessi risultati. \\
+        \hline
+    \end{tabular}
+    \caption{Valori assunti dal parametro di output \lstinline{flag} della funzione \lstinline{jacobi} e relativi risultati di convergenza.}
+\end{table}

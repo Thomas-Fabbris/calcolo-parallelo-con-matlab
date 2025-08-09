@@ -49,7 +49,7 @@ end
 support = matlab.internal.feature("SingleSparse");
 
 % A must be a floating point real matrix
-if (~isa(A,"float") || ~isreal(A))
+if (~isfloat(A) || ~isreal(A))
    error('jacobi:InvalidInput', 'Argument must be a floating-point matrix of real elements.');
 end
 
@@ -153,7 +153,7 @@ if (normr <= tolb)
     resvec = normr;
     if (nargout < 2)
         fprintf(['The initial guess has relative residual %0.2g which is within the desired ' ...
-            'tolerance %0.2g so jacobi returned it without iterating.'], relres, tol);
+            'tolerance %0.2g so jacobi returned it without iterating.'], gather(relres), tol);
     end
     return
 end
@@ -168,7 +168,7 @@ if (~any(d))
     if (nargout < 2)
         fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
             "%0.2g a scalar quantity became too small or too large to continue computing.\n" + ...
-            "The iterate returned (number %u) has relative residual %0.2g.", iter,tol,relres);
+            "The iterate returned (number %u) has relative residual %0.2g.", iter,tol,gather(relres));
     end
     return;
 end
@@ -237,19 +237,19 @@ if (nargout < 2)
     switch flag
         case 0
             fprintf("jacobi converged at iteration %u to a solution with relative residual %0.2g." ...
-                , iter,relres);
+                , iter,gather(relres));
         case 1
             fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
                 "%0.2g because the maximum number of iterations %u was reached.\nThe iterate " + ...
-                "returned has relative residual %0.2g.", iter,tol,maxit, relres);
+                "returned has relative residual %0.2g.", iter,tol,maxit, gather(relres));
         case 2
             fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
                 "%0.2g because a scalar quantity became too small or too large to continue computing.\n " + ...
-                "The iterate returned has relative residual %0.2g.", iter,tol,relres);
+                "The iterate returned has relative residual %0.2g.", iter,tol,gather(relres));
         case 3
             fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
                 "%0.2g because the method stagnated.\n" + ...
-                "The iterate returned has relative residual %0.2g.",iter,tol,relres);
+                "The iterate returned has relative residual %0.2g.",iter,tol,gather(relres));
     end
 end
 end

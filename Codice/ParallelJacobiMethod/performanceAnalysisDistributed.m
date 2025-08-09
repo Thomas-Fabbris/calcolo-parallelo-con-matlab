@@ -1,11 +1,11 @@
 %% SCRIPT PER IL BENCHMARK DELLA FUNZIONE JACOBI
 clear; clc; close all;
 
-num_sistemi = 20;
-dimensione_matrice = 2500;
+num_sistemi = 100;
+dimensione_matrice = 1000;
 densita_matrice = 0.01;  
-sistemi_convergenti = 18;
-max_iterazioni = 10000;
+sistemi_convergenti = 90;
+max_iterazioni = 100000;
 tolleranza = 1e-6;
 
 tempi_esecuzione = zeros(num_sistemi, 1);
