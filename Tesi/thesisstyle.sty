@@ -126,7 +126,12 @@
     framesep=5pt,
     framexleftmargin=2pt
 }
-\lstset{style=MatlabStyle}
+\lstset{
+  basicstyle=\ttfamily,
+  tabsize=4,
+  keepspaces=true,
+  escapechar=\~
+}
 
 % Impostazione della virgola come separatore decimale
 \sisetup{output-decimal-marker = {,}, product-units = single, detect-weight}

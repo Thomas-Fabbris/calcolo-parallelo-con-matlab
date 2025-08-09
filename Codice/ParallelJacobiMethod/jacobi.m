@@ -175,8 +175,6 @@ end
 
 resvec = zeros(maxit+1,1,"like", prototype);  % preallocate vector for norm of residuals
 resvec(1,:) = normr;                          % resvec(1) = norm(b-A*x0)
-stag = 0;                                     % stagnation of the method
-maxstagsteps = 10;
 
 % Loop over maxit iterations (unless convergence or failure)
 
@@ -189,13 +187,6 @@ for ii = 1 : maxit
     
     x_update = r./ d;
     
-    % Check for stagnation of the method
-    if (norm(x_update) < epsT * norm(x))
-        stag = stag + 1;
-    else
-        stag = 0;
-    end
-    
     x = x + x_update;                         % compute new iterate
     r = b - A * x;
     normr = norm(r);
@@ -204,11 +195,6 @@ for ii = 1 : maxit
     % Check for convergence
     if (normr <= tolb)
         flag = 0;
-        iter = ii;
-        break
-    end
-    if (stag >= maxstagsteps)
-        flag = 3;
         iter = ii;
         break
     end
@@ -246,10 +232,6 @@ if (nargout < 2)
             fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
                 "%0.2g because a scalar quantity became too small or too large to continue computing.\n " + ...
                 "The iterate returned has relative residual %0.2g.", iter,tol,gather(relres));
-        case 3
-            fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
-                "%0.2g because the method stagnated.\n" + ...
-                "The iterate returned has relative residual %0.2g.",iter,tol,gather(relres));
     end
 end
 end
