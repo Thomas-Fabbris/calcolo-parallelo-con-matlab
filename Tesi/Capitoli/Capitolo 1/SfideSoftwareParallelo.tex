@@ -1,3 +1,4 @@
+%!TeX root = ../../Tesi.tex
 Le motivazioni che rendono lo sviluppo di programmi a esecuzione parallela una vera e propria sfida per i programmatori
 di applicazioni sono molteplici e appartengono a diverse aree di intervento.
 
@@ -107,13 +108,16 @@ Di seguito, effettuiamo una semplice analisi prestazionale di un problema di gra
 
     \begin{table}[htbp]
     \centering
-    \begin{tabular}{l | S[table-format=1.4] S[table-format=1.4]}
-        \hline
-        \diagbox{Dim. matrice}{Num. processori} & {\textbf{30}} & {\textbf{120}} \\
-        \hline
-        \textbf{\numproduct{3000 x 3000}} & 0.7770 & 0.4727 \\
-        \textbf{\numproduct{6000 x 6000}} & 0.8739 & 0.6375 \\
-        \hline
+    \renewcommand{\arraystretch}{1.2}
+   \begin{tabular}{@{} l r r @{}}
+        \toprule
+        {Dim. matrice} & \multicolumn{2}{c}{Num. processori} \\
+        \cmidrule(l){2-3}
+        & \multicolumn{1}{c}{30} & \multicolumn{1}{c}{120} \\
+        \midrule
+        \numproduct{3000 x 3000} & \num{0.7770} & \num{0.4727} \\
+        \numproduct{6000 x 6000} & \num{0.8739} & \num{0.6375} \\
+        \bottomrule
     \end{tabular}
     \caption{Frazione dello \textit{speedup} potenziale nei casi proposti dall'esempio \ref{esempio:analisiGrandiDimensioni}.}
     \label{tab:RisultatiAnalisiGrandiDimensioni}
@@ -153,22 +157,20 @@ Quest'ultimo esempio chiarisce l'importanza del bilanciamento del carico.
         \item il \num{12.5}\% del carico totale, ovvero 750 addizioni.\label{item:ultimoBilanciamentoCarico}
     \end{enumerate}
     La tabella \ref{tab:RisultatiBilanciamentoCarico} riporta lo \textit{speedup} ottenuto nei due scenari ipotizzati e la rispettiva variazione percentuale calcolata con riferimento alla situazione ideale che presenta un carico perfettamente bilanciato.
-
     \begin{table}[htbp]
         \centering
-        \begin{tabular}{l | S[table-format=-2.2] S[table-format=-2.2]}
-            \hline
-            {}                               & {\textbf{150 addizioni}} & {\textbf{750 addizioni}} \\
-            \hline
-            \textbf{\textit{Speedup}}        & 33.50                           & 7.73                           \\ 
-            \boldsymbol{$\Delta\%_{ideale}$} & -55.57                         & -89.74                         \\ 
-            \hline
+        \renewcommand{\arraystretch}{1.2}
+        \begin{tabular}{@{} lrr N N @{}}
+            \toprule
+            {}                  & {150 addizioni} & {750 addizioni} \\
+            \midrule
+            \textit{Speedup}    & \num{33.50}           & \num{7.73}            \\
+            $\Delta\%_{ideale}$ & \num{-55.57}          & \num{-89.74}          \\
+            \bottomrule
         \end{tabular}
-
         \caption{\textit{Speedup} e sua variazione percentuale nei casi proposti dall'esempio \ref{esempio:bilanciamentoCarico}.}
         \label{tab:RisultatiBilanciamentoCarico}
     \end{table}
-
     L'importanza di suddividere equamente il carico di lavoro tra i processori del sistema \'e evidente dalla variazione in diminuzione dello \textit{speedup} registrata in entrambi gli scenari di utilizzo. \newline
     Una distribuzione non corretta delle attivit\`a da eseguire porta a una minore efficienza del sistema con intervalli di tempo non trascurabili in cui la maggioranza delle unit\`a di elaborazione \`e a riposo, attendendo che i processori in sovraccarico terminino il loro lavoro.
 \end{esempio}

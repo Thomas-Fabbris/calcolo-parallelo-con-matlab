@@ -43,34 +43,34 @@ function [x,flag, relres, iter, resvec] = jacobi(A,b,tol,maxit,x0)
 %    Copyright 2025 Thomas Fabbris
 
 if (nargin < 2)
-    error('jacobi:NotEnoughInputs', 'Not enough input arguments.');
+    error("jacobi:NotEnoughInputs", "Not enough input arguments.");
 end
 
 support = matlab.internal.feature("SingleSparse");
 
 % A must be a floating point real matrix
 if (~isfloat(A) || ~isreal(A))
-   error('jacobi:InvalidInput', 'Argument must be a floating-point matrix of real elements.');
+    error("jacobi:InvalidInput", "Argument must be a floating-point matrix of real elements.");
 end
 
 [m, n] = size(A);
 
 if (m ~= n)
-    error('jacobi:NonSquareMatrix', 'Matrix must be square.');
+    error("jacobi:NonSquareMatrix", "Matrix must be square.");
 end
 if (~isequal(size(b),[m,1]))
-  error('jacobi:RHSsizeMatchCoeffMatrix', ['Right-hand side must be a column vector of length %u to' ...
-      ' match the coefficient matrix.'], m);
+    error("jacobi:RHSsizeMatchCoeffMatrix", ["Right-hand side must be a column vector of length %u to" ...
+        " match the coefficient matrix."], m);
 end
-useSingle = isUnderlyingType(A,'single');
+useSingle = isUnderlyingType(A,"single");
 
 % b must be a floating point real array
 if (~isfloat(b) || ~isreal(b))
-    error('jacobi:RHSInvalidClass', ['Right-hand side must be a floating-point vector with real ' ...
-        'entries.']);
+    error("jacobi:RHSInvalidClass", ["Right-hand side must be a floating-point vector with real " ...
+        "entries."]);
 end
 
-useSingle = useSingle || isUnderlyingType(b,'single');
+useSingle = useSingle || isUnderlyingType(b,"single");
 
 % Assign default values to optional parameters, if omitted
 if (nargin < 4) || isempty(maxit)
@@ -80,18 +80,18 @@ maxit = max(maxit, 0);
 
 if ((nargin == 5) && ~isempty(x0))
     if (~isequal(size(x0), [n,1]))
-       error('jacobi:WrongInitGuessSize', ['Initial guess must be a column vector of length %u to ' ...
-           'match the problem size.'], n) 
-    else 
+        error("jacobi:WrongInitGuessSize", ["Initial guess must be a column vector of length %u to " ...
+            "match the problem size."], n)
+    else
         x = x0;
-        useSingle = useSingle || isUnderlyingType(x,'single');
+        useSingle = useSingle || isUnderlyingType(x,"single");
     end
 else
     x = zeros(n,1);
 end
 
 if (nargin > 5)
-     error('jacobi:ToomanyInputs', 'Too many input arguments.');
+    error("jacobi:ToomanyInputs", "Too many input arguments.");
 end
 
 useSingle = support && useSingle;
@@ -114,12 +114,12 @@ if ((nargin < 3) ||isempty(tol))
 end
 epsT = eps("like", prototype);
 if (tol <= epsT)
-    warning('jacobi:tooSmallTolerance', ['Tolerance may not be achievable. ' ...
-        'Use a larger tolerance']);
+    warning("jacobi:tooSmallTolerance", ["Tolerance may not be achievable. " ...
+        "Use a larger tolerance"]);
     tol = epsT;
 elseif (tol>= 1)
-    warning('jacobi:tooBigTolerance', ['Tolerance is greater than 1. ' ...
-        'Use a smaller tolerance']);
+    warning("jacobi:tooBigTolerance", ["Tolerance is greater than 1. " ...
+        "Use a smaller tolerance"]);
     tol = 1 - epsT;
 end
 
@@ -133,8 +133,8 @@ if (norm2b == 0)                              % if b is null
     iter = 0;                                 % no iterations needed
     resvec = zeros(n,1,"like", prototype);    % resvec(1) = norm(b-A*x) = norm(0)
     if (nargout < 2)
-        fprintf(['The right-hand side vector is all zero so jacobi returned the initial solution ' ...
-            ' without iterating.']);
+        fprintf(["The right-hand side vector is all zero so jacobi returned the initial solution " ...
+            " without iterating.\n"]);
     end
     return
 end
@@ -152,8 +152,8 @@ if (normr <= tolb)
     iter = 0;
     resvec = normr;
     if (nargout < 2)
-        fprintf(['The initial guess has relative residual %0.2g which is within the desired ' ...
-            'tolerance %0.2g so jacobi returned it without iterating.'], gather(relres), tol);
+        fprintf(["The initial guess has relative residual %0.2g which is within the desired " ...
+            "tolerance %0.2g so jacobi returned it without iterating.\n"], gather(relres), tol);
     end
     return
 end
@@ -166,9 +166,9 @@ if (~any(d))
     iter = 0;
     resvec = normr;
     if (nargout < 2)
-        fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
-            "%0.2g a scalar quantity became too small or too large to continue computing.\n" + ...
-            "The iterate returned (number %u) has relative residual %0.2g.", iter,tol,gather(relres));
+        fprintf(["jacobi stopped at iteration %u without converging to the desired tolerance " ...
+            "%0.2g a scalar quantity became too small or too large to continue computing.\n" ...
+            "The iterate returned (number %u) has relative residual %0.2g.\n"], iter,tol,gather(relres));
     end
     return;
 end
@@ -200,7 +200,7 @@ for ii = 1 : maxit
     end
 end                                           % for ii = 1: maxit
 
-if (isempty(ii)) 
+if (isempty(ii))
     ii = 0;
 end
 
@@ -212,7 +212,7 @@ if (flag == 1)
 end
 
 % Truncate the zeros from resvec
-if ((flag <= 1) || (flag == 3))
+if (flag <= 1)
     resvec = resvec(1:ii+1,:);
 else
     resvec = resvec(1:ii,:);
@@ -222,16 +222,16 @@ end
 if (nargout < 2)
     switch flag
         case 0
-            fprintf("jacobi converged at iteration %u to a solution with relative residual %0.2g." ...
+            fprintf("jacobi converged at iteration %u to a solution with relative residual %0.2g.\n" ...
                 , iter,gather(relres));
         case 1
             fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
                 "%0.2g because the maximum number of iterations %u was reached.\nThe iterate " + ...
-                "returned has relative residual %0.2g.", iter,tol,maxit, gather(relres));
+                "returned has relative residual %0.2g.\n", iter,tol,maxit, gather(relres));
         case 2
             fprintf("jacobi stopped at iteration %u without converging to the desired tolerance " + ...
                 "%0.2g because a scalar quantity became too small or too large to continue computing.\n " + ...
-                "The iterate returned has relative residual %0.2g.", iter,tol,gather(relres));
+                "The iterate returned has relative residual %0.2g.\n", iter,tol,gather(relres));
     end
 end
 end
