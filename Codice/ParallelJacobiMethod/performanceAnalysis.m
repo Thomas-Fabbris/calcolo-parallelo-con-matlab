@@ -11,6 +11,7 @@ maxit = 100000;
 tempi_soluzione = zeros(num_sistemi, 1);
 stati_uscita = zeros(num_sistemi, 1);
 iterazioni_finali = zeros(num_sistemi, 1);
+residui_relativi = zeros(num_sistemi, 1);
 
 for i = 1:num_sistemi
     if mod(i, 10) == 0
@@ -26,14 +27,15 @@ for i = 1:num_sistemi
     x_vera = rand(n, 1);
     b = A * x_vera;
     tic;
-    [~, flag, ~, iter, ~] = jacobi(A, b, tol, maxit);
+    [~, flag, relres, iter, ~] = jacobi(A, b, tol, maxit);
     tempi_soluzione(i) = toc;
     
     stati_uscita(i) = flag;
     iterazioni_finali(i) = iter;
+    residui_relativi(i) = relres;
     
-    fprintf('Sistema %d/%d risolto in %.4f secondi. Stato: %d, Iterazioni: %d\n', ...
-            i, num_sistemi, tempi_soluzione(i), stati_uscita(i), iterazioni_finali(i));
+    fprintf('Sistema %d/%d risolto in %.4f secondi. Stato: %d, Iterazioni: %d, Residuo Relativo: %0.2g\n', ...
+            i, num_sistemi, tempi_soluzione(i), stati_uscita(i), iterazioni_finali(i), residui_relativi(i));
 end
 
 fprintf('\n...Risoluzione di tutti i sistemi completata.\n');

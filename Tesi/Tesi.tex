@@ -5,6 +5,8 @@
 ]{book}
 % Stile Tesi
 \usepackage{thesisstyle}
+% Stile Codice MATLAB
+\usepackage{matlabstyle}
 \begin{document}
 % Inizio Introduzione Tesi
 \frontmatter
@@ -42,7 +44,7 @@
 % Paragrafo 2.1: Gli ingredienti per un MATLAB parallelo
 \section{Gli ingredienti per un MATLAB parallelo}
 \label{par2.1}
-\input{Capitoli/Capitolo 2/IngredientiMatlabParallelo.tex}
+\input{Capitoli/Capitolo 2/IngredientiMATLABParallelo.tex}
 % Paragrafo 2.2: Parallel Computing Toolbox
 \section{Parallel Computing Toolbox}
 \label{par2.2}
@@ -60,20 +62,24 @@
 \input{Capitoli/Capitolo 3/MetodiIterativi.tex}
 % Paragrafo 3.3: Il metodo di Jacobi
 \section{Il metodo di Jacobi}
+\label{par:metodoJacobi}
 \input{Capitoli/Capitolo 3/MetodoJacobi.tex}
 % Paragrafo 3.4: Un algoritmo per il metodo di Jacobi
 \section{Un algoritmo per il metodo di Jacobi}
+\label{par:algoritmoJacobi}
 \input{Capitoli/Capitolo 3/AlgoritmoJacobi.tex}
+% Paragrafo 3.5: Applicazione a un problema di grandi dimensioni
+\section{Applicazione a un problema di grandi dimensioni}
+\input{Capitoli/Capitolo 3/ApplicazioneJacobi.tex}
 % Appendice
 \begin{appendix}
 % Appendice A (Codice sorgente della funzione jacobi)
 \chapter[Codice sorgente della funzione jacobi]{Codice sorgente della funzione \lstinline{jacobi}}
-\input{Capitoli/Appendice/CodiceJacobi.tex}
 \label{app:jacobi}
+\input{Capitoli/Appendice/CodiceJacobi.tex}
 \end{appendix}
 % Parte Finale della tesi
 \backmatter
 % Bibliografia
-\printbibliography
-\addcontentsline{toc}{chapter}{Bibliografia}
+\printbibliography[heading=bibintoc, title={Bibliografia}]
 \end{document}

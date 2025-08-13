@@ -4,18 +4,26 @@ calcolo parallelo presentate nel capitolo \ref{cap2}.
 
 \subsection{Prototipo e semantica dei parametri}
 L'interfaccia della funzione, cos\`i come il codice vero e proprio, sono ispirati dalla funzione MATLAB 
-\lstinline|pcg| per la risoluzione di sistemi di equazioni lineari mediante il metodo del gradiente coniugato precondizionato\,\cite{MathWorksPCG} 
+\lstinline|pcg| per la risoluzione di sistemi di equazioni lineari mediante il metodo del gradiente coniugato precondizionato\,\cite{MathWorksPCG}, 
 un metodo iterativo spesso considerato un'alternativa al metodo di Jacobi grazie alle sue propriet\`a di convergenza.
 
 Nello specifico, il prototipo della funzione MATLAB \`e
+\lstset{
+  style              = MATLAB-editor,
+  basicstyle         = \mlttfamily,
+  morestring=[d]",
+  mlshowsectionrules = true,
+  alsoletter={-},
+  breakatwhitespace=true
+}
 \begin{lstlisting}
 [x,flag,relres,iter,resvec]=jacobi(A,b,tol,maxit,x0)
 \end{lstlisting}
-La funzione \lstinline|jacobi| si aspetta di ricevere come parametri la matrice dei coefficienti $A$ del sistema \eqref{eq:formaMatricialeSistemiLineari} e il rispettivo vettore colonna dei termini noti $\mathbf{b}$.\newline
-In aggiunta, l'utente pu\o` specificare i seguenti parametri opzionali:
+La funzione \lstinline|jacobi| si aspetta di ricevere come parametri la matrice dei coefficienti $A$ del sistema \eqref{eq:formaMatricialeSistemiLineari} e il corrispondente vettore colonna dei termini noti $\mathbf{b}$.\newline
+In aggiunta, l'utente pu\`o specificare i seguenti parametri opzionali:
 \begin{itemize}
     \item \lstinline|tol|, la tolleranza $\varepsilon$ nell'approssimazione della soluzione del sistema;
-    \item \lstinline|maxit|, il massimo numero di iterazioni consentite;
+    \item \lstinline|maxit|, il numero massimo di iterazioni consentite;
     \item \lstinline|x0|, il vettore iniziale della successione $\mathbf{\{x^{(k)}\}}$ costruita dal metodo iterativo.
 \end{itemize}
 
@@ -23,9 +31,9 @@ Gli argomenti restituiti in output da \lstinline|jacobi| sono:
 \begin{itemize}
     \item \lstinline|x|, la soluzione $\mathbf{x}$ del sistema in questione;
     \item \lstinline|flag|, un valore numerico indicante lo stato di uscita dall'esecuzione dell'algoritmo. La tabella \ref{tab:flagJacobi} riassume i possibili valori assunti da \lstinline|flag| e il risultato di convergenza a essi associato;
-    \item \lstinline|iter|, il numero dell'iterazione a cui la soluzione \lstinline|x| del sistema \`e stata calcolata;
-    \item \lstinline|resvec|, un \textit{array} in cui ciascun elemento rappresenta il residuo del sistema a ogni passo della risoluzione;
-    \item \lstinline|relres|, il residuo normalizzato al termine dell'esecuzione del metodo.
+     \item \lstinline|relres|, il residuo normalizzato al termine dell'esecuzione del metodo;
+    \item \lstinline|iter|, l'iterazione in cui la soluzione \lstinline|x| del sistema \`e stata calcolata;
+    \item \lstinline|resvec|, un \textit{array} in cui ciascun elemento rappresenta il residuo del sistema a ogni passo della risoluzione.
 \end{itemize}
 \begin{table}[htbp]
     \renewcommand{\arraystretch}{1.2}
@@ -45,7 +53,7 @@ Gli argomenti restituiti in output da \lstinline|jacobi| sono:
     \label{tab:flagJacobi}
 \end{table}
 \subsection{Scelte progettuali}
-La funzione \lstinline{jacobi} realizza il metodo di Jacobi per la risoluzione di sistemi lineari presentato nel paragrafo \ref{par:metodoJacobi} con l'unica differenza che l'algoritmo non agisce sui 
+La funzione \lstinline{jacobi} realizza il metodo di Jacobi presentato nel paragrafo \ref{par:metodoJacobi} con la sola differenza che l'algoritmo non agisce sui 
 singoli elementi della matrice dei coefficienti, ma esegue le medesime operazioni su intere porzioni di dati.\newline
 Questo approccio ci consente di beneficiare dell'\textit{overloading} degli operatori e delle \textit{routine} del linguaggio MATLAB, il cui comportamento viene adattato
 alla classe di appartenenza degli operandi.\newline
@@ -53,12 +61,12 @@ A questo proposito, \lstinline{jacobi} pu\`o eseguire le operazioni aritmetiche 
 doppia, impostando di conseguenza la tolleranza predefinita.
 
 Il criterio di arresto adottato \`e basato sul controllo del residuo normalizzato con l'introduzione di un'ulteriore condizione sul massimo numero di 
-iterazioni che possono essere completate al fine di determinare una soluzione accettabile; mediamente, un valore di \lstinline{tol} minore richiede 
+iterazioni completabili al fine di determinare una soluzione accettabile; mediamente, un valore di \lstinline{tol} minore richiede 
 l'esecuzione di un maggior numero di passi prima di raggiungere una situazione di convergenza.
 
 Il comportamento globale della funzione \`e fondato sull'ipotesi che l'utente fornisca dei parametri in input adeguati, ovvero che specifichi una matrice dei 
-coefficienti non singolare e senza elementi diagonali nulli.\newline
-Abbiamo deciso di introdurre un massimo numero di iterazioni possibili proprio per fermare l'esecuzione dell'algoritmo nel caso in cui il metodo venga 
+coefficienti non singolare senza elementi diagonali nulli.\newline
+Abbiamo deciso di introdurre un massimo numero di iterazioni possibili proprio per terminare l'esecuzione dell'algoritmo nel caso in cui il metodo venga 
 applicato a sistemi con matrici malcondizionate o che non rispettino le ipotesi iniziali.
 
 In accordo con i principi di \textit{design} del processo di parallelizzazione di MATLAB, esposti nel paragrafo \ref{par2.2}, il programma \`e 
@@ -68,10 +76,11 @@ sistema monoprocessore che su un sistema multiprocessore senza notare differenze
 Inoltre, abbiamo sviluppato una versione specifica dello \textit{script} con supporto diretto agli \textit{array} distribuiti.\newline
 Tramite un \textit{wrapper} della versione seriale di \lstinline{jacobi}, lo stesso algoritmo viene eseguito da un insieme di \textit{worker} in parallelo 
 quando i parametri attuali sono di tipo distribuito.\newline
-La scelta del particolare file sorgente da eseguire \`e stata delegata al \textit{dispatcher} del linguaggio, 
+La scelta del particolare file di codice da cui iniziare l'esecuzione \`e delegata al \textit{dispatcher} del linguaggio, 
 mentre tutti gli aspetti relativi alla computazione parallela, a partire dalla suddivisione del \textit{job} tra le unit\`a di lavoro, sono 
 gestiti automaticamente dallo \textit{scheduler} integrato nell'infrastruttura del Parallel Computing Toolbox.
 
-In ogni caso, abbiamo ridotto al minimo il numero di operazioni che necessitano il trasferimento di dati tra diversi \textit{worker}; ad esempio, 
-il raccoglimento degli \textit{array} distribuiti viene forzato esclusivamente durante la fase finale di presentazione dei risultati.
+In ogni caso, abbiamo minimizzato il numero di operazioni che necessitano un trasferimento di dati tra pi\`u \textit{worker}; ad esempio, 
+il raccoglimento degli \textit{array} distribuiti viene forzato esclusivamente durante la fase finale di presentazione dei risultati mediante l'invocazione 
+della funzione \lstinline{gather}.
 

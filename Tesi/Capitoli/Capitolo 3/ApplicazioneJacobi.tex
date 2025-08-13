@@ -1,0 +1,49 @@
+%!TeX root = ../../Tesi.tex
+\nocite{MathWorksIterativeMethods}
+Ora presentiamo un esempio di risoluzione di un sistema di equazioni lineari del tipo $A\mathbf{x}=\mathbf{x}$ mediante la funzione 
+\lstinline{jacobi} discussa nel paragrafo \ref{par:algoritmoJacobi}.
+
+Consideriamo come matrice dei coefficienti $A$ la matrice derivante dalla discretizzazione dell'equazione di Poisson su un 
+dominio quadrato $\Omega=[0, 1]\times[0, 1]$ mediante il metodo alle differenze con 5 punti su una griglia bidimensionale $\mathcal{G}$ di dimensione $n\times n$\footnote{
+Nonostante l'equazione di Poisson sia un'equazione differenziale alle derivate parziali di fondamentale importanza in meccanica, 
+elettrostatica e fisica tecnica, non \`e nostra intenzione descrivere il problema dal punto di vista strettamente matematico.}.\newline
+Questa matrice viene generata attraverso i comandi MATLAB
+\begin{matlabcode}
+clc
+clear
+n = 10;
+N = n^2;
+A = gallery('poisson', n);
+fprintf(['\nDimensione matrice dei coefficienti A: '...
+       '%u x %u \n\n'],N,N);
+\end{matlabcode}
+\begin{matlaboutput}
+Dimensione matrice dei coefficienti A: 100 x 100 
+\end{matlaboutput}
+\begin{matlabcode}
+disp(full(A(1:5, 1:5)));
+\end{matlabcode}
+\begin{matlaboutput}
+     4    -1     0     0     0
+    -1     4    -1     0     0
+     0    -1     4    -1     0
+     0     0    -1     4    -1
+     0     0     0    -1     4
+\end{matlaboutput}
+Notiamo che $A\in\mathbb{R}^{n^{2} \times n^{2}}$ per cui il sistema lineare da risolvere si presenta indubbiamente 
+come un problema di grandi dimensioni.\newline
+Inoltre, $A$ \`e, per costruzione, una matrice quadrata a dominanza diagonale stretta per righe, il che la rende una candidata 
+ideale per l'applicazione del metodo di Jacobi alla risoluzione del sistema di equazioni da essa descritto.
+
+Scegliamo come vettore dei termini noti $\mathbf{b}\in\mathbb{R}^{{n}^{2}}$ 
+\begin{equation*}
+\mathbf{b} = \sum_ {A_{i} \in J} A_{i}
+\end{equation*}
+dove $J = \{A_{1}, A_{2}, ..., A_{N}\}$ denota l'insieme delle colonne della matrice $A$.
+\begin{matlabcode}
+b = sum(A,2);
+\end{matlabcode}
+Possiamo dimostrare che la soluzione $\mathbf{x}$ del sistema sia pari a 
+\begin{equation*}
+\mathbf{x} = [1, 1, ..., 1]^\top
+\end{equation*}

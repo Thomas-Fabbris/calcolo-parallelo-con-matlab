@@ -1,13 +1,16 @@
 %!TeX root = ../../Tesi.tex
-\let\ph\mlplaceholder 
-\lstMakeShortInline"
+\let\ph\mlplaceholder
 
 \lstset{
-  style              = Matlab-editor,
+  style              = MATLAB-editor,
   basicstyle         = \mlttfamily,
   morestring=[d]",
   mlshowsectionrules = true,
-  alsoletter={_},
+  alsoletter={-},
+  breakatwhitespace=true
 }
 
-\lstinputlisting{../Codice/ParallelJacobiMethod/jacobi.m}
+\lstinputlisting[title = {File jacobi.m}]{../Codice/ParallelJacobiMethod/jacobi.m}
+\clearpage
+\lstinputlisting[title = {File @distributed/jacobi.m (con supporto agli \textit{array} distribuiti)}]
+{../Codice/ParallelJacobiMethod/@distributed/jacobi.m}

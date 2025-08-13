@@ -11,6 +11,7 @@ tolleranza = 1e-6;
 tempi_esecuzione = zeros(num_sistemi, 1);
 conteggio_iterazioni = zeros(num_sistemi, 1);
 stato_convergenza = zeros(num_sistemi, 1);
+residui_relativi = zeros(num_sistemi, 1);
 
 if isempty(gcp('nocreate'))
     parpool;
@@ -41,14 +42,15 @@ for i = 1:num_sistemi
 
     tic;
     try
-        [~, flag, ~, iter, ~] = jacobi(A_dist, b_dist, tolleranza, max_iterazioni);
+        [~, flag, relres, iter, ~] = jacobi(A_dist, b_dist, tolleranza, max_iterazioni);
         tempi_esecuzione(i) = toc;
         conteggio_iterazioni(i) = iter;
         stato_convergenza(i) = flag;
+        residui_relativi(i) = relres;
         
         switch flag
             case 0
-                fprintf('CONVERGENTE in %d iterazioni. Tempo: %.4f s.\n', iter, tempi_esecuzione(i));
+                fprintf('CONVERGENTE in %d iterazioni. Tempo: %.4f s. Residuo relativo: %.2g\n', iter, tempi_esecuzione(i), residui_relativi(i));
             case {1, 2, 3}
                 fprintf('NON convergente (flag=%d). Tempo: %.4f s.\n', flag, tempi_esecuzione(i));
         end
