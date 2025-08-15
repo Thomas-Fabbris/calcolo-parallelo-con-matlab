@@ -6,7 +6,6 @@
 \RequirePackage{alltt}
 \RequirePackage{upquote}
 \RequirePackage[framemethod=tikz]{mdframed}
-\RequirePackage{hyperref}
 \RequirePackage{color}
 
 
@@ -15,30 +14,31 @@
 
 \definecolor{output}{gray}{0.4}
 
-% Unicode character conversions
+% Conversione caratteri UNICODE di utilità
 \DeclareUnicodeCharacter{B0}{\ensuremath{^\circ}}
 \DeclareUnicodeCharacter{21B5}{\ensuremath{\hookleftarrow}}
 
-% Paragraph indentation
+% Indentazione dei paragrafi
 \setlength{\parindent}{0pt}
 
-% Hyperlink style
-\hypersetup{
-colorlinks=true,
-linkcolor=blue,
-urlcolor=blue
-}
-
-
-% environment styles for MATLAB code and output
+% Stili per gli ambienti matlabcode e matlaboutput
 \mdfdefinestyle{matlabcode}{
   outerlinewidth=.5pt,
   linecolor=gray!20!white,
   roundcorner=2pt,
-  innertopmargin=.5\baselineskip,
-  innerbottommargin=.5\baselineskip,
   innerleftmargin=1em,
-  backgroundcolor=gray!10!white
+  backgroundcolor=gray!10!white,
+  skipabove=10pt,                 
+  skipbelow=0,                  
+}
+
+\mdfdefinestyle{matlaboutputstyle}{
+    hidealllines=true,          
+    backgroundcolor=white,      
+    innerleftmargin=1.25em,       
+    roundcorner=2pt,
+    skipabove=10pt,                 
+    skipbelow=0,                 
 }
 
 \newenvironment{matlabcode}{\Verbatim}{\endVerbatim}
@@ -57,6 +57,8 @@ urlcolor=blue
   \hspace*{1.25em}#1}
 }{}
 
+\renewenvironment{matlaboutput}{\Verbatim[formatcom=\color{output}]}{\endVerbatim}
+\surroundwithmdframed[style=matlaboutputstyle]{matlaboutput}
 
 % Table of Contents style
 \newcounter{multititle}

@@ -39,6 +39,7 @@ Iniziamo con l'introdurre la definizione di matrice a dominanza diagonale per ri
 
 Ora possiamo esporre i risultati di convergenza validi per il metodo di Jacobi.
 \begin{teorema}
+    \label{teo:convergenzaDominanzaDiagonaleStretta}
     Se $A$ \`e una matrice a dominanza diagonale stretta per righe, allora il metodo di Jacobi \`e convergente.
 \end{teorema}
 \begin{teorema}
@@ -56,5 +57,5 @@ pi\`u a $n^2$.
 Dobbiamo sottolineare come in \eqref{eq:metodoJacobi} le componenti $x_{i}^{(k+1)}$ del vettore soluzione possono essere calcolate indipendentemente le une dalle altre. \newline 
 In un sistema a elaborazione parallela, la disponibilit\`a di $n$ processori in grado di eseguire operazioni aritmetiche simultaneamente consente di determinare $\mathbf{x}^{(k+1)}$ nell'intervallo di tempo richiesto dal calcolo di una singola componente su un tradizionale sistema monoprocessore.
 
-D'altro canto, il metodo aggiorna le componenti della soluzione approssimata, agendo sulle quantit\`a calcolate all'iterazione precedente, caratteristica che non gli consente di raggiungere un'elevata velocit\`a di convergenza visto che il procedimento iterativo sfrutta delle informazioni non aggiornate durante la sua esecuzione.
+D'altro canto, il metodo aggiorna le componenti della soluzione approssimata agendo sulle quantit\`a calcolate all'iterazione precedente, caratteristica che non gli consente di raggiungere un'elevata velocit\`a di convergenza visto che il procedimento iterativo sfrutta delle informazioni non aggiornate durante la sua esecuzione.
 

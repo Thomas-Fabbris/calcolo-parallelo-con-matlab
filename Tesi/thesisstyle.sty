@@ -27,6 +27,7 @@
 \usepackage{parskip}
 \usepackage{placeins}
 \usepackage{pgfkeys}
+\usepackage{subcaption}
 \usepackage{tabularx}
 \usepackage{setspace}
 \usepackage{siunitx} 
@@ -116,18 +117,21 @@
   basicstyle=\ttfamily,
   tabsize=3,
   keepspaces=true,
-  belowskip = 0pt 
+  belowskip = 0pt, 
 }
 
-% Impostazione della virgola come separatore decimale
-\sisetup{output-decimal-marker = {,}, product-units = single, detect-weight}
+% Impostazione della virgola come separatore decimale e del punto come separatore delle migliaia
+\sisetup{output-decimal-marker = {,}, 
+  product-units = single, 
+  detect-weight,   
+  group-separator = {.},
+}
 % Definizione stile di colonna numerico tabelle
 \newcolumntype{N}{S[table-format=1.4, table-header-format = \bfseries\raggedright]}
 
 % Impostazione interlinea a 1.5pt
 \onehalfspacing
 % Spazio tra paragrafi
-\setlength{\parindent}{0pt}
 \setlength{\parskip}{1em}
 % Terminazione delle pagine
 \raggedbottom

@@ -3,10 +3,10 @@
 	twoside,
 	12pt
 ]{book}
+% Stile codice MATLAB
+\usepackage{matlabstyle}
 % Stile Tesi
 \usepackage{thesisstyle}
-% Stile Codice MATLAB
-\usepackage{matlabstyle}
 \begin{document}
 % Inizio Introduzione Tesi
 \frontmatter
@@ -70,11 +70,13 @@
 \input{Capitoli/Capitolo 3/AlgoritmoJacobi.tex}
 % Paragrafo 3.5: Applicazione a un problema di grandi dimensioni
 \section{Applicazione a un problema di grandi dimensioni}
+\label{par:applicazioneMetodoJacobi}
 \input{Capitoli/Capitolo 3/ApplicazioneJacobi.tex}
+\nocite{MathWorksIterativeMethods}
 % Appendice
 \begin{appendix}
 % Appendice A (Codice sorgente della funzione jacobi)
-\chapter[Codice sorgente della funzione jacobi]{Codice sorgente della funzione \lstinline{jacobi}}
+\chapter[Codice sorgente della funzione jacobi]{Codice sorgente della funzione \texttt{jacobi}}
 \label{app:jacobi}
 \input{Capitoli/Appendice/CodiceJacobi.tex}
 \end{appendix}

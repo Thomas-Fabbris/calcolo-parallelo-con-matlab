@@ -22,39 +22,38 @@
 
 \begin{document}
 
-\begin{matlabcode}
-% Generazione vettore colonna dei termini noti
-b = sum(A,2);
-% Soluzione esatta del sistema
-xExact = ones(N,1);
 
-% I tentativo - Metodo di jacobi con parametri di default
+\begin{matlabcode}
+b = sum(A,2);
+x = ones(N,1);
+
 [xJM1,flagJM1,relresJM1,iterJM1,resvecJM1] = jacobi(A,b);
 % Calcolo dell'errore assoluto
-errJM1 = abs(xExact - xJM1);
+
 % Rappresentazione grafica errore assoluto
 figure(1)
 semilogy(errJM1, 'o');
-ylabel('Errore $\mathbf{e}^{(k)}$', 'Interpreter','latex','FontSize',12);
+ylabel('Errore $\mathbf{e}_{abs}^{(k)}$', 'Interpreter','latex','FontSize',12);
 xlabel('Componente $x_{i}$', 'Interpreter','latex','FontSize',12);
 \end{matlabcode}
 \begin{center}
-\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_0.eps}
+\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_0.png}
 \end{center}
 \begin{matlabcode}
 if flagJM1 == 1
-fprintf("jacobi si è fermato all'iterazione %u senza " + ...
-        "raggiungere la tolleranza desiderata %0.2g " + ...
+fprintf("jacobi si è fermato all'iterazione numero %u senza " + ...
+        "raggiungere la tolleranza desiderata %0.2g\n" + ...
         "poiché il numero massimo di iterazioni %u " + ...
-        "è stato raggiunto. L'ultima iterazione ha residuo relativo pari a %0.2g.\n", ...
+        "è stato raggiunto.\nL'ultima iterazione presenta residuo relativo pari a %0.2g.\n", ...
         iterJM1, 1e-6, 100, relresJM1);
 end
 \end{matlabcode}
 \begin{matlaboutput}
-jacobi si è fermato all'iterazione 100 senza raggiungere la tolleranza desiderata 1e-06 poiché il numero massimo di iterazioni 100 è stato raggiunto. L'ultima iterazione ha residuo relativo pari a 0.0033.
+jacobi si è fermato all'iterazione numero 100 senza raggiungere la tolleranza desiderata 1e-06
+poiché il numero massimo di iterazioni 100 è stato raggiunto.
+L'ultima iterazione presenta residuo relativo pari a 0.028.
 \end{matlaboutput}
 \begin{matlabcode}
-% II tentativo - Metodo di jacobi con parametri personalizzati 
 maxit = 3e5;
 
 tJM2 = tic;
@@ -63,26 +62,42 @@ tJM2 = toc(tJM2);
 
 if flagJM2 == 0
      fprintf("jacobi ha raggiunto la convergenza all'iterazione %u, calcolando " + ...
-             "una soluzione approssimata con residuo relativo pari a %0.2g.\n",iterJM2,relresJM2);
+             "una soluzione approssimata avente residuo relativo\npari a %0.2g.\n",iterJM2,relresJM2);
+    xJM2par = xJM2(1:10)
+     fprintf("Tempo di esecuzione per il metodo di Jacobi: %f sec.", tJM2);
 end
 \end{matlabcode}
 \begin{matlaboutput}
-jacobi ha raggiunto la convergenza all'iterazione 296, calcolando una soluzione approssimata con residuo relativo pari a 9.9e-07.
+jacobi ha raggiunto la convergenza all'iterazione 210137, calcolando una soluzione approssimata avente residuo relativo
+pari a 1e-06.
+xJM2par = 10x1
+    1.0000
+    1.0000
+    1.0000
+    1.0000
+    1.0000
+    1.0000
+    1.0000
+    1.0000
+    1.0000
+    1.0000
+
+Tempo di esecuzione per il metodo di Jacobi: 437.693564 sec.
 \end{matlaboutput}
 \begin{matlabcode}
-errJM2 = abs(xExact - xJM2);
+errJM2 = abs(x - xJM2);
 
 figure(2)
 semilogy(errJM1,'o');
 hold on
 semilogy(errJM2,'diamond');
-ylabel('Errore assoluto');
+ylabel('Errore $\mathbf{e}_{abs}^{(k)}$', 'Interpreter','latex','FontSize',12);
 xlabel('Componente $x_{i}$', 'Interpreter','latex','FontSize',12);
-legend('Numero di iterazioni predefinito','Numero di iterazioni personalizzato');
+legend('$\texttt{maxit}=100$','$\texttt{maxit}=3\times10^{\text{3}}', 'Interpreter', 'latex');
 hold off
 \end{matlabcode}
 \begin{center}
-\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_1.eps}
+\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_1.png}
 \end{center}
 \begin{matlabcode}
 relresvecJM = resvecJM2./resvecJM2(1);
@@ -99,45 +114,14 @@ legend('Residuo relativo','Tolleranza','Numero di iterazioni predefinito')
 hold off
 \end{matlabcode}
 \begin{center}
-\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_2.eps}
+\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_2.png}
 \end{center}
 
 
 \begin{matlabcode}
-% Generazione array distribuiti
-n = 10;
-\end{matlabcode}
-\begin{matlaboutput}
-n = 10
-\end{matlaboutput}
-\begin{matlabcode}
 A = distributed((gallery('poisson', n)));
-\end{matlabcode}
-\begin{matlaboutput}
-Starting parallel pool (parpool) using the 'Processes' profile ...
-12-Aug-2025 22:56:53: Job Queued. Waiting for parallel pool job with ID 9 to start ...
-Connected to parallel pool with 2 workers.
-\end{matlaboutput}
-\begin{matlabcode}
 b = sum(A,2);
-
-% III tentativo - Metodo di jacobi con supporto agli array distribuiti
-tJM3 = tic;
 [xJM3,flagJM3,relresJM3,iterJM3,resvecJM3] = jacobi(A,b,[],maxit);
-tJM3 = toc(tJM3);
-if flagJM3 == 0
-     fprintf("jacobi ha raggiunto la convergenza all'iterazione %u, calcolando " + ...
-             "una soluzione approssimata con residuo relativo pari a %0.2g.\n",iterJM3,relresJM3);
-end
-\end{matlabcode}
-\begin{matlaboutput}
-jacobi ha raggiunto la convergenza all'iterazione 296, calcolando una soluzione approssimata con residuo relativo pari a 9.9e-07.
-\end{matlaboutput}
-\begin{matlabcode}
-% speedup = tJM2/tJM3
-% fprintf("Tempo di esecuzione per il metodo di jacobi classico: %f sec.", tJM2);
-% fprintf("Tempo di esecuzione per il metodo di jacobi con array distribuiti: %f sec.", tJM3);
-% fprintf("Speedup attribuibile alla parallelizzazione: %f", speedup);
 \end{matlabcode}
 
 \end{document}
