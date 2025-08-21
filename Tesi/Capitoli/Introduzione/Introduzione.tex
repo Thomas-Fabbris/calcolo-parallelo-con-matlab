@@ -1,21 +1,18 @@
 %!TeX root = ../../Tesi.tex
 I primi progettisti di calcolatori, negli anni Cinquanta del Novecento, ebbero l'intuizione di interconnettere
-una moltitudine di calcolatori tradizionali, al fine di ottenere un sistema di elaborazione sempre più potente.\newline
-Quel sogno primordiale port\`o alla nascita dei \textit{cluster} di elaboratori trent'anni dopo e allo sviluppo delle architetture di microprocessore
+una moltitudine di calcolatori tradizionali, al fine di ottenere un sistema di elaborazione sempre più potente.
+Quel sogno primordiale port\`o alla nascita dei \textit{cluster} di elaboratori trent'anni dopo e allo sviluppo delle architetture per microprocessori
 \textit{multicore} a partire dall'inizio del 2000.\newline
-Oggi la maggior parte delle applicazioni in ambito scientifico, tra cui quelle impiegate nella risoluzione di problemi di analisi numerica
-su larga scala, possono funzionare solo disponendo di sistemi di calcolo in grado di fornire una capacit\`a di elaborazione molto elevata.
+Oggi, la maggior parte delle applicazioni in ambito scientifico, tra cui quelle impiegate nella simulazione di processi fisici e chimici a livello molecolare, possono funzionare solo disponendo di sistemi di calcolo caratterizzati da una capacit\`a di elaborazione molto elevata.
 
-Nel capitolo \ref{cap1} ci concentreremo sul concetto di calcolo parallelo e sulle principali sfide da affrontare
+Nel capitolo \ref{cap:calcoloParalleloSfidaOpportunita} ci soffermeremo sul concetto di calcolo parallelo e sulle principali sfide da affrontare
 durante la scrittura di software eseguito su pi\`u processori simultaneamente, tra cui spicca una crescita delle prestazioni non proporzionale
-al miglioramento apportato al sistema di elaborazione, un risultato espresso quantitativamente dalla legge di Ahmdal.
+al miglioramento apportato al sistema di elaborazione.
 
-Nel corso del capitolo \ref{cap2}, analizzeremo i principali costrutti di programmazione parallela messi a disposizione dall’ambiente di calcolo numerico
-e programmazione MATLAB\textsuperscript{\textregistered} nonch\'e le scelte di progettazione fondamentali che hanno influenzato
+Nel corso del capitolo \ref{cap:unLinguaggioPerIlCalcoloParalleloMATLAB}, analizzeremo i principali costrutti di programmazione parallela messi a disposizione dall’ambiente di calcolo numerico
+e programmazione MATLAB\textsuperscript{\textregistered}\footnote{MATLAB \`e un marchio registrato da The MathWorks, Inc. Per un elenco di ulteriori marchi, visitare la pagina \url{https://www.mathworks.com/trademarks}.}nonch\'e le scelte di progettazione fondamentali che hanno influenzato
 le attuali caratteristiche del linguaggio dedicate alla scrittura di programmi a esecuzione parallela.
 
-Nel capitolo \ref{cap3} forniremo un'illustrazione formale del metodo di Jacobi, un metodo iterativo dell’analisi numerica per la risoluzione
-approssimata di sistemi di equazioni lineari.\newline
-Successivamente, proporremo un’implementazione parallela dell'algoritmo codificato dal metodo di Jacobi, sfruttando le potenzialità fornite
-dall'impiego dagli \textit{array} globali per aumentare il livello di astrazione del programma a elaborazione parallela.\newline
-Infine, ci occuperemo dell’analisi dei risultati ottenuti dall’esecuzione dell’algoritmo su problemi di grandi dimensioni.\blfootnote{MATLAB \`e un marchio registrato di The MathWorks, Inc. Per un elenco di ulteriori marchi, visitare la pagina \url{https://www.mathworks.com/trademarks}.}
+Nel capitolo \ref{cap:metodoJacobiParallelo} forniremo un'illustrazione formale del metodo di Jacobi, un metodo iterativo dell’analisi numerica per la risoluzione
+approssimata di sistemi di equazioni lineari. Successivamente, proporremo un’implementazione dell'algoritmo codificato dal metodo iterativo, sfruttando le potenzialità fornite
+dagli \textit{array} distribuiti. In ultima istanza, ci occuperemo dell’analisi prestazionale di un problema di esempio, fondamentale per supportare i concetti teorici spiegati nei capitoli precedenti.

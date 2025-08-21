@@ -1,0 +1,18 @@
+%!TeX root = ../../Tesi.tex
+Nel corso di questo lavoro di tesi, abbiamo fornito una panoramica sul mondo del calcolo parallelo, focalizzandoci sul significato di questo termine e sulle difficolt\`a portate dal paradigma di programmazione da esso incarnato nel capitolo \ref{cap:calcoloParalleloSfidaOpportunita}, sugli strumenti software che possono rendere meno oneroso il processo di sviluppo di programmi a esecuzione parallela
+nel capitolo \ref{cap:unLinguaggioPerIlCalcoloParalleloMATLAB} e sull'applicazione dei concetti teorici precedentemente affrontati alla risoluzione numerica di sistemi di equazioni lineari di grandi dimensioni nel capitolo \ref{cap:metodoJacobiParallelo}.
+
+In particolare, il processo di parallelizzazione del metodo di Jacobi, culminato con la stesura dell'omonima funzione 
+MATLAB riportata nell'appendice \ref{app:codiceSorgenteJacobi}, ha richiesto uno sforzo per l'applicazione dei principi di progettazione del software parallelo elencati nel paragrafo \ref{par:ingredientiMATLABParallelo}, abbattendo il labile confine tra teoria e pratica.
+
+Pur con alcune limitazioni relative alla capacit\`a computazionale dei sistemi di elaborazione a disposizione che non hanno 
+permesso di avvicinarci alle prestazioni per il metodo di Jacobi ipotizzate nel paragrafo \ref{par:metodoJacobi}, 
+abbiamo potuto apprezzare la necessit\`a di minimizzare il costo di comunicazione e di sincronizzazione tra le unit\`a di lavoro 
+al fine di ottenere prestazioni soddisfacenti.\newline
+A questo proposito, vorremmo ringraziare il \textit{Control Systems and Automation Laboratory} (CAL) dell'Universit\`a degli Studi 
+di Bergamo per aver messo a disposizione delle \textit{workstation} su cui effettuare alcune simulazioni, i cui risultati sono stati esposti nel paragrafo \ref{par:applicazioneMetodoJacobi}.
+
+Un altro aspetto onnipresente durante lo svolgimento dell'elaborato \`e stato la multidisciplinarit\'a richiesta per la scrittura 
+di software parallelo di qualit\'a: alla padronanza dei metodi e delle tecniche propri del calcolo parallelo, devono essere 
+abbinate una conoscenza approfondita del dominio applicativo in questione e una solida preparazione nell'ambito dei metodi numerici.
+

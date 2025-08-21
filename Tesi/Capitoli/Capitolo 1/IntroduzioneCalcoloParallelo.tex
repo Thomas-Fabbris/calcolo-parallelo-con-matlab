@@ -1,34 +1,32 @@
 %!TeX root = ../../Tesi.tex
-\nocite{Patterson2022}
-\nocite{Silberschatz2014}
 L'idea alla base del calcolo parallelo \`e che gli utenti di un qualsiasi sistema di elaborazione possono avere a disposizione tanti processori
 quanti ne desiderano, per poi interconnetterli a formare un sistema
 multiprocessore, le cui prestazioni sono, con buona approssimazione,
 proporzionali al numero di processori impiegati.
 
 La sostituzione di un singolo processore caratterizzato da un'elevata
-capacit\`a di calcolo, tipicamente presente nelle architetture dei sistemi di calcolo
+capacit\`a di calcolo, tipicamente presente nelle architetture dei sistemi
 \textit{mainframe}, con un insieme di processori pi\`u efficienti
 dal punto di vista energetico permette di raggiungere migliori prestazioni
 per unit\`a di energia, a condizione che i programmi eseguiti siano stati
-appositamente progettati per lavorare su hardware parallelo; approfondiremo questi aspetti nel paragrafo \ref{par1.2}.
+appositamente progettati per lavorare su hardware parallelo; approfondiremo questi aspetti nel paragrafo \ref{par:causeParallelismo}.
 
 Una tendenza introdotta da IBM nel 2001 nell'ambito della progettazione di sistemi paralleli \`e il raggruppamento
 di diverse unit\`a di calcolo all'interno di una singola CPU (\textit{Central Processing Unit}); per evitare ambiguit\`a nei termini usati, i processori montati su un singolo \textit{chip} di silicio vengono chiamati \textit{core}.\newline
 Il microprocessore \textit{multicore} risultante appare al sistema operativo in esecuzione sull'elaboratore come l'insieme di $P$ processori, ciascuno dotato di un set di registri e di una memoria \textit{cache} dedicati; solitamente i microprocessori \textit{multicore} sono impiegati in sistemi a memoria condivisa, in cui i \textit{core} condividono lo stesso spazio di indirizzamento fisico.\newline
 Il funzionamento di questa categoria di sistemi multiprocessore si basa sul parallelismo a livello di attivit\`a (o a livello di processo): pi\`u
 processori sono impiegati per svolgere diverse attivit\`a simultaneamente e ciascuna attivit\'a corrisponde a un'applicazione a singolo
-\textit{thread}.\newline
-In generale, ogni \textit{thread} esegue un'operazione ben definita e \textit{thread} differenti possono agire sugli stessi
+\textit{thread}. In generale, ogni \textit{thread} esegue un'operazione ben definita e \textit{thread} differenti possono agire sugli stessi
 dati o su insiemi di dati diversi, garantendo un elevato \textit{throughput} per attivit\`a tra loro indipendenti.
 
 D'altro canto, tutte le applicazioni che richiedono un utilizzo intensivo di risorse di calcolo, diffuse non solamente in ambito
-scientifico, hanno bisogno di essere eseguite su \textit{cluster} di elaboratori, una tipologia di sistemi multiprocessore che si differenzia dai microprocessori \textit{multicore} per il fatto di essere costituita da un insieme di calcolatori completi, chiamati nodi, collegati tra loro per mezzo di una rete di telecomunicazione.\newline
+scientifico, necessitano di essere eseguite su \textit{cluster} di elaboratori, una tipologia di sistemi multiprocessore che si differenzia dai microprocessori \textit{multicore} per il fatto di essere costituita da un insieme di calcolatori completi, chiamati nodi, collegati tra loro per mezzo di una rete di telecomunicazione.
+
 In ogni caso, il funzionamento di un sistema di elaborazione parallela si basa sull'uso congiunto di processori distinti.
 
-Per sfruttare al meglio le potenzialit\'a offerte dai \textit{cluster} di elaboratori, i programmatori di applicazioni devono sviluppare programmi a esecuzione 
+Per sfruttare al meglio le potenzialit\'a offerte dai microprocessori \textit{multicore} e dai \textit{cluster} di elaboratori, i programmatori di applicazioni devono sviluppare programmi a esecuzione 
 parallela efficienti e scalabili a seconda del numero di processori disponibili durante l'esecuzione; risulta necessario applicare un parallelismo a livello di 
-dati, che prevede la distribuzione dell'insieme di dati da processare tra le unit\`a di lavoro del \textit{cluster}, per poi lanciare in esecuzione la 
+dati, che prevede la distribuzione dell'insieme di dati da processare tra le unit\`a di lavoro del sistema, per poi lanciare in esecuzione la 
 medesima operazione, con sottoinsiemi distinti di dati in ingresso, su ogni processore.
 
 Una tipica operazione parallelizzabile a livello di dati \`e la somma vettoriale perch\'e le componenti del vettore risultante sono ottenute
@@ -36,12 +34,12 @@ semplicemente sommando le componenti omologhe dei vettori di partenza. \newline
 Possiamo intuire fin da subito che una condizione necessaria per la parallelizzazione di un qualsiasi algoritmo \`e l'indipendenza tra le operazioni eseguite ad un certo passo dell'esecuzione.\newline
 Per esempio, supponiamo di dover sommare due vettori di numeri reali di dimensione $N$ avvalendoci di un sistema \textit{dual-core}, ossia di un sistema di elaborazione dotato di un microprocessore che contiene al suo interno
 due \textit{core}.\newline
-Un approccio di risoluzione prevede l'avvio di un thread separato su ogni \textit{core}, specializzato nella somma di due componenti corrispondenti dei vettori operandi; attraverso un'attenta distribuzione dei dati in input, il \textit{thread} in esecuzione sul primo \textit{core} sommerebbe le componenti da $1$ a $\left\lceil\frac{N}{2}\right\rceil$ dei vettori di partenza
+Un approccio di risoluzione prevede l'avvio di un \textit{thread} separato su ogni \textit{core}, specializzato nella somma di una coppia di numeri reali; attraverso un'efficiente distribuzione dei dati in input, il \textit{thread} in esecuzione sul primo \textit{core} sommerebbe le componenti da $1$ a $\left\lceil\frac{N}{2}\right\rceil$ dei vettori di partenza
 e, contemporaneamente, il secondo \textit{core} si occuperebbe della somma delle componenti da $\left\lceil\frac{N}{2}\right\rceil + 1$ a $N$.
 
-A dire il vero, la rigida distinzione proposta tra parallelismo a livello di attivit\`a e parallelismo a livello di dati non trova un diretto
-riscontro nella realt\`a, in quanto sono comuni programmi applicativi che sfruttano entrambi gli approcci al fine di massimizzare le prestazioni.
+A dire il vero, la rigida distinzione proposta tra parallelismo a livello di attivit\`a e parallelismo a livello di dati non trova un
+riscontro diretto nella realt\`a, in quanto sono comuni programmi applicativi che sfruttano entrambi gli approcci al fine di massimizzare le prestazioni.
 
-Cogliamo l'occasione per precisare la terminologia, in parte gi\`a impiegata, per descrivere la componente hardware e la componente software di un calcolatore: l'hardware, riferendoci con questo termine esclusivamente al processore, pu\`o essere seriale, come nel caso di un processore \textit{single core}, o parallelo, come nel caso di un processore \textit{multicore}, mentre il software viene detto sequenziale o concorrente, a seconda della presenza di processi la cui esecuzione viene influenzata dagli altri processi presenti nel sistema.\newline
+Cogliamo l'occasione per precisare la terminologia, in parte gi\`a impiegata, per descrivere la componente hardware e la componente software di un calcolatore: l'hardware, riferendoci con questo termine esclusivamente al processore, pu\`o essere seriale, come nel caso di un processore \textit{single-core}, o parallelo, come nel caso di un processore \textit{multicore}, mentre il software viene detto concorrente o sequenziale, a seconda della dipendenza dell'esecuzione dagli altri processi presenti nel sistema.\newline
 Naturalmente, un programma concorrente pu\`o essere eseguito sia su hardware seriale che su hardware parallelo, con ovvie differenze in termini di prestazioni.\newline
-Infine, con il termine programma a esecuzione parallela, o semplicemente software parallelo, indichiamo un programma, sequenziale o concorrente, eseguito su hardware parallelo.
+Infine, con il termine programma a esecuzione parallela, o semplicemente software parallelo, indichiamo un programma sequenziale o concorrente eseguito su hardware parallelo.

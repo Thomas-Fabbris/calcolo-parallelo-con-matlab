@@ -3,7 +3,7 @@
 	twoside,
 	12pt
 ]{book}
-% Stile codice MATLAB
+% Stile Codice MATLAB
 \usepackage{matlabstyle}
 % Stile Tesi
 \usepackage{thesisstyle}
@@ -17,20 +17,24 @@
 \mainmatter
 % Introduzione della tesi
 \chapter*{Introduzione}
+\label{cap:introduzione}
 \addcontentsline{toc}{chapter}{Introduzione}
 \input{Capitoli/Introduzione/Introduzione.tex}
 % Capitolo 1 (Calcolo parallelo: sfida o opportunità?)
-\chapter{Calcolo parallelo: sfida o opportunit\'a?}
-\label{cap1}
+\chapter{Calcolo parallelo: sfida o opportunit\`a?}
+\label{cap:calcoloParalleloSfidaOpportunita}
 % Introduzione Capitolo 1
 \input{Capitoli/Capitolo 1/Introduzione.tex}
 % Paragrafo 1.1: Introduzione al calcolo parallelo
 \section{Introduzione al calcolo parallelo}
-\label{par1.1}
+\label{par:introduzioneCalcoloParallelo}
+\nocite{Patterson2022}
+\nocite{Silberschatz2014}
 \input{Capitoli/Capitolo 1/IntroduzioneCalcoloParallelo.tex}
-% Paragrafo 1.2: Le cause a supporto del parallelismo
-\section{Le cause a supporto del parallelismo}
-\label{par1.2}
+% Paragrafo 1.2: Origini e applicazioni del parallelismo
+\section{Origini e applicazioni del parallelismo}
+\label{par:causeParallelismo}
+\nocite{Hennessy2019}
 \input{Capitoli/Capitolo 1/CauseParallelismo.tex}
 % Paragrafo 1.3: Le sfide nella progettazione di software parallelo
 \section{Le sfide nella progettazione di software parallelo}
@@ -38,12 +42,13 @@
 \input{Capitoli/Capitolo 1/SfideSoftwareParallelo.tex}
 % Capitolo 2 (Un linguaggio per il calcolo parallelo: MATLAB)
 \chapter{Un linguaggio per il calcolo parallelo: MATLAB}
-\label{cap2}
+\label{cap:unLinguaggioPerIlCalcoloParalleloMATLAB}
 % Introduzione Capitolo 2
 \input{Capitoli/Capitolo 2/Introduzione.tex}
 % Paragrafo 2.1: Gli ingredienti per un MATLAB parallelo
 \section{Gli ingredienti per un MATLAB parallelo}
-\label{par2.1}
+\nocite{Sharma2009}
+\label{par:ingredientiMATLABParallelo}
 \input{Capitoli/Capitolo 2/IngredientiMATLABParallelo.tex}
 % Paragrafo 2.2: Parallel Computing Toolbox
 \section{Parallel Computing Toolbox}
@@ -51,11 +56,12 @@
 \input{Capitoli/Capitolo 2/ParallelComputingToolbox.tex}
 % Capitolo 3 (Il metodo di Jacobi parallelo)
 \chapter{Il metodo di Jacobi parallelo}
-\label{cap3}
+\label{cap:metodoJacobiParallelo}
 % Introduzione Capitolo 3
 \input{Capitoli/Capitolo 3/Introduzione.tex}
 % Paragrafo 3.1: Il contesto
 \section{Il contesto}
+\label{par:contestoMetodoJacobi}
 \input{Capitoli/Capitolo 3/Contesto.tex}
 % Paragrafo 3.2: Risoluzione di sistemi lineari con metodi iterativi
 \section{Risoluzione di un sistema lineare con metodi iterativi}
@@ -68,16 +74,21 @@
 \section{Un algoritmo per il metodo di Jacobi}
 \label{par:algoritmoJacobi}
 \input{Capitoli/Capitolo 3/AlgoritmoJacobi.tex}
-% Paragrafo 3.5: Applicazione a un problema di grandi dimensioni
-\section{Applicazione a un problema di grandi dimensioni}
+% Paragrafo 3.5: Un esempio significativo: il metodo di Jacobi "parallelo"
+\section{Un esempio significativo: il metodo di Jacobi \enquote{parallelo}}
 \label{par:applicazioneMetodoJacobi}
 \input{Capitoli/Capitolo 3/ApplicazioneJacobi.tex}
 \nocite{MathWorksIterativeMethods}
+% Conclusione della tesi
+\chapter*{Conclusione}
+\label{cap:conclusione}
+\addcontentsline{toc}{chapter}{Conclusione}
+\input{Capitoli/Conclusione/Conclusione.tex}
 % Appendice
 \begin{appendix}
 % Appendice A (Codice sorgente della funzione jacobi)
 \chapter[Codice sorgente della funzione jacobi]{Codice sorgente della funzione \texttt{jacobi}}
-\label{app:jacobi}
+\label{app:codiceSorgenteJacobi}
 \input{Capitoli/Appendice/CodiceJacobi.tex}
 \end{appendix}
 % Parte Finale della tesi
