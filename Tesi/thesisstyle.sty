@@ -1,4 +1,5 @@
 \ProvidesPackage{thesisstyle}
+
 % Importazione package
 \usepackage{adjustbox}
 \usepackage{amsmath}
@@ -9,14 +10,14 @@
 \usepackage[italian]{babel}
 \usepackage[backend=biber, style=ieee, dashed=false]{biblatex}
 \usepackage{booktabs}
-\usepackage{bm} 
+\usepackage{bm}
 \usepackage{caption}
 \usepackage[style=italian]{csquotes}
 \usepackage{diagbox}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage{fancyvrb}
-\usepackage{emptypage} 
+\usepackage{emptypage}
 \usepackage[T1]{fontenc}
 \usepackage{frontespizio}
 \usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
@@ -27,55 +28,60 @@
 \usepackage{parskip}
 \usepackage{placeins}
 \usepackage{pgfkeys}
+\usepackage{scrextend}
 \usepackage{subcaption}
 \usepackage{tabularx}
 \usepackage{setspace}
-\usepackage{siunitx} 
+\usepackage{siunitx}
 \usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{tocloft}
 \usepackage{todonotes}
 \usepackage{xcolor}
 \usepackage{xurl}
 \usepackage[breaklinks=true,colorlinks=false,linkbordercolor=blue,urlbordercolor=blue,citebordercolor=blue]{hyperref}
 \usepackage{listings}
 \usepackage[numbered,framed]{matlab-prettifier}
+
 % Bibliografia con Biblatex
 \addbibresource{./Bibliografia/Bibliografia.bib}
+
 % Dichiarazione simbolo per la caratteristica di una matrice
 \DeclareMathOperator{\car}{car}
 % Dichiarazione simbolo C++
 \newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +} }
 % Dichiarazione unità di misura flops
 \DeclareSIUnit{\flops}{flops}
-% Formattazione norma 
+% Dichiarazione simbolo per la norma di un vettore
 \DeclarePairedDelimiter{\norm}{\|}{\|}
-% Formattazione valore assoluto numero reale
+% Dichiarazione simbolo per il valore assoluto di un numero reale
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
 % Formattazione Teoremi
 \newtheoremstyle{stileTeorema}
-  {\topsep}   % Spazio sopra
-  {\topsep}   % Spazio sotto
-  {}  % Font del corpo del testo
-  {}          % Indentazione
-  {\bfseries} % Stile dell'intestazione
-  {}          % Indentazione
-  {.5em}      % Spazio dopo l'intestazione
-  {}          % Specifica dell'intestazione
-
+{\topsep}   % Spazio sopra
+{\topsep}   % Spazio sotto
+{}          % Font del corpo del testo
+{}          % Indentazione
+{\bfseries} % Stile dell'intestazione
+{}          % Indentazione
+{.5em}      % Spazio dopo l'intestazione
+{}          % Specifica dell'intestazione
 \theoremstyle{stileTeorema}
 \newtheorem{teorema}{Teorema}[chapter]
 \newtheorem{corollario}{Corollario}[chapter]
 \newtheorem{definizione}{Definizione}[chapter]
-% Formattazione Esempi
+
+% Formattazione esempi
 \newtheoremstyle{stileEsempio}
-  {\topsep}     % Spazio sopra
-  {\topsep}     % Spazio sotto
-  {\normalfont} % Font del corpo del testo
-  {}            % Indentazione
-  {\bfseries}   % Stile dell'intestazione
-  {}            % Indentazione
-  {\newline}    % A capo dopo il titolo
-  {}            % Specifica dell'intestazione
+{\topsep}                                    % Spazio sopra
+{\topsep}                                    % Spazio sotto
+{\normalfont}                                % Font del corpo del testo
+{}                                           % Indentazione
+{\bfseries}                                  % Stile dell'intestazione
+{}                                           % Indentazione
+{\newline}                                   % A capo dopo il titolo
+{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Specifica dell'intestazione
 \theoremstyle{stileEsempio}
 \newtheorem{esempio}{Esempio}[chapter]
 
@@ -101,34 +107,58 @@
 \fancypagestyle{empty}{\fancyhf{}}
 \interfootnotelinepenalty=10000
 
-% Definizione delle parole da non sillabare
-\hyphenation{MATLAB}
-\hyphenation{MathWorks}
+% Definizione acronimi da non sillabare
+\hyphenation{AFIPS}
+\hyphenation{AI}
+\hyphenation{AMD}
+\hyphenation{CMOS}
+\hyphenation{CPU}
+\hyphenation{DSA}
+\hyphenation{HPC}
 \hyphenation{LAN}
+\hyphenation{IBM}
+\hyphenation{MATLAB}
 \hyphenation{WSC}
 
-% Definizione dello stile per il codice in-line
+% Definizione stile per il codice MATLAB in-line
 \lstset{
   basicstyle=\ttfamily,
   tabsize=3,
   keepspaces=true,
-  belowskip = 0pt, 
+  belowskip = 0pt,
 }
 
-% Impostazione della virgola come separatore decimale e del punto come separatore delle migliaia
-\sisetup{output-decimal-marker = {,}, 
-  product-units = single, 
-  detect-weight,   
+% Impostazione separatore decimale e separatore delle migliaia
+\sisetup{output-decimal-marker = {,},
+  product-units = single,
+  detect-weight,
   group-separator = {.},
 }
+
 % Definizione stile di colonna numerico tabelle
 \newcolumntype{N}{S[table-format=1.4, table-header-format = \bfseries\raggedright]}
 
-% Impostazione interlinea a 1.5pt
+% Definizione stile didascalie di tabelle e figure
+\captionsetup{labelfont=bf, labelsep=period}
+
+% Definizione stile intestazione capitoli
+\titleformat{\chapter}[hang]
+{\normalfont\huge\bfseries}
+{\thechapter.}
+{1em}
+{}
+
+% Definizione stile intestazione capitoli in indice
+\renewcommand{\cftchapaftersnum}{.}
+
+% Impostazione interlinea
 \onehalfspacing
 % Spazio tra paragrafi
 \setlength{\parskip}{1em}
-% Terminazione delle pagine
-\raggedbottom
 
+% Spazio tra tabelle e figure
+\setlength{\intextsep}{1.5\baselineskip}
+
+% Stile per terminazione delle pagine
+\raggedbottom
 \endinput
