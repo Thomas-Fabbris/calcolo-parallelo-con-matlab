@@ -126,7 +126,7 @@ di un insieme di \textit{worker} su un \textit{cluster} di elaboratori.
 Questo approccio alternativo risulta vantaggioso non esclusivamente a causa dello \textit{speedup} portato dalla parallelizzazione, ma anche perch\`e 
 la memorizzazione distribuita degli \textit{array} rende possibile la risoluzione di problemi in cui la matrice dei coefficienti ha dimensioni 
 tali da non poter essere interamente contenuta nella memoria centrale di un singolo calcolatore.\newline
-In realt\`a, l'incremento di velocit\`a viene limitato dagli \textit{overhead} di comunicazione e di sincronizzazione tra le unit\`a di lavoro, che diventano un collo di bottiglia per le \textit{performance} ogniqualvolta la dimensione del \textit{parpool} sia inadeguata rispetto all'ordine di grandezza del problema.
+In realt\`a, l'incremento di velocit\`a viene limitato dagli \textit{overhead} di comunicazione e di sincronizzazione tra le unit\`a di lavoro, che diventano un collo di bottiglia per le \textit{performance} ogniqualvolta la dimensione del parpool sia inadeguata rispetto all'ordine di grandezza del problema.
 
 La generazione dei dati e la risoluzione del sistema lineare risultante sono analoghi al caso seriale, eccetto per la creazione esplicita di array 
 distribuiti mediante la funzione \lstinline{distributed}.\newline

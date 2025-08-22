@@ -1,38 +1,37 @@
 %!TeX root = ../../Tesi.tex
-\subsection{Una breve prospettiva storica}
 L'approccio seguito dai progettisti di MathWorks\textsuperscript{\textregistered}\footnote{La \textit{software house} statunitense, con sede in Massachusetts (Stati Uniti), che si occupa dello sviluppo di MATLAB e di altri prodotti per il calcolo scientifico.}
-per estendere MATLAB al mondo del calcolo parallelo \`e stato modificare le caratteristiche del linguaggio 
-stesso, cominciando dall'aggiunta di \textit{routine} comunemente impiegate nella risoluzione di problemi \textit{embarrassingly parallel}. 
+per estendere MATLAB al mondo del calcolo parallelo \`e stato modificare le caratteristiche del linguaggio
+stesso, cominciando dall'aggiunta di \textit{routine} comunemente impiegate nella risoluzione di problemi \textit{embarrassingly parallel}.
 
 A partire dai primi passi compiuti in questa direzione negli anni Ottanta del secolo scorso da Cleve Moler, l'autore del linguaggio, ci si imbatt\'e
-nel fatto che il modello di memoria globale di MATLAB, secondo il quale le variabili definite dall'utente e importate dall'esterno vengono conservate 
-in un'area di memoria allocata dalla sessione attiva di MATLAB, era in contrasto con il modello di memoria condivisa impiegato dalla maggioranza dei sistemi 
-multiprocessore.
+nel fatto che il modello di memoria globale di MATLAB, secondo il quale le variabili definite dall'utente e importate dall'esterno vengono conservate
+in un'area di memoria allocata dalla sessione attiva di MATLAB, era in contrasto con il modello di memoria condivisa impiegato dalla maggioranza dei sistemi
+multiprocessore presenti sul mercato.
 
 Questa incompatibilit\`a causò dei rallentamenti al progetto di parallelizzazione di MATLAB, ma le pressioni esterne di coloro che auspicavano a un suo completamento erano troppo insistenti per essere ignorate.\newline
-La crescente disponibilit\`a di sistemi multiprocessore aveva reso il calcolo parallelo un argomento presente sulla bocca di tutti gli specialisti del 
-settore; la comparsa delle prime architetture \textit{multicore} e l'ascesa dei \textit{cluster} Beowulf\footnote{I \textit{cluster} Beowulf sono \textit{cluster} costituiti dall'interconessione di componenti hardware commerciali, ad esempio PC al termine della loro vita utile, mediante una tradizionale rete LAN. } permisero una diffusione massiccia dei sistemi di calcolo ad alte prestazioni, che precedette la \enquote{democratizzazione} dei WSC portata dal \textit{cloud computing}.\newline   
-Inoltre, MATLAB era gi\`a allora un ambiente di programmazione affermato all'interno della comunit\`a scientifica e quindi doveva fornire ai propri utenti un prodotto completo e funzionale 
+La crescente disponibilit\`a di sistemi multiprocessore aveva reso il calcolo parallelo un argomento presente sulla bocca di tutti gli specialisti del
+settore: la comparsa delle prime architetture \textit{multicore} e l'ascesa dei \textit{cluster} Beowulf\footnote{I \textit{cluster} Beowulf sono \textit{cluster} costituiti dall'interconessione di componenti hardware commerciali, ad esempio PC al termine della loro vita utile, mediante una tradizionale rete LAN. } permisero una diffusione massiccia dei sistemi di calcolo ad alte prestazioni, che precedette la \enquote{democratizzazione} delle risorse di calcolo portata dal \textit{cloud computing}.\newline
+Inoltre, MATLAB era gi\`a allora un ambiente di programmazione affermato all'interno della comunit\`a scientifica e quindi doveva fornire ai propri utenti un prodotto completo e funzionale
 in tutti gli scenari applicativi, inclusi i progetti a elevata intensit\`a computazionale.
 
-Ecco che nel novembre del 2004 vennero rilasciati al pubblico i primi risultati di questo progetto, sotto le vesti di due pacchetti software addizionali (chiamati \textit{toolbox} nel vocabolario tecnico del linguaggio): il Distributed Computing 
-Toolbox\textsuperscript{\texttrademark} e il MATLAB Distributed Computing Engine\textsuperscript{\texttrademark}\footnote{I due nomi commerciali sono i corrispettivi degli odierni Parallel 
-Computing Toolbox\textsuperscript{\texttrademark} e MATLAB Parallel Server\textsuperscript{\texttrademark}.}.
+Ecco che nel novembre del 2004 vennero rilasciati al pubblico i primi risultati di questo progetto, sotto le vesti di due pacchetti software addizionali (chiamati \textit{toolbox} nel vocabolario tecnico del linguaggio): il Distributed Computing
+Toolbox\textsuperscript{\texttrademark} e il MATLAB Distributed Computing Engine\textsuperscript{\texttrademark}\footnote{I due nomi commerciali sono i corrispettivi degli odierni Parallel
+    Computing Toolbox\textsuperscript{\texttrademark} e MATLAB Parallel Server\textsuperscript{\texttrademark}.}.
 
 \subsection{Gli aspetti imprescindibili dell'implementazione}
 \label{sec2.1.2}
 L'adattamento di MATLAB al calcolo parallelo non fu condotto in modo casuale, bens\'i le aggiunte al linguaggio furono ponderate attentamente a partire dalle informazioni ricavate dai sondaggi condotti nelle fasi preliminari del progetto.\newline
 Per questo motivo, il modello di programmazione proposto da MATLAB \`e adatto all'esecuzione di programmi paralleli su sistemi \textit{multicore} e su \textit{cluster} di elaboratori, trattandosi delle architetture di calcolo parallelo pi\`u comuni in ambito industriale.
 
-Di seguito elenchiamo, in ordine decrescente di importanza, gli obiettivi di progettazione che ispirarono e continuano a ispirare il processo di parallelizzazione di MATLAB;
+Di seguito elenchiamo, in ordine decrescente di importanza, gli obiettivi di progettazione che ispirarono e continuano a ispirare il processo di parallelizzazione di MATLAB
 \begin{itemize}
     \item la programmabilit\`a, cio\'e la capacit\`a di creare programmi che soddisfino i requisiti degli utenti e che siano facili da mantenere per gli sviluppatori;
     \item l'esecuzione di codice arbitrario sui sistemi multiprocessore supportati;
-    \item l'astrazione da dettagli irrilevanti durante l'implementazione; di conseguenza, lo sviluppatore medio non deve pi\`u preoccuparsi di aspetti quali lo \textit{scheduling} delle \textit{task} e la distribuzione dei dati alle unit\`a di lavoro, in quanto vengono gestiti automaticamente dal linguaggio;
+    \item l'astrazione da dettagli irrilevanti durante l'implementazione; di conseguenza, lo sviluppatore medio non deve pi\`u preoccuparsi di aspetti quali lo \textit{scheduling} delle \textit{task} e la distribuzione dei dati alle unit\`a di lavoro, in quanto vengono automaticamente gestiti dal linguaggio.
     \item l'indipendenza del programma dall'allocazione delle risorse computazionali: un software parallelo scritto in MATLAB deve funzionare correttamente sia quando eseguito su un sistema multiprocessore che su un sistema monoprocessore, adattando il suo comportamento alle risorse di calcolo disponibili;
-    \item l'accesso a costrutti di programmazione di prima classe\footnote{Secondo la classificazione proposta dall'informatico britannico Christopher Strachey \cite{SICP96}, i costrutti di programmazione di prima classe possono essere manipolati liberamente nelle istruzioni del linguaggio; in pratica, devono poter essere passati come parametri attuali durante l'invocazione di una procedura, restituiti come valore di ritorno di una funzione e assegnati a variabili o a strutture dati.}. 
+    \item l'accesso a costrutti di programmazione di prima classe\footnote{Secondo la classificazione proposta dall'informatico britannico Christopher Strachey\,\cite{Abelson2002}, i costrutti di programmazione di prima classe possono essere manipolati liberamente nelle istruzioni del linguaggio; in pratica, devono poter essere passati come parametri attuali durante l'invocazione di una procedura, restituiti come valore di ritorno di una funzione e assegnati a variabili o a strutture dati.}.
 \end{itemize}
-Il percorso di trasformazione di MATLAB al fine di renderlo appetibile al calcolo parallelo non \`e ancora giunto al termine. \newline La destinazione finale fissata 
-dagli addetti ai lavori \`e la realizzazione del modello di linguaggio ideato dal direttore tecnico di MathWorks, Roy Lurie \cite{Lurie2007},
-secondo cui gli esperti di dominio inseriscono annotazioni minimali al codice sorgente per esprimere l'intenzione di eseguire il programma 
+Il percorso di trasformazione di MATLAB al fine di renderlo appetibile al calcolo parallelo non \`e ancora giunto al termine. \newline La destinazione finale fissata
+dagli addetti ai lavori \`e la realizzazione del modello di linguaggio ideato dal direttore tecnico di MathWorks, Roy Lurie\,\cite{Hemsoth2008},
+secondo cui gli esperti di dominio inseriscono annotazioni minimali al codice sorgente per esprimere l'intenzione di eseguire il programma
 su pi\`u processori simultaneamente.

@@ -100,7 +100,7 @@ Di seguito, effettuiamo una semplice analisi prestazionale di un problema di gra
     Supponiamo di sommare trenta variabili scalari e due matrici quadrate di dimensione \numproduct{3000 x 3000} servendoci dapprima di un tradizionale sistema
     monoprocessore e, successivamente, di un sistema multiprocessore con $30$ CPU che supporta l'esecuzione della somma tra matrici in parallelo. \newline
     Vogliamo analizzare la variazione delle prestazioni dei due sistemi quando:
-    \begin{enumerate}[label=\alph*),noitemsep]
+    \begin{enumerate}[label=\alph*)]
         \item il numero di processori del sistema multiprocessore aumenta a $120$;\label{item:primoAnalisiGrandiDimensioni}
         \item le matrici diventano di dimensione \numproduct{6000 x 6000}.\label{item:ultimoAnalisiGrandiDimensioni}
     \end{enumerate}
@@ -142,7 +142,7 @@ caso della scalabilit\`a forte.
 Potremmo essere erroneamente indotti a pensare che la scalabilit\`a debole sia pi\`u facilmente ottenibile rispetto alla scalabilit\`a forte, data la maggiore quantit\`a di memoria disponibile per CPU, ma a seconda
 del contesto applicativo considerato possiamo individuare validi motivi a supporto di ciascuno dei due approcci.\newline
 In linea di massima, problemi di grandi
-dimensioni richiedono moli di dati in input, rendendo la scalabilit\`a debole pi\`u agevole da raggiungere.
+dimensioni richiedono moli di dati in input, specie se si tratta di applicazioni \textit{data-intensive} che spendono la maggior parte del tempo di esecuzione in operazioni di I/O e nella manipolazione dei dati\,\cite{Furht2010}, rendendo la scalabilit\`a debole pi\`u agevole da raggiungere.
 
 Quest'ultimo esempio chiarisce l'importanza del bilanciamento del carico.
 
@@ -151,7 +151,7 @@ Quest'ultimo esempio chiarisce l'importanza del bilanciamento del carico.
     Per ottenere un aumento di velocit\`a di \num{75.38} volte per il problema di grandi dimensioni considerato nel caso \ref{item:ultimoAnalisiGrandiDimensioni}
     dell'esempio \ref{esempio:analisiGrandiDimensioni}, abbiamo implicitamente supposto che il carico di lavoro fosse perfettamente bilanciato tra i $120$ processori del sistema.\newline
     Ora vogliamo determinare l'impatto sulle prestazioni nel caso in cui a uno dei processori venga assegnato:
-    \begin{enumerate}[label=\alph*),noitemsep]
+    \begin{enumerate}[label=\alph*)]
         \item il \num{2.5}\% del carico totale, ovvero 150 addizioni;\label{item:primoBilanciamentoCarico}
         \item il \num{12.5}\% del carico totale, ovvero 750 addizioni.\label{item:ultimoBilanciamentoCarico}
     \end{enumerate}
