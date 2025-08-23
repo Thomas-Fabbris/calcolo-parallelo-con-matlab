@@ -1,21 +1,20 @@
 %!TeX root = ../../Tesi.tex
-Innumerevoli modelli matematici, come il modello reazione-diffusione in chimica, si formulano per mezzo di equazioni 
+Innumerevoli modelli matematici, come il modello di reazione-diffusione in chimica, si formulano per mezzo di equazioni
 differenziali. \newline
-Non \`e una novit\`a il fatto che, per la maggior parte delle equazioni differenziali, l'integrale generale non sia esprimibile in forma esplicita, motivo per il quale \`e 
+Non \`e una novit\`a il fatto che, per la maggior parte delle equazioni differenziali, l'integrale generale non sia esprimibile in forma esplicita, motivo per il quale \`e
 necessario ricorrere a metodi di integrazione numerica per la loro risoluzione.\newline
-Tra questi, spicca il metodo degli elementi finiti, un metodo per l'approssimazione di equazioni differenziali 
+Tra questi, spicca il metodo degli elementi finiti, un metodo per l'approssimazione numerica di equazioni differenziali
 attraverso sistemi di equazioni lineari.
 
-I problemi reali, in campo ingegneristico e fisico, dipendono da migliaia di variabili, per cui lo sviluppo di metodi efficienti per la risoluzione sistemi lineari di grandi 
+In aggiunta, i problemi realmente affrontati dalle scienze applicate dipendono da migliaia di variabili, per cui lo sviluppo di metodi efficienti per la risoluzione di sistemi lineari di grandi
 dimensioni non \`e un capriccio squisitamente teorico, ma trova fondamentali applicazioni in tutti i settori in cui la modellistica viene impiegata.
 
-L'obiettivo di questo capitolo \`e la presentazione del metodo di Jacobi, un metodo iterativo per la risoluzione di sistemi di equazioni lineari, e la sua 
-applicazione a problemi di grandi dimensioni.\newline
-I concetti esposti nei capitoli \ref{cap:calcoloParalleloSfidaOpportunita} e \ref{cap:unLinguaggioPerIlCalcoloParalleloMATLAB} torneranno utili nell'affrontare questo problema, matematicamente elementare ma computazionalmente 
-intrigante, sfruttando l'elevata capacit\`a di calcolo messa a disposizione dai sistemi a elaborazione parallela.
+L'obiettivo principale di questo capitolo \`e la presentazione del metodo di Jacobi, un metodo iterativo per la risoluzione di sistemi di equazioni lineari.\newline
+I concetti esposti nei capitoli \ref{cap:calcoloParalleloSfidaOpportunita} e \ref{cap:unLinguaggioPerIlCalcoloParalleloMATLAB} torneranno utili nell'affrontare questo problema, matematicamente elementare ma computazionalmente
+intrigante, sfruttando l'elevata capacit\`a di calcolo messa a disposizione dai sistemi a elaborazione parallela.\newline
+Nei paragrafi da \ref{par:sistemiLineari} a \ref{par:metodoJacobi}, faremo riferimento a svariati risultati propri dell'algebra lineare e dell'analisi numerica, indispensabili per una trattazione accurata degli
+argomenti in questione; rimandandiamo a \cite{Betti2000} e a \cite{Quarteroni2002} per le relative dimostrazioni.
 
-Nei paragrafi da \ref{par:contestoMetodoJacobi} a \ref{par:metodoJacobi}, faremo riferimento a svariati risultati propri dell'algebra lineare e dell'analisi numerica, indispensabili per una trattazione accurata degli 
-argomenti in questione; rimandandiamo a \cite{Betti2000} e a \cite{Quarteroni2002} per le relative dimostrazioni.\newline
-Nel paragrafo \ref{par:applicazioneMetodoJacobi} proporremo un esempio di applicazione del metodo di Jacobi, 
-significativo per illustrare in pratica quanto spiegato nei capitoli precedenti relativamente alla natura del calcolo parallelo 
-e alle caratteristiche dell'ambiente MATLAB pensate per l'elaborazione parallela.
+Per concludere proporremo un esempio di applicazione del metodo di Jacobi nel paragrafo \ref{par:applicazioneMetodoJacobi},
+particolarmente significativo per illustrare in pratica quanto spiegato nei capitoli precedenti relativamente alla natura del calcolo parallelo
+e alle caratteristiche dell'ambiente MATLAB a esso dedicate.

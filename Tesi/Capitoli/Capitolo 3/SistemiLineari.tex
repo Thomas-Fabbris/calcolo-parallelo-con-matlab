@@ -14,7 +14,7 @@ $n$ incognite del tipo
     \label{eq:formaAlgebricaSistemiLineari}
     \sum_{j=1}^{n}a_{ij}x_{j}=b_{i},\quad i = 1,\dots,n
 \end{equation}
-per il quale siamo interessati a determinarne le soluzioni, ovvero trovare delle $n$-uple di valori $x_{i}$ che
+per il quale siamo interessati a determinarne le soluzioni, ovvero a trovare delle $n$-uple di valori $x_{i}$ che
 soddisfino la \eqref{eq:formaAlgebricaSistemiLineari}.
 
 Ricordiamo che l'esistenza e l'unicit\`a della soluzione di \eqref{eq:formaMatricialeSistemiLineari} sono garantite se e solo se sono soddisfatte
@@ -22,7 +22,7 @@ le seguenti condizioni, equivalenti tra di loro:
 \begin{enumerate}
     \item $\det(A)\ne 0$, dove $\det(A)$ denota il determinante della matrice $A$;
     \item $A$ \`e invertibile;
-    \item $\car(A)= n$, dove $\car(A)$ denota la caratteristica (o rango) di $A$, corrispondente al massimo numero di colonne (o righe) della matrice linearmente indipendenti;
+    \item $\car(A)= n$, dove $\car(A)$ denota la caratteristica (o rango) di $A$, corrispondente al massimo numero di colonne (o righe) linearmente indipendenti della matrice;
     \item il sistema omogeneo associato $A\mathbf{x}=\mathbf{0}$ ammette come unica soluzione il vettore nullo.
 \end{enumerate}
 
@@ -35,31 +35,31 @@ con $\Delta_{j}$ il determinante della matrice ottenuta sostituendo la $j$-esima
 Pur rappresentando un risultato fondamentale dell'algebra lineare, la regola di Cramer trova scarsa applicazione in ambito numerico per via del suo elevato
 costo computazionale.
 
-Denotando con $\Delta_{ij}$ il determinante della matrice di ordine $n-1$ ottenuta da $A$ eliminando la $i$-esima riga e la $j$-esima colonna e con
-$A_{ij} = (-1)^{i+j}\Delta_{ij}$ il complemento algebrico dell'elemento $a_{ij}$, possiamo sfruttare la regola di Laplace per il calcolo effettivo del
+Denotando con $A_{ij}$ la matrice di ordine $n-1$ ottenuta da $A$ eliminando la $i$-esima riga e la $j$-esima colonna e con
+$\Delta_{ij} = (-1)^{i+j}\det{(A_{ij})}$ il complemento algebrico dell'elemento $a_{ij}$, possiamo sfruttare la regola di Laplace per il calcolo effettivo del
 determinante di $A$
 \begin{equation}
     \label{eq:determinante}
     \det(A) =
     \begin{cases}
-        a_{11}                                   & \text{se } n=1,  \\[1em]
-        \displaystyle\sum_{j=1}^{n} \Delta_{ij}a_{ij}, & \text{per } n>1.
+        \hspace{0.5em} a_{11}                                   & \text{se } n=1,  \\[1em]
+        \hspace{0.5em} \displaystyle\sum_{j=1}^{n} \Delta_{ij}a_{ij}, & \text{per } n>1.
     \end{cases}
 \end{equation}
 
 Supponendo di calcolare i determinanti tramite la \eqref{eq:determinante}, il costo computazionale della regola di Cramer \`e
 dell'ordine di $(n+1)!$ \si{\flops} (\textit{floating point operations per second}), un costo inaccettabile persino per problemi di
 piccole dimensioni.\newline
-Ad esempio, il \textit{supercomputer} attualmente pi\`u potente al mondo, ospitato dal
+Ad esempio, il \textit{supercomputer} pi\`u potente al mondo nel 2025 secondo il progetto TOP500, ospitato dal
 Lawrence Livermore National Laboratory in California (Stati Uniti)\,\cite{Thomas2024} e in grado di effettuare \num{1.742e18} operazioni in virgola mobile al 
-secondo, impiegherebbe circa \SI{2.82e40} anni\footnote{Per $n=50$, il costo computazionale \`e dell'ordine di
-    $(50+1)! \simeq \SI{1.55e66}{\flops}$.\newline
-    Disponendo di una capacit\`a di calcolo di \SI{1.74e18}{\flops}, eseguiremmo un operazione in \SI{5.74e-19}{s}, richiedendo
-    comunque un tempo di risoluzione del sistema pari a \SI{8.90e47}{s}, all'incirca \SI{2.82e40}{anni}.}per risolvere un sistema
-lineare di appena $50$ equazioni, mentre un normale PC pu\`o risolvere modelli matematici con migliaia
+secondo, impiegherebbe circa \SI{2.823e40} anni per risolvere un sistema
+lineare di appena $50$ equazioni\footnote{Per $n=50$, il costo computazionale \`e dell'ordine di
+    $(50+1)!\si{\flops} \simeq \SI{1.551e66}{\flops}$.\newline
+    Disponendo di una capacit\`a di calcolo di \SI{1.742e18}{\flops}, eseguiremmo un operazione in \SI{5.741e-19}{s}, richiedendo
+    comunque un tempo di risoluzione del sistema pari a \SI{8.90e47}{s}, all'incirca \SI{2.823e40}{anni}.}, mentre un normale PC pu\`o risolvere modelli di ottimizzazione con migliaia
 di vincoli in meno di un secondo, sfruttando algoritmi a elevata efficienza computazionale.
 
-Alla luce di queste osservazioni, la necessit\`a di sviluppare metodi numerici alternativi per la risoluzione di sistemi di
+Alla luce di queste osservazioni, la necessit\`a di sviluppare metodi numerici efficienti per la risoluzione di sistemi di
 equazioni lineari \`e evidente.\newline
 Tali metodi vengono tradizionalmente distinti in metodi
 diretti se permettono la risoluzione del sistema in un numero finito di passi oppure iterativi se richiedono un numero di passi

@@ -1,5 +1,5 @@
 %!TeX root = ../../Tesi.tex
-Impiegare un metodo numerico per la risoluzione di un sistema lineare introduce necessariamente degli errori di arrotondamento, dovuti alla rappresentazione
+Impiegare un metodo numerico per la risoluzione di un sistema lineare introduce necessariamente degli errori di arrotondamento dovuti alla rappresentazione
 dei numeri reali sul calcolatore con un numero finito di cifre, che fortunatamente non si ripercuotono sull'accuratezza della soluzione finale nel caso di
 metodi numerici stabili, come quelli che analizzeremo.
 
@@ -12,12 +12,12 @@ I metodi iterativi si fondano sull'idea di calcolare una successione di vettori 
     \label{eq:proprietaConvergenza}
     \lim_{k \to \infty} \mathbf{x}^{(k)}=\mathbf{x},
 \end{equation}
-dove $\mathbf{x}$ \`e la soluzione di \eqref{eq:formaMatricialeSistemiLineari}. \newline
+essendo $\mathbf{x}$ la soluzione di \eqref{eq:formaMatricialeSistemiLineari}. \newline
 Ovviamente, desidereremmo fermarci al minimo $m$ tale che
 \begin{equation*}
     \norm{\mathbf{x}^{(m)}- \mathbf{x}} < \varepsilon,
 \end{equation*}
-con $\varepsilon$ una tolleranza fissata, che rappresenta il livello di accuratezza accettabile nell'approssimazione di $\mathbf{x}$, e $\norm{\cdot}$ un'opportuna norma vettoriale.
+con $\varepsilon$ una tolleranza fissata a priori che rappresenta il livello di accuratezza accettabile nell'approssimazione di $\mathbf{x}$ e $\norm{\cdot}$ un'opportuna norma vettoriale.
 
 Poich\'e la soluzione esatta del sistema \eqref{eq:formaMatricialeSistemiLineari} non \`e nota a priori, introdurremo degli adeguati criteri di arresto basati
 su altre grandezze nella sezione \ref{sec:criteriArresto}.
@@ -25,77 +25,74 @@ su altre grandezze nella sezione \ref{sec:criteriArresto}.
 Una strategia largamente impiegata nella costruzione della successione $\{\mathbf{x}^{(k)}\}$ consiste nella decomposizione additiva della matrice dei
 coefficienti $A$ in $A=P-N$, dove $P, N\in\mathbb{R}^{n \times n}$ e $P$ \`e non singolare.
 
-In particolare, assegnato il vettore iniziale $\mathbf{x}^{(0)}$, otteniamo $\mathbf{x}^{(k)}$ per $k\ge1$ risolvendo due nuovi sistemi di $n$ equazioni in $n$
+In particolare, assegnato il vettore iniziale $\mathbf{x}^{(0)}$, otteniamo $\mathbf{x}^{(k)}$ per $k\ge1$ risolvendo i nuovi sistemi di $n$ equazioni in $n$
 incognite
 \begin{equation}
     \label{eq:metodoIterativo}
-    P\mathbf{x}^{(k)}=N\mathbf{x}^{(k-1)} + \mathbf{b},\quad k\ge1
+    P\mathbf{x}^{(k)}=N\mathbf{x}^{(k-1)} + \mathbf{b},\quad k\ge1.
 \end{equation}
 Possiamo riscrivere, in maniera del tutto equivalente, la \eqref{eq:metodoIterativo} come
 \begin{equation}
     \label{eq:metodoIterativoConResiduo}
-    \mathbf{x}^{(k)}=\mathbf{x}^{(k-1)} + P^{-1}\mathbf{r}^{(k-1)},\quad k\ge1,
+    \mathbf{x}^{(k)}=\mathbf{x}^{(k-1)} + P^{-1}\mathbf{r}^{(k-1)},
 \end{equation}
 avendo indicato con
 \[
     \mathbf{r}^{(k-1)}=\mathbf{b}-A\mathbf{x}^{(k-1)}
 \]
-il vettore residuo alla $(k-1)$-esima iterazione.\newline
+il vettore residuo alla $(k-1)\text{-esima iterazione}$.\newline
 Usando la \eqref{eq:metodoIterativoConResiduo} per l'aggiornamento della soluzione approssimata, dobbiamo determinare il vettore residuo e risolvere un nuovo sistema lineare di
-matrice $P$ a ogni iterazione.\newline
-Questo procedimento risulta conveniente nell'ipotesi in cui $P$ sia invertibile con un basso costo computazionale.
-
+matrice $P$ a ogni iterazione. Ovviamente, questo procedimento risulta conveniente nell'ipotesi in cui $P$ sia invertibile con un basso costo computazionale.
+\subsection{Convergenza dei metodi iterativi}
 Definendo
 \begin{equation}
     \label{eq:errorePassoK}
     \mathbf{e}^{(k)} = \mathbf{x}^{(k)}-\mathbf{x}
 \end{equation}
-come l'errore al passo $k$ e osservando che, dalla decomposizione di $A$, si ricava $P\mathbf{x}= N\mathbf{x}+\mathbf{b}$, otteniamo la seguente relazione sull'errore
+come l'errore al passo $k$ e osservando che, dalla decomposizione di $A$, si ricava $P\mathbf{x}= N\mathbf{x}+\mathbf{b}$, otteniamo per sottrazione la seguente relazione sull'errore
 \begin{equation}
     \label{eq:relazioneRicorsivaErrore}
-    \mathbf{e}^{(k)} = B\mathbf{e}^{(k-1)} \quad \text{con} \quad B = P^{-1}N
+    \mathbf{e}^{(k)} = B\mathbf{e}^{(k-1)} \quad \text{con} \quad B = P^{-1}N,
 \end{equation}
 dove $B\in\mathbb{R}^{n \times n}$ \`e chiamata matrice di iterazione associata allo \textit{splitting} $A = P - N$.
-Pertanto, applicando ricorsivamente la \eqref{eq:relazioneRicorsivaErrore}, arriviamo a
+Pertanto, applicando ricorsivamente la \eqref{eq:relazioneRicorsivaErrore}, giungiamo a
 \begin{equation}
     \label{eq:relazioneErroreMatriceIterazione}
-    \mathbf{e}^{(k)}=B^{k}\mathbf{e}^{(0)},\quad k = 0, 1, \dots.
+    \mathbf{e}^{(k)}=B^{k}\mathbf{e}^{(0)},\quad k = 0,1, \dots.
 \end{equation}
 La condizione di convergenza \eqref{eq:proprietaConvergenza} pu\`o essere riformulata in funzione dell'errore come
 $\mathbf{e}^{(k)} \rightarrow \mathbf{0} \text{ per } k\rightarrow{\infty}$ soddisfatta per ogni scelta del vettore $\mathbf{x}^{(0)}$.\newline
-In virt\`u della \eqref{eq:relazioneErroreMatriceIterazione}, la nuova propriet\`a di convergenza risulta verificata se e solo se ${B}^{k} \rightarrow 0 \text{ per } k\rightarrow{\infty}$.
+In virt\`u di \eqref{eq:relazioneErroreMatriceIterazione}, la nuova propriet\`a di convergenza risulta verificata se e solo se ${B}^{k} \rightarrow 0 \text{ per } k\rightarrow{\infty}$.
 
-Per quanto riguarda la convergenza di un metodo iterativo verso la soluzione esatta, esponiamo i seguenti risultati senza dimostrarli.
+Per quanto riguarda la convergenza di un metodo iterativo verso la soluzione esatta, esponiamo i seguenti risultati, garantiti dalle propriet\`a della decomposizione di $A$, senza dimostrarli.
 \begin{teorema}
     Il metodo iterativo \eqref{eq:metodoIterativo} converge alla soluzione di \eqref{eq:formaMatricialeSistemiLineari} per ogni scelta del vettore iniziale
     $\mathbf{x}^{(0)}$ se e solo se $\rho(B)<1$.
 \end{teorema}
 \begin{corollario}
     \label{cor:condizioneSufficienteConvergenza}
-    Una condizione sufficiente per la convergenza del metodo \eqref{eq:metodoIterativo} \`e $\norm{B}<1$ per qualche norma matriciale $\norm{\cdot}$ consistente.
+    Una condizione sufficiente per la convergenza del metodo \eqref{eq:metodoIterativo} \`e $\norm{B}<1$ per qualche opportuna norma matriciale $\norm{\cdot}$.
 \end{corollario}
 \begin{teorema}
-    Sia $A = P - N$, con $A$ e $P$ simmetriche e definite positive. Se la matrice $2P - A$ \`e definita positiva, allora il metodo iterativo definito nella \eqref{eq:metodoIterativo} converge per ogni valore del vettore iniziale $\mathbf{x}^{(0)}$ e si ha \[\rho(B) = \norm{B}_{A} = \norm{B}_{P} < 1.\]
-    Inoltre, la convergenza del metodo \`e monotona rispetto alle norme $\norm{\cdot}_{A} \ \text{e} \ \norm{\cdot}_{P}$, ovvero per ogni $k \ge 1$ valgono le seguenti relazioni
-    \[
-    \begin{aligned}
-        \norm{\mathbf{e}^{(k+1)}}_{A} &< \norm{\mathbf{e}^{(k)}}_{A} \\
-        \norm{\mathbf{e}^{(k+1)}}_{P} &< \norm{\mathbf{e}^{(k)}}_{P}.
-    \end{aligned}
-    \]
+    \label{teo:convergenzaSimmetricaDefinitaPositiva}
+    Sia $A = P - N$, con $A$ e $P$ simmetriche e definite positive. Se la matrice $2P - A$ \`e definita positiva, allora il metodo iterativo definito in \eqref{eq:metodoIterativo} converge per ogni valore del vettore iniziale $\mathbf{x}^{(0)}$ e si ha \[\rho(B) = \norm{B}_{A} = \norm{B}_{P} < 1.\]
+    Inoltre, la convergenza del metodo \`e monotona rispetto alle norme $\norm{\cdot}_{A} \ \text{e} \ \norm{\cdot}_{P}$, ovvero per ogni $k \ge 1$ valgono le relazioni
+    \begin{equation*}
+        \norm{\mathbf{e}^{(k+1)}}_{A} < \norm{\mathbf{e}^{(k)}}_{A}\quad\text{e}\quad
+        \norm{\mathbf{e}^{(k+1)}}_{P} < \norm{\mathbf{e}^{(k)}}_{P}.
+    \end{equation*}
 \end{teorema}
-\subsection{Criteri di arresto per metodi iterativi}
+\subsection{Criteri di arresto per i metodi iterativi}
 \label{sec:criteriArresto}
-Un importante argomento ancora da esaminare \`e relativo ai criteri di arresto, vale a dire le condizioni da soddisfare per decidere quando fermare l'esecuzione di un
+Un importante argomento ancora da esaminare \`e relativo ai criteri di arresto, vale a dire la ricerca delle condizioni da soddisfare per decidere quando fermare l'esecuzione di un
 metodo iterativo.
 
 Un primo criterio si basa sul controllo dell'incremento: data una tolleranza $\varepsilon$ fissata, ci fermiamo al primo valore di $k$ per il quale si abbia
 \begin{equation*}
-    \norm{\mathbf{x}^{(k+1)} - \mathbf{x}^{(k)}}<\varepsilon,
+    \norm{\mathbf{x}^{(k+1)} - \mathbf{x}^{(k)}}<\varepsilon.
 \end{equation*}
-stimando il corrispondente errore $\|\mathbf{e}^{(k+1)}\|$ all'ultima iterazione.
-
-Sia $B$ la matrice di iterazione del metodo in esame, dalla relazione ricorsiva sull'errore $\mathbf{e}^{(k+1)}= B\mathbf{e}^{(k)}$ otteniamo
+Ora vogliamo stimare la grandezza dell'errore reale $\|\mathbf{e}^{(k+1)}\|$ commesso all'ultima iterazione.
+Sia $B$ la matrice di iterazione del metodo in esame, dalla relazione ricorsiva sull'errore $\mathbf{e}^{(k+1)}= B\mathbf{e}^{(k)}$, otteniamo
 \begin{equation}
     \norm{\mathbf{e}^{(k+1)}} \le \norm{B}\,\norm{\mathbf{e}^{(k)}}.
 \end{equation}
@@ -107,10 +104,10 @@ e quindi (sotto l'ipotesi in cui $\|B\|<1$)
 \begin{equation}
     \norm{\mathbf{x} - \mathbf{x}^{(k+1)}}\le \frac{\norm{B}}{1 - \norm{B}}\norm{\mathbf{x}^{(k+1)} - \mathbf{x}^{(k)}} \le  \frac{\norm{B}}{1 - \norm{B}} \varepsilon.
 \end{equation}
-Pertanto, l'errore  $\|\mathbf{e}^{(k+1)}\|$ \`e contenuto purch\`e $\|B\|\simeq 1$.
+Pertanto, l'errore  $\|\mathbf{e}^{(k+1)}\|$ \`e contenuto purch\`e $\|B\|\ $ non sia troppo vicino a 1.
 
 Un altro test d'arresto, pi\`u pratico dal punto di vista computazionale, si basa sul controllo del residuo normalizzato: ci fermiamo al primo valore di $k$
-per il quale si ottiene $\norm{\mathbf{r}^{(k)}}/{\norm{\mathbf{r}^{(0)}}} \le \varepsilon, \text{ con } \varepsilon$ una tolleranza nota a priori.\newline
+in corrispondenza del quale si ottiene $\norm{\mathbf{r}^{(k)}}/{\norm{\mathbf{r}^{(0)}}} \le \varepsilon, \text{ con } \varepsilon$ una tolleranza nota a priori.\newline
 Nel caso particolare in cui $\mathbf{x}^{(0)} = \mathbf{0}$, il test richiede che
 \begin{equation*}
     \frac{\|\mathbf{r}^{(k)}\|}{\|\mathbf{b}\|} \le \varepsilon.
@@ -119,5 +116,5 @@ Inoltre, possiamo quantificare l'errore relativo commesso come
 \begin{equation*}
     \frac{\norm{\mathbf{x}-\mathbf{x}^{(k)}}}{\norm{\mathbf{x}}} = \frac{\norm{A^{-1}\mathbf{r}^{(k)}}}{\norm{\mathbf{x}}} = \frac{\norm{A^{-1}\mathbf{r}^{(k)}}}{\norm{\mathbf{x}}} \le K(A) \frac{\norm{\mathbf{r}^{(k)}}}{\norm{\mathbf{b}}} \le K(A)\varepsilon,
 \end{equation*}
-dove $K(A)=\norm{A}\,\norm{A^{-1}}$ \`e detto numero di condizionamento della matrice $A$, un indicatore circa la stabilit\`a della soluzione del sistema \eqref{eq:formaMatricialeSistemiLineari} rispetto alle perturbazioni applicate ai dati $A$ e $\mathbf{b}$.\newline
-In definitiva, quest'ultimo criterio d'arresto \`e consigliato quando $K(A)\simeq 1$, ovvero quando $A$ \`e ben condizionata: piccole perturbazioni su $A \text{ e } \mathbf{b}$ implicano piccole variazioni su $\mathbf{x}$.
+dove $K(A)=\norm{A}\,\norm{A^{-1}}$ \`e detto numero di condizionamento della matrice $A$, un indicatore circa la stabilit\`a della soluzione del sistema \eqref{eq:formaMatricialeSistemiLineari} rispetto alle perturbazioni applicate ad $A$ e a $\mathbf{b}$.\newline
+In definitiva, quest'ultimo criterio d'arresto \`e consigliato quando $K(A)\simeq 1$, ovvero quando $A$ \`e ben condizionata: piccole perturbazioni di $A \text{ e }\mathbf{b}$ conducono a piccole variazioni di $\mathbf{x}$.

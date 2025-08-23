@@ -41,7 +41,7 @@ essendo $\mathbf{b}$ combinazione lineare (con coefficienti pari a $\num{1}$) de
 \subsection{Risoluzione con il metodo di Jacobi classico}
 Dapprima, risolviamo il sistema $A\mathbf{x}=\mathbf{b}$ mediante la funzione \lstinline{jacobi} nella sua configurazione di default:
 il massimo numero di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, mentre l'accuratezza della soluzione del problema \lstinline{tol} \`e pari a ${10}^{-6}$.\newline
-Successivamente, calcoliamo l'errore assoluto alla $k$-esima iterazione sulla base della \eqref{eq:errorePassoK}
+Successivamente, calcoliamo l'errore assoluto alla $k$-esima iterazione sulla base di \eqref{eq:errorePassoK}
 \begin{equation*}
 \norm{\mathbf{e}^{(k)}} = \norm{\mathbf{x} - \mathbf{x}^{(k)}}.
 \end{equation*}
