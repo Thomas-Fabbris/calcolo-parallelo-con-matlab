@@ -8,7 +8,7 @@
     <!-- (Required) Release of MATLAB. -->
     <matlabrelease>R2025a</matlabrelease>
     <!-- (Required) Title of toolbox. -->
-    <name>Parallel Jacobi Method Toolbox</name>
+    <name> Jacobi Method Toolbox</name>
     <!-- (Required) Label for the toolbox -->
     <type>toolbox</type>
     <!-- (Required) Icon file to display in the Start button.-->

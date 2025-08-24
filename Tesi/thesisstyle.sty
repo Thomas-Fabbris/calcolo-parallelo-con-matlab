@@ -35,7 +35,8 @@
 \usepackage{siunitx}
 \usepackage{tikz}
 \usepackage{titlesec}
-\usepackage{tocloft}
+\usepackage{titletoc}
+% \usepackage{tocloft}
 \usepackage{todonotes}
 \usepackage{xcolor}
 \usepackage{xurl}
@@ -150,8 +151,25 @@
 {1em}
 {}
 
-% Definizione stile intestazione capitoli in indice
-\renewcommand{\cftchapaftersnum}{.}
+% Stile dell'indice generale 
+% Formattazione per i capitoli
+\titlecontents{chapter}[1.5em]
+    {\bfseries}
+    {\contentslabel[\thecontentslabel.]{1.5em}}
+    {\hspace*{-1.5em}}
+    {\hfill\contentspage}
+% Formattazione per le sezioni
+\titlecontents{section}[3.8em] 
+    {}
+    {\contentslabel[\thecontentslabel.]{2.3em}}
+    {\hspace*{-2.3em}}
+    {\titlerule*[.3pc]{.}\contentspage}
+% Formattazione per le sottosezioni
+\titlecontents{subsection}[7.0em]
+    {}
+    {\contentslabel[\thecontentslabel.]{3.2em}}
+    {\hspace*{-3.2em}}
+    {\titlerule*[.3pc]{.}\contentspage}
 
 % Impostazione interlinea
 \onehalfspacing

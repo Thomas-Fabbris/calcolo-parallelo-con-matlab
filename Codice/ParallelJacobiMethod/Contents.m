@@ -1,5 +1,5 @@
-% Parallel Jacobi Method
-% Version 1.0 10-07-2025 
+% Jacobi Method Toolbox
+% Version 1.0 24-08-2025 
 %
 % Functions
 %    jacobi                                   - Solve system of linear equations using the 
