@@ -1,7 +1,7 @@
 %!TeX root = ../../Tesi.tex
 In questo paragrafo presentiamo un esempio di risoluzione di un sistema di equazioni lineari mediante la funzione
 \lstinline{jacobi} discussa nel paragrafo \ref{par:algoritmoJacobi}. \newline
-Tutto il codice proposto di seguito \`e stato eseguito su un portatile HP Pavilion 15-eg2016nl con processore Intel\textsuperscript{\textregistered} Core\textsuperscript{\texttrademark} i7-1255U\footnote{Intel Core \`e un marchio registrato da Intel Corporation o da societ\`a da essa controllate.} e \qty{16}{\giga\byte} di memoria centrale; per brevit\`a non abbiamo riportato le istruzioni impiegate nella stampa dei messaggi sulla finestra dei comandi n\'e quelle per la creazione dei grafici.
+Tutto il codice proposto di seguito \`e stato eseguito su un portatile HP Pavilion 15-eg2016nl con processore Intel\textsuperscript{\textregistered} Core\textsuperscript{\texttrademark} i7-1255U\footnote{Intel Core \`e un marchio registrato da Intel Corporation o da societ\`a da essa controllate.} e \qty{16}{\giga\byte} di memoria centrale; per brevit\`a abbiamo omesso le istruzioni impiegate nella stampa dei messaggi sulla finestra dei comandi n\'e quelle per la creazione dei grafici.
 \subsection{Presentazione del problema}
 Consideriamo come matrice dei coefficienti $A$ la matrice derivante dalla discretizzazione dell'equazione di Poisson su un
 dominio quadrato $\Omega=[0, 1]\times[0, 1]$ mediante il metodo delle differenze finite\footnote{
@@ -30,105 +30,105 @@ Scegliendo come vettore dei termini noti
 \begin{equation*}
     \mathbf{b} = \sum_ {A_{i} \in J} A_{i},
 \end{equation*}
-dove $J = \{A_{1}, A_{2},\dots,A_{n}\}$ denota l'insieme delle colonne della matrice $A$, possiamo dimostrare che la soluzione  
+dove $J = \{A_{1}, A_{2},\dots,A_{n}\}$ denota l'insieme delle colonne della matrice $A$, possiamo dimostrare che la soluzione
 del sistema sia $\mathbf{x} = (1, 1, ..., 1)^\top$, essendo $\mathbf{b}$ combinazione lineare, con coefficienti tutti uguali a $\num{1}$, delle colonne $A_{i}$.
 \subsection{Risoluzione con il metodo di Jacobi classico}
 Dapprima, risolviamo il sistema attraverso la funzione \lstinline{jacobi} nella sua configurazione predefinita:
 il massimo numero di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, mentre la tolleranza cercata nella risoluzione del problema \`e pari a ${10}^{-6}$.\newline
-Successivamente, calcoliamo l'errore assoluto alla $k$-esima iterazione sulla base di \eqref{eq:errorePassoK}
-\begin{equation*}
-\norm{\mathbf{e}^{(k)}} = \norm{\mathbf{x} - \mathbf{x}^{(k)}}.
-\end{equation*}
-\begin{matlabcode}
-    [xJM1,flagJM1,relresJM1,iterJM1,resvecJM1] = jacobi(A,b);
-    errJM1 = abs(x - xJM1);
-\end{matlabcode}
-\begin{matlaboutput}
-    jacobi si è fermato all'iterazione numero 100 senza
-    raggiungere la tolleranza desiderata 1e-06 poiché il
-    numero massimo di iterazioni è stato raggiunto.
-    L'ultima iterazione presenta residuo relativo 
-    pari a 0.028.
-\end{matlaboutput}
-L'errore assoluto risulta elevato dal momento che \lstinline{jacobi} ha raggiunto il numero massimo di iterazioni e ha interrotto la sua esecuzione.\newline
-Inoltre, la funzione restituisce in output \lstinline{resvec}, il vettore residuo del sistema a ogni iterazione; l'evoluzione del
-residuo relativo nel corso dell'esecuzione, proposto in figura \ref{fig:evoluzioneResiduoRelativo}, pu\`o indicarci il numero di iterazioni necessarie
-per il raggiungimento di una soluzione accettabile.
+    Successivamente, calcoliamo l'errore assoluto alla $k$-esima iterazione sulla base di \eqref{eq:errorePassoK}
+    \begin{equation*}
+        \norm{\mathbf{e}^{(k)}} = \norm{\mathbf{x} - \mathbf{x}^{(k)}}.
+    \end{equation*}
+    \begin{matlabcode}
+        [xJM1,flagJM1,relresJM1,iterJM1,resvecJM1] = jacobi(A,b);
+        errJM1 = abs(x - xJM1);
+    \end{matlabcode}
+    \begin{matlaboutput}
+        jacobi si è fermato all'iterazione numero 100 senza
+        raggiungere la tolleranza desiderata 1e-06 poiché il
+        numero massimo di iterazioni è stato raggiunto.
+        L'ultima iterazione presenta residuo relativo
+        pari a 0.028.
+    \end{matlaboutput}
+    L'errore assoluto risulta elevato dal momento che \lstinline{jacobi} ha raggiunto il numero massimo di iterazioni e ha interrotto la sua esecuzione.
 
-Come secondo tentativo, eseguiamo nuovamente il metodo di Jacobi, specificando un valore di \lstinline{maxit} sufficientemente elevato per garantire la 
-convergenza dell'algoritmo.
-\begin{matlabcode}
-    maxit = 3e5;
-    tJM2 = tic;
-    [xJM2,flagJM2,relresJM2,iterJM2,resvecJM2] = jacobi(A,b,
-                                                 [],maxit);
-    tJM2 = toc(tJM2);
-    errJM2 = abs(x - xJM2);
-    relresvecJM = resvecJM2./resvecJM2(1);
-\end{matlabcode}
-\begin{matlaboutput}
-    jacobi ha raggiunto la convergenza all'iterazione 210137
-    determinando una soluzione approssimata avente residuo
-    relativo pari a 1e-06.
+    Come secondo tentativo, eseguiamo nuovamente il metodo di Jacobi, specificando un valore di \lstinline{maxit} sufficientemente elevato per garantire la
+    convergenza dell'algoritmo.
+    \begin{matlabcode}
+        maxit = 3e5;
+        tJM2 = tic;
+        [xJM2,flagJM2,relresJM2,iterJM2,resvecJM2] = jacobi(A,b,
+        [],maxit);
+        tJM2 = toc(tJM2);
+        errJM2 = abs(x - xJM2);
+        relresvecJM = resvecJM2./resvecJM2(1);
+    \end{matlabcode}
+    \begin{matlaboutput}
+        jacobi ha raggiunto la convergenza all'iterazione 210137
+        determinando una soluzione approssimata avente residuo
+        relativo pari a 1e-06.
 
-    ans =
+        ans =
 
-    1.0000    1.0000    1.0000    1.0000    1.0000    ...
-\end{matlaboutput}
-\begin{matlaboutput}
-    Tempo esecuzione jacobi: 437.693564 sec.
-\end{matlaboutput}
-Impiegando la configurazione personalizzata, il metodo di Jacobi converge e la soluzione calcolata presenta un errore assoluto sensibilmente minore, come 
-mostrato dal confronto in figura \ref{fig:confrontoErroriAssoluti}.
+        1.0000    1.0000    1.0000    1.0000    1.0000    ...
+    \end{matlaboutput}
+    \begin{matlaboutput}
+        Tempo esecuzione jacobi: 437.693564 sec.
+    \end{matlaboutput}
+    Impiegando la configurazione personalizzata, il metodo di Jacobi converge e la soluzione calcolata presenta un errore assoluto sensibilmente minore, come
+    mostrato dal confronto in figura \ref{fig:confrontoErroriAssoluti}.\newline
+    L'evoluzione del residuo relativo nel corso dell'esecuzione, proposto in figura \ref{fig:evoluzioneResiduoRelativo}, indica inequivocabilmente il motivo per cui il metodo non ha raggiunto
+    una soluzione accettabile nel primo scenario d'esecuzione: il numero di iterazioni era insufficiente per garantire la convergenza dell'algoritmo.
 
-Il tempo di esecuzione sperimentato, pari a circa $\num{8}$ minuti per un problema di dimensioni non strabilianti, rappresenta un segnale chiaro 
-dell'intensit\`a computazionale richiesta dal metodo di Jacobi e giustifica il ricorso agli strumenti del calcolo parallelo per ottenere un miglioramento prestazionale.
-\begin{figure}[!htbp]
-    \centering
-    \begin{subfigure}{0.58\textwidth}
+    Il tempo di esecuzione sperimentato, pari a circa $\num{8}$ minuti per un problema di dimensioni non strabilianti, rappresenta un segnale chiaro
+    dell'intensit\`a computazionale richiesta dal metodo di Jacobi e giustifica il ricorso agli strumenti del calcolo parallelo per ottenere un miglioramento prestazionale.
+    \begin{figure}[!htbp]
         \centering
-        \includegraphics[width=\linewidth]{../Risorse/Capitolo 3/erroreAssolutoJacobi1.png}
-        \caption{Rappresentazione dell'errore assoluto $\norm{\mathbf{e}^{(k)}}$.}
-        \label{fig:erroreAssolutoJacobi1}
-    \end{subfigure}
+        \begin{subfigure}{0.58\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{../Risorse/Capitolo 3/erroreAssolutoJacobi1.png}
+            \caption{Rappresentazione dell'errore assoluto $\norm{\mathbf{e}^{(k)}}$.}
+            \label{fig:erroreAssolutoJacobi1}
+        \end{subfigure}
 
-    \vspace{1.5em}
+        \vspace{1.5em}
 
-    \begin{subfigure}{0.58\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{../Risorse/Capitolo 3/evoluzioneResiduoRelativo.png}
-        \caption{Andamento del residuo relativo rispetto alle iterazioni completate.}
-        \label{fig:evoluzioneResiduoRelativo}
-    \end{subfigure}
+        \begin{subfigure}{0.58\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{../Risorse/Capitolo 3/confrontoErroriAssoluti.png}
+            \caption{Confronto degli errori assoluti tra i due tentativi di esecuzione.}
+            \label{fig:confrontoErroriAssoluti}
+        \end{subfigure}
 
-    \vspace{1.5em}
+        \vspace{1.5em}
 
-     \begin{subfigure}{0.58\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{../Risorse/Capitolo 3/confrontoErroriAssoluti.png}
-        \caption{Confronto degli errori assoluti tra i due tentativi di esecuzione.}
-        \label{fig:confrontoErroriAssoluti}
-    \end{subfigure}
-    \caption{Rappresentazione dei risultati riguardanti la convergenza del metodo di Jacobi applicato al problema del paragrafo \ref{par:applicazioneMetodoJacobi}. Quando risultava necessario per migliorare la leggibilit\`a del grafico, abbiamo adottato una scala logaritmica sugli assi coordinati.}
-    \label{fig:gruppoImmaginiAnalisiPrestazionale}
-\end{figure}
-\subsection{Risoluzione con il metodo di Jacobi per \textit{array} distribuiti}
-Generando la matrice $A$ come un \textit{array} distribuito, possiamo trarre vantaggio dall'esecuzione parallela della funzione \lstinline{jacobi} da parte 
+        \begin{subfigure}{0.58\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{../Risorse/Capitolo 3/evoluzioneResiduoRelativo.png}
+            \caption{Andamento del residuo relativo rispetto alle iterazioni completate.}
+            \label{fig:evoluzioneResiduoRelativo}
+        \end{subfigure}
+
+        \caption{Rappresentazione dei risultati riguardanti la convergenza del metodo di Jacobi applicato al problema del paragrafo \ref{par:applicazioneMetodoJacobi}. Quando risultava necessario per migliorare la leggibilit\`a del grafico, abbiamo adottato una scala logaritmica sugli assi coordinati.}
+        \label{fig:gruppoImmaginiAnalisiPrestazionale}
+    \end{figure}
+    \subsection{Risoluzione con il metodo di Jacobi per \textit{array} distribuiti}
+    Generando la matrice $A$ come un \textit{array} distribuito, possiamo trarre vantaggio dall'esecuzione parallela della funzione \lstinline{jacobi} da parte
 di un insieme di \textit{worker} su un qualsiasi sistema multiprocessore.
 
-Questo approccio alternativo risulta vantaggioso poich\'e la memorizzazione distribuita degli \textit{array} rende possibile la risoluzione di problemi in cui la matrice dei coefficienti ha dimensioni 
+Questo approccio alternativo risulta vantaggioso poich\'e la memorizzazione distribuita degli \textit{array} rende possibile la risoluzione di problemi in cui la matrice dei coefficienti ha dimensioni
 tali da non poter essere interamente contenuta nella memoria centrale di un calcolatore tradizionale.\newline
 In realt\`a, l'incremento di velocit\`a apportato dalla parallelizzazione dell'algoritmo viene limitato dai costi di comunicazione e di sincronizzazione tra le unit\`a di lavoro, che costituiscono un collo di bottiglia ogniqualvolta il numero di processori fisici del sistema sia inadeguato rispetto all'ordine di grandezza del problema.
 
-La generazione dei dati e la risoluzione del sistema lineare risultante sono analoghi al caso seriale, eccetto per la creazione esplicita di array 
+La generazione dei dati e la risoluzione del sistema lineare risultante sono analoghi al caso seriale, eccetto per la creazione esplicita di array
 distribuiti mediante la funzione \lstinline{distributed}.\newline
-Dal momento che la funzione \lstinline{sum} \`e stata progettata per operare su diversi tipi di input, \lstinline{b} \`e automaticamente un \textit{array} distribuito, essendo 
-calcolato a partire dalle colonne di \lstinline{A}.
+All'invocazione di \lstinline{distributed}, MATLAB avvia automaticamente un \textit{parallel pool} usando l'ambiente di esecuzione parallela predefinita, mentre dal momento che la funzione \lstinline{sum} \`e stata progettata per operare su diversi tipi di input, \lstinline{b} \`e automaticamente un \textit{array} distribuito, essendo
+calcolato come somma di altri \textit{array} distribuiti.
 \begin{matlabcode}
-A = distributed((gallery('poisson', m)));
-b = sum(A,2);
-x = ones(n,1,'distributed');
-[xJM3,flagJM3,relresJM3,iterJM3,resvecJM3] = jacobi(A,b,[],maxit);
+    A = distributed((gallery('poisson', m)));
+    b = sum(A,2);
+    [xJM3,flagJM3,relresJM3,iterJM3,resvecJM3] = jacobi(A,b,
+                                                 [],maxit);
 \end{matlabcode}
 \begin{matlaboutput}
     jacobi ha raggiunto la convergenza all'iterazione 210137

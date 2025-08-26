@@ -4,15 +4,17 @@
     <type>toolbox</type>
     <icon></icon>
     <description>
-        Use the Jacobi Method Toolobox to Solve Systems of Linear Equations using the 
-        Jacobi Method
+        Use the Jacobi Method Toolobox to Solve Systems of Linear 
+        Equations using the Jacobi Method
     </description>
     <demosection>
         <label>First Examples</label>
     <demoitem>
-        <label>Use Distributed Arrays to Solve Systems of Linear Equations with Jacobi Method</label>
+        <label>
+           Solve Systems of Linear Equations with Jacobi Method
+       </label>
         <type>M-file</type>
-        <source>JacobiMethodLinearSystems</source>
+        <source>JacobiMethodLinearSystemsExample</source>
     </demoitem>
 </demosection>
 </demos>
