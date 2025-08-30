@@ -58,8 +58,6 @@ if nargin < 2
    error('jacobi:NotEnoughInputs','Not enough input arguments.');
 end
 
-support = matlab.internal.feature("SingleSparse");
-
 % A must be a floating-point matrix with real entries
 if (~isfloat(A) || ~isreal(A))
    error('jacobi:InvalidInput',['Argument must be a ' ...
@@ -109,8 +107,6 @@ end
 if nargin > 5
    error('jacobi:TooManyInputs','Too many input arguments.');
 end
-
-usesingle = support && usesingle;
 
 if usesingle
    % Cast b and x to single

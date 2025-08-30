@@ -94,29 +94,29 @@ da MATLAB.
 
 \subsection{Il paradigma di programmazione parallela esplicita}
 
-Il modello di programmazione parallela esplicita esposto dal Parallel Computing Toolbox \`e un'applicazione del parallelismo a livello di dati, che si fonda sull'esistenza di costrutti di programmazione
+Il modello di programmazione parallela esplicita esposto dal Parallel Computing Toolbox \`e un'applicazione del parallelismo a livello di dati che si fonda sull'esistenza di costrutti di programmazione
 parallela di cui i programmatori possono avvalersi durante il processo di sviluppo.
 
 Il meccanismo sfruttato a bassissimo livello per la realizzazione di programmi a elaborazione parallela \`e la comunicazione basata su scambio di messaggi tra \textit{worker}
-appertenenti al medesimo \textit{parallel pool}, ma questo approccio viene spesso criticato essendo considerato l'equivalente del linguaggio
+appertenenti a un medesimo \textit{parallel pool}, ma questo approccio viene spesso criticato, essendo considerato l'equivalente del linguaggio
 Assembly per il calcolo parallelo.\newline
 Con l'obiettivo di agevolare la scrittura di software parallelo, alcuni costrutti di programmazione di alto livello sono stati introdotti nel linguaggio, aumentando il livello di
-astrazione del codice e consentendo la scrittura di algoritmi paralleli simili alle loro controparti seriali.
+astrazione del codice e consentendo la stesura di algoritmi paralleli simili alle loro controparti seriali.
 
 Un esempio di costrutto di programmazione parallela \`e incarnato dagli \textit{array}\footnote{Secondo la terminologia di MATLAB, la parola \textit{array} \`e un termine universale per riferirsi a strutture dati ospitanti vettori riga, vettori colonna o matrici.}
-distribuiti, strutture dati il cui contenuto viene partizionato tra i \textit{worker} di uno stesso \textit{cluster}.\newline
+distribuiti, strutture dati il cui contenuto viene partizionato tra i \textit{worker} di uno stesso \textit{cluster}. Ogni \textit{worker} conserva in locale una porzione dell'\textit{array} distribuito, ma all'occorrenza pu\`o comunicare con gli altri \textit{worker} per accedere a tutti gli elementi dell'\textit{array}.\newline
 L'impiego degli \textit{array} distribuiti permette di memorizzare strutture dati di dimensioni tali da non poter essere contenute nella memoria centrale di un
 singolo calcolatore, sfruttando la capacit\`a di memorizzazione offerta dalla combinazione di tutti i nodi del \textit{cluster}.
 
 Gli \textit{array} distribuiti possono contenere dati di qualsiasi tipo e supportano la distribuzione degli elementi lungo una dimensione,
 per riga oppure per colonna.\newline
-A questo proposito, dobbiamo precisare che esiste la possibilit\`a di definire distribuzioni dei dati alternative e che, molto spesso, il partizionamento degli elementi viene manipolato implicitamente dall'esecuzione di certe operazioni
+A questo proposito, dobbiamo precisare che \`e prevista la possibilit\`a di definire distribuzioni dei dati alternative e che, molto spesso, il partizionamento degli elementi viene manipolato implicitamente dall'esecuzione di certe operazioni
 come \lstinline{gather}, una funzione utile a riunire un \textit{array} distribuito all'interno dello spazio di lavoro del \textit{client}.
 
-Un ulteriore vantaggio derivante dall'uso degli \textit{array} distribuiti \`e l'assenza di differenze sintattiche nell'accesso agli elementi rispetto agli \textit{array} tradizionali; l'infrastruttura sottostante garantisce in ogni momento una distribuzione dei dati idonea all'esecuzione delle operazioni
+Un ulteriore vantaggio derivante dall'uso degli \textit{array} distribuiti \`e l'assenza di differenze sintattiche nell'accesso agli elementi rispetto agli \textit{array} tradizionali; l'infrastruttura sottostante garantisce, in ogni momento, una distribuzione dei dati idonea all'esecuzione delle operazioni
 richieste dall'utente.\newline
 Questo ampio raggio di manovra lasciato al programmatore potrebbe introdurre consistenti \textit{overhead} di comunicazione tra i \textit{worker},
-ma sappiamo che la programmabilit\`a rappresenta l'obiettivo di design prioritario nel processo di parallelizzazione di MATLAB, surclassando persino le prestazioni.
+ma la programmabilit\`a rappresenta l'obiettivo di design prioritario nel processo di parallelizzazione di MATLAB, surclassando persino le prestazioni.
 
-Centinaia di funzioni native, e altrettante presenti nei \textit{toolbox} sviluppati dalla \textit{community}, sono state progettate per lavorare sinergicamente con gli \textit{array} distribuiti.\newline
-Ad esempio, MATLAB prevede un esteso insieme di funzioni parallele che operano su \textit{array} distribuiti, implementate a partire dalle procedure definite dalla libreria di algebra lineare numerica ScaLAPACK (\textit{Scalable Linear Algebra Package}).
+Centinaia di funzioni native, e altrettante presenti nei \textit{toolbox} sviluppati dalla \textit{community} di utenti, sono state progettate per lavorare sinergicamente con gli \textit{array} distribuiti.\newline
+Ad esempio, MATLAB prevede un esteso insieme di funzioni parallele che operano su \textit{array} distribuiti, implementate a partire dalle procedure definite nella libreria di algebra lineare numerica ScaLAPACK (\textit{Scalable Linear Algebra Package}).

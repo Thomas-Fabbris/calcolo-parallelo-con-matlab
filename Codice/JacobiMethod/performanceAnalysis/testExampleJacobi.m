@@ -1,5 +1,7 @@
 clear;
 clc;
+jacobi()
+pcg()
 
 fprintf('Inizio del test di performance per il metodo di Jacobi...\n\n');
 

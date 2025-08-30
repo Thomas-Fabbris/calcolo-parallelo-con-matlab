@@ -1,0 +1,13 @@
+{
+    "_schemaVersion": "1.0.0",
+    "jacobi": {
+                "inputs": [
+                    {
+                        "name": "A",
+                        "kind": "required",
+                        "type": ["numeric", ">=0"],
+                        "purpose": "Coefficient matrix"
+                    }
+                ]
+    }
+}

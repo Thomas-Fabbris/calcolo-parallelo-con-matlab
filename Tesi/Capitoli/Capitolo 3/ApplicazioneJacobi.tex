@@ -8,7 +8,7 @@ dominio quadrato $\Omega=[0, 1]\times[0, 1]$ mediante il metodo delle differenze
     Nonostante questo notevole risultato attribuito al matematico francese Sim\'eon-Denis Poisson (1781-1840) sia largamente sfruttato in meccanica,
     elettrostatica e termotecnica, non \`e nostra intenzione approfondire il problema dal punto di vista matematico.}.
 \begin{matlabcode}
-    clear
+    clear;
     m = 385;
     n = m^2;
     A = gallery('poisson', m);
@@ -31,7 +31,7 @@ Scegliendo come vettore dei termini noti
     \mathbf{b} = \sum_ {A_{i} \in J} A_{i},
 \end{equation*}
 dove $J = \{A_{1}, A_{2},\dots,A_{n}\}$ denota l'insieme delle colonne della matrice $A$, possiamo dimostrare che la soluzione
-del sistema sia $\mathbf{x} = (1, 1, ..., 1)^\top$, essendo $\mathbf{b}$ combinazione lineare, con coefficienti tutti uguali a $\num{1}$, delle colonne $A_{i}$.
+del sistema sia $\mathbf{x} = (1, 1, ..., 1)^\top$, essendo $\mathbf{b}$ combinazione lineare, con coefficienti tutti uguali a $\num{1}$, delle colonne $A_{i}$. Questa scelta consente di stimare facilmente l'accuratezza della soluzione calcolata dal metodo.
 \subsection{Risoluzione con il metodo di Jacobi classico}
 Dapprima, risolviamo il sistema attraverso la funzione \lstinline{jacobi} nella sua configurazione predefinita:
 il massimo numero di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, mentre la tolleranza cercata nella risoluzione del problema \`e pari a ${10}^{-6}$.\newline
@@ -40,40 +40,40 @@ il massimo numero di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, men
         \norm{\mathbf{e}^{(k)}} = \norm{\mathbf{x} - \mathbf{x}^{(k)}}.
     \end{equation*}
     \begin{matlabcode}
-        [xJM1,flagJM1,relresJM1,iterJM1,resvecJM1] = jacobi(A,b);
-        errJM1 = abs(x - xJM1);
+    [xJM1,flagJM1,relresJM1,iterJM1,resvecJM1] = jacobi(A,b);
+    errJM1 = abs(x - xJM1);
     \end{matlabcode}
     \begin{matlaboutput}
-        jacobi si è fermato all'iterazione numero 100 senza
-        raggiungere la tolleranza desiderata 1e-06 poiché il
-        numero massimo di iterazioni è stato raggiunto.
-        L'ultima iterazione presenta residuo relativo
-        pari a 0.028.
+    jacobi si è fermato all'iterazione numero 100 senza
+    raggiungere la tolleranza desiderata 1e-06 poiché il
+    numero massimo di iterazioni è stato raggiunto.
+    L'ultima iterazione presenta residuo relativo
+    pari a 0.028.
     \end{matlaboutput}
     L'errore assoluto risulta elevato dal momento che \lstinline{jacobi} ha raggiunto il numero massimo di iterazioni e ha interrotto la sua esecuzione.
 
     Come secondo tentativo, eseguiamo nuovamente il metodo di Jacobi, specificando un valore di \lstinline{maxit} sufficientemente elevato per garantire la
     convergenza dell'algoritmo.
     \begin{matlabcode}
-        maxit = 3e5;
-        tJM2 = tic;
-        [xJM2,flagJM2,relresJM2,iterJM2,resvecJM2] = jacobi(A,b,
-        [],maxit);
-        tJM2 = toc(tJM2);
-        errJM2 = abs(x - xJM2);
-        relresvecJM = resvecJM2./resvecJM2(1);
+    maxit = 3e5;
+    tJM2 = tic;
+    [xJM2,flagJM2,relresJM2,iterJM2,resvecJM2] = jacobi(A,b,
+                                                 [],maxit);
+    tJM2 = toc(tJM2);
+    errJM2 = abs(x - xJM2);
+    relresvecJM = resvecJM2./resvecJM2(1);
     \end{matlabcode}
     \begin{matlaboutput}
-        jacobi ha raggiunto la convergenza all'iterazione 210137
-        determinando una soluzione approssimata avente residuo
-        relativo pari a 1e-06.
+    jacobi ha raggiunto la convergenza all'iterazione 210137
+    determinando una soluzione approssimata avente residuo
+    relativo pari a 1e-06.
 
-        ans =
+    ans =
 
-        1.0000    1.0000    1.0000    1.0000    1.0000    ...
+    1.0000    1.0000    1.0000    1.0000    1.0000    ...
     \end{matlaboutput}
     \begin{matlaboutput}
-        Tempo esecuzione jacobi: 437.693564 sec.
+    Tempo esecuzione jacobi: 437.693564 sec.
     \end{matlaboutput}
     Impiegando la configurazione personalizzata, il metodo di Jacobi converge e la soluzione calcolata presenta un errore assoluto sensibilmente minore, come
     mostrato dal confronto in figura \ref{fig:confrontoErroriAssoluti}.\newline
@@ -131,11 +131,40 @@ calcolato come somma di altri \textit{array} distribuiti.
                                                  [],maxit);
 \end{matlabcode}
 \begin{matlaboutput}
+    Starting parallel pool (parpool) using the 'Processes' 
+    profile ...
+    Connected to parallel pool with 2 workers.
+
     jacobi ha raggiunto la convergenza all'iterazione 210137
     determinando una soluzione approssimata avente residuo
     relativo pari a 1e-06.
-
+\end{matlaboutput}
+\begin{matlaboutput}
     ans =
 
     1.0000    1.0000    1.0000    1.0000    1.0000    ...
 \end{matlaboutput}
+Al termine dell'elaborazione, possiamo spegnere il \textit{parallel pool}. La funzione \lstinline{gcp} restituisce un oggetto rappresentante l'istanza attiva del parpool, in modo da poter procedere con la sua eliminazione.
+\begin{matlabcode}
+    delete(gcp('nocreate'));
+\end{matlabcode}
+\begin{matlaboutput}
+    Parallel pool using the 'Processes' profile is shutting down.
+\end{matlaboutput}
+\subsection{Alcune considerazioni conclusive}
+La mancata convergenza della funzione \lstinline{jacobi} al primo tentativo, dovuta all'insufficiente numero di iterazioni a disposizione, costituisce un'evidenza a supporto del fatto che la velocit\`a di convergenza del metodo di Jacobi, ovvero la velocit\`a con la quale $\norm{\mathbf{e}^{(k)}}  \rightarrow \mathbf{0} \text{ per } k\rightarrow{\infty}$, sia piuttosto bassa rispetto ad altri metodi iterativi, come il metodo del gradiente coniugato precondizionato.\newline
+Per questo motivo, in problemi \textit{compute-intensive}, si preferisce utilizzare un solutore pi\`u efficiente e ricorrere a tecniche che, in definitiva, diminuiscono il numero di iterazioni compiute dal metodo e il corrispondente residuo relativo. \newline
+A questo proposito, accenniamo al precondizionamento di sistemi lineari, che si fonda sull'idea di ridurre il numero di condizionamento della matrice del sistema, moltiplicandola per un'opportuna matrice di precondizionamento.
+
+A partire da \eqref{eq:formaMatricialeSistemiLineari} e introducendo il precondizionatore sinistro $P\in\mathbb{R}^{n\times n}$, otteniamo il seguente sistema precondizionato
+\begin{equation}
+    P^{-1}A\mathbf{x} = P^{-1}\mathbf{b},
+\end{equation}
+In alternativa, possiamo avvalerci di precondizionatori destri e centrati trasformando il sistema \eqref{eq:formaMatricialeSistemiLineari} rispettivamente nella forma
+\begin{equation*}
+    AP^{-1}\mathbf{y} = \mathbf{b} \quad \text{con}\quad \mathbf{y} = P\mathbf{x},
+\end{equation*}
+oppure
+\begin{equation*}
+   P_{L}^{-1}AP_{R}^{-1}\mathbf{y}=P_{L}^{-1}\mathbf{b} \quad \text{con} \quad \mathbf{y} = P_{R}\mathbf{x}.
+\end{equation*}
