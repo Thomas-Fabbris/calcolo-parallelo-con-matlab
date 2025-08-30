@@ -30,5 +30,5 @@ resources
 **/.svn/**/*
 **/.buildtool/**/*
 **/*.asv
-performanceAnalysis/*
-logs/*
+performanceAnalysis
+logs

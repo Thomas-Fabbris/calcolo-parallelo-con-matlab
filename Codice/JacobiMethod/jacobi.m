@@ -1,8 +1,7 @@
 function [x,flag, relres, iter, resvec] = jacobi(A,b,tol,maxit,x0)
 %JACOBI - Solve system of linear equations - Jacobi Method
 %   This MATLAB function attempts to solve the system of linear
-%   equations A*x = b for x using an implementation of the Jacobi
-%   method.
+%   equations A*x = b for x using the Jacobi method.
 %   The right-hand side column vector b must have a compatible
 %   size with the n-by-n coefficient matrix A.
 %
@@ -50,7 +49,7 @@ function [x,flag, relres, iter, resvec] = jacobi(A,b,tol,maxit,x0)
 %
 %   See also BICG, BICGSTAB, BICGSTABL, CGS, GMRES, LSQR, MINRES,
 %   QMR, PCG, SYMMLQ, TFQMR.
-%
+
 %   Author: Thomas Fabbris   
 %   Version: 1.0
 

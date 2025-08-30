@@ -1,13 +1,37 @@
 {
-    "_schemaVersion": "1.0.0",
-    "jacobi": {
-                "inputs": [
-                    {
-                        "name": "A",
-                        "kind": "required",
-                        "type": ["numeric", ">=0"],
-                        "purpose": "Coefficient matrix"
-                    }
-                ]
-    }
+   "_schemaVersion": "1.0.0",
+   "jacobi": {
+      "inputs": [
+         {
+            "name": "A",
+            "kind": "required",
+            "type": ["square", "real"],
+            "purpose": "Coefficient matrix"
+         },
+         {
+            "name": "b",
+            "kind": "required",
+            "type": ["column", "real"],
+            "purpose": "Right side of linear equation"
+         },
+         {
+            "name": "tol",
+            "kind": "ordered",
+            "type": ["integer", "positive"],
+            "purpose": "Method tolerance"
+         },
+         {
+            "name": "maxit",
+            "kind": "ordered",
+            "type": ["scalar", ">=0"],
+            "purpose": "Maximum number of iterations"
+         },
+           {
+            "name": "x0",
+            "kind": "ordered",
+            "type": ["column", "real"],
+            "purpose": "Initial guess"
+           }
+      ]
+   }
 }
