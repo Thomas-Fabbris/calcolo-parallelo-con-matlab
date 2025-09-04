@@ -28,7 +28,7 @@ end
         opts = matlab.addons.toolbox.ToolboxOptions("jacobi.prj");
 
         % By default, the packaging GUI restricts the name of the getting started guide, so we fix that here.
-        opts.ToolboxGettingStartedGuide = fullfile("toolbox", "gettingStarted.mlx");
+        opts.ToolboxGettingStartedGuide = fullfile("toolbox/doc/", "GettingStarted.mlx");
 
         % GitHub releases don't allow spaces, so replace spaces with underscores
         mltbxFileName = strrep(opts.ToolboxName," ","_") + ".mltbx";
