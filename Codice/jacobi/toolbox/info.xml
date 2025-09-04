@@ -1,0 +1,20 @@
+<productinfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="optional">
+    <?xml-stylesheet type="text/xsl"href="optional"?>
+    <!-- info.xml file for the Jacobi Method Toolbox -->
+    <!-- Version 1.0 -->
+    <!-- Copyright 10-07-2025 Thomas Fabbris.-->
+    
+    <!-- (Required) Release of MATLAB. -->
+    <matlabrelease>R2025a</matlabrelease>
+    <!-- (Required) Title of toolbox. -->
+    <name>Jacobi Method Toolbox</name>
+    <!-- (Required) Label for the toolbox -->
+    <type>toolbox</type>
+    <!-- (Required) Icon file to display in the Start button.-->
+    <icon></icon>
+    <!-- (Required if you supply help) Relative path to help (HTML) folder -->
+    <help_location>toolbox/examples/html</help_location>
+    <!-- (Required if you supply help) Icon used in the Help browser TOC -->
+    <help_contents_icon></help_contents_icon>
+</productinfo>

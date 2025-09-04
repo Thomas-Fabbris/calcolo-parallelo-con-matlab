@@ -1,7 +1,7 @@
 %!TeX root = ../../Tesi.tex
 In questo paragrafo presentiamo un esempio di risoluzione di un sistema di equazioni lineari mediante la funzione
 \lstinline{jacobi} discussa nel paragrafo \ref{par:algoritmoJacobi}. \newline
-Tutto il codice proposto di seguito \`e stato eseguito su un portatile HP Pavilion 15-eg2016nl con processore Intel\textsuperscript{\textregistered} Core\textsuperscript{\texttrademark} i7-1255U\footnote{Intel Core \`e un marchio registrato da Intel Corporation o da societ\`a da essa controllate.} e \qty{16}{\giga\byte} di memoria centrale; per brevit\`a abbiamo omesso le istruzioni impiegate nella stampa dei messaggi sulla finestra dei comandi n\'e quelle per la creazione dei grafici.
+Tutto il codice proposto di seguito \`e stato eseguito su un portatile HP Pavilion 15-eg2016nl con processore Intel\textsuperscript{\textregistered} Core\textsuperscript{\texttrademark} i7-1255U\footnote{Intel Core \`e un marchio registrato da Intel Corporation o da societ\`a da essa controllate.} e \qty{16}{\giga\byte} di memoria centrale; per brevit\`a abbiamo omesso le istruzioni impiegate nella stampa dei messaggi sulla finestra dei comandi e quelle per la creazione dei grafici.
 \subsection{Presentazione del problema}
 Consideriamo come matrice dei coefficienti $A$ la matrice derivante dalla discretizzazione dell'equazione di Poisson su un
 dominio quadrato $\Omega=[0, 1]\times[0, 1]$ mediante il metodo delle differenze finite\footnote{
@@ -34,8 +34,8 @@ dove $J = \{A_{1}, A_{2},\dots,A_{n}\}$ denota l'insieme delle colonne della mat
 del sistema sia $\mathbf{x} = (1, 1, ..., 1)^\top$, essendo $\mathbf{b}$ combinazione lineare, con coefficienti tutti uguali a $\num{1}$, delle colonne $A_{i}$. Questa scelta consente di stimare facilmente l'accuratezza della soluzione calcolata dal metodo.
 \subsection{Risoluzione con il metodo di Jacobi classico}
 Dapprima, risolviamo il sistema attraverso la funzione \lstinline{jacobi} nella sua configurazione predefinita:
-il massimo numero di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, mentre la tolleranza cercata nella risoluzione del problema \`e pari a ${10}^{-6}$.\newline
-    Successivamente, calcoliamo l'errore assoluto alla $k$-esima iterazione sulla base di \eqref{eq:errorePassoK}
+il numero massimo di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, mentre la tolleranza cercata durante la soluzione del problema \`e pari a ${10}^{-6}$.\newline
+    Successivamente, calcoliamo l'errore assoluto alla $k$-esima iterazione come
     \begin{equation*}
         \norm{\mathbf{e}^{(k)}} = \norm{\mathbf{x} - \mathbf{x}^{(k)}}.
     \end{equation*}
@@ -77,8 +77,8 @@ il massimo numero di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, men
     \end{matlaboutput}
     Impiegando la configurazione personalizzata, il metodo di Jacobi converge e la soluzione calcolata presenta un errore assoluto sensibilmente minore, come
     mostrato dal confronto in figura \ref{fig:confrontoErroriAssoluti}.\newline
-    L'evoluzione del residuo relativo nel corso dell'esecuzione, proposto in figura \ref{fig:evoluzioneResiduoRelativo}, indica inequivocabilmente il motivo per cui il metodo non ha raggiunto
-    una soluzione accettabile nel primo scenario d'esecuzione: il numero di iterazioni era insufficiente per garantire la convergenza dell'algoritmo.
+    L'evoluzione del residuo relativo nel corso dell'esecuzione, proposto in figura \ref{fig:evoluzioneResiduoRelativo}, conferma il motivo precedentemente supposto che ha portato il metodo a non raggiungere
+    una soluzione accettabile nel primo scenario.
 
     Il tempo di esecuzione sperimentato, pari a circa $\num{8}$ minuti per un problema di dimensioni non strabilianti, rappresenta un segnale chiaro
     dell'intensit\`a computazionale richiesta dal metodo di Jacobi e giustifica il ricorso agli strumenti del calcolo parallelo per ottenere un miglioramento prestazionale.
@@ -118,11 +118,11 @@ di un insieme di \textit{worker} su un qualsiasi sistema multiprocessore.
 
 Questo approccio alternativo risulta vantaggioso poich\'e la memorizzazione distribuita degli \textit{array} rende possibile la risoluzione di problemi in cui la matrice dei coefficienti ha dimensioni
 tali da non poter essere interamente contenuta nella memoria centrale di un calcolatore tradizionale.\newline
-In realt\`a, l'incremento di velocit\`a apportato dalla parallelizzazione dell'algoritmo viene limitato dai costi di comunicazione e di sincronizzazione tra le unit\`a di lavoro, che costituiscono un collo di bottiglia ogniqualvolta il numero di processori fisici del sistema sia inadeguato rispetto all'ordine di grandezza del problema.
+In realt\`a, l'incremento di velocit\`a apportato dalla parallelizzazione dell'algoritmo \`e limitato dai costi di comunicazione e di sincronizzazione tra le unit\`a di lavoro, che costituiscono un collo di bottiglia ogniqualvolta il numero di processori fisici del sistema sia inadeguato rispetto all'ordine di grandezza del problema.
 
-La generazione dei dati e la risoluzione del sistema lineare risultante sono analoghi al caso seriale, eccetto per la creazione esplicita di array
+La generazione dei dati e la risoluzione del sistema lineare risultante sono analoghi al caso seriale, eccetto per la creazione esplicita degli \textit{array}
 distribuiti mediante la funzione \lstinline{distributed}.\newline
-All'invocazione di \lstinline{distributed}, MATLAB avvia automaticamente un \textit{parallel pool} usando l'ambiente di esecuzione parallela predefinita, mentre dal momento che la funzione \lstinline{sum} \`e stata progettata per operare su diversi tipi di input, \lstinline{b} \`e automaticamente un \textit{array} distribuito, essendo
+All'invocazione di \lstinline{distributed}, MATLAB avvia automaticamente un \textit{parallel pool} usando l'ambiente di esecuzione parallela predefinito mentre, dal momento che la funzione \lstinline{sum} \`e stata progettata per operare su diversi tipi di input, \lstinline{b} \`e automaticamente un \textit{array} distribuito, essendo
 calcolato come somma di altri \textit{array} distribuiti.
 \begin{matlabcode}
     A = distributed((gallery('poisson', m)));
@@ -144,19 +144,19 @@ calcolato come somma di altri \textit{array} distribuiti.
 
     1.0000    1.0000    1.0000    1.0000    1.0000    ...
 \end{matlaboutput}
-Al termine dell'elaborazione, possiamo spegnere il \textit{parallel pool}. La funzione \lstinline{gcp} restituisce un oggetto rappresentante l'istanza attiva del parpool, in modo da poter procedere con la sua eliminazione.
+Al termine dell'elaborazione, possiamo spegnere il \textit{parallel pool}. La funzione \lstinline{gcp} restituisce un oggetto rappresentante l'istanza attiva del parpool, in modo da procedere con la sua eliminazione.
 \begin{matlabcode}
     delete(gcp('nocreate'));
 \end{matlabcode}
 \begin{matlaboutput}
     Parallel pool using the 'Processes' profile is shutting down.
 \end{matlaboutput}
-\subsection{Alcune considerazioni conclusive}
-La mancata convergenza della funzione \lstinline{jacobi} al primo tentativo, dovuta all'insufficiente numero di iterazioni a disposizione, costituisce un'evidenza a supporto del fatto che la velocit\`a di convergenza del metodo di Jacobi, ovvero la velocit\`a con la quale $\norm{\mathbf{e}^{(k)}}  \rightarrow \mathbf{0} \text{ per } k\rightarrow{\infty}$, sia piuttosto bassa rispetto ad altri metodi iterativi, come il metodo del gradiente coniugato precondizionato.\newline
-Per questo motivo, in problemi \textit{compute-intensive}, si preferisce utilizzare un solutore pi\`u efficiente e ricorrere a tecniche che, in definitiva, diminuiscono il numero di iterazioni compiute dal metodo e il corrispondente residuo relativo. \newline
+\subsection{Alcune considerazioni finali}
+La mancata convergenza della funzione \lstinline{jacobi} al primo tentativo, dovuta all'insufficiente numero di iterazioni a disposizione, costituisce un'evidenza a supporto del fatto che la velocit\`a di convergenza del metodo di Jacobi, ovvero la velocit\`a con la quale $\norm{\mathbf{e}^{(k)}}  \rightarrow 0 \text{ per } k\rightarrow{\infty}$, sia piuttosto bassa rispetto ad altri metodi iterativi.\newline
+Per questo motivo, in problemi \textit{compute-intensive}, si preferisce utilizzare un solutore pi\`u efficiente, come il metodo del gradiente conoiugato precondizionato, e ricorrere a tecniche che, in definitiva, diminuiscono il numero di iterazioni necessarie e il corrispondente residuo relativo. \newline
 A questo proposito, accenniamo al precondizionamento di sistemi lineari, che si fonda sull'idea di ridurre il numero di condizionamento della matrice del sistema, moltiplicandola per un'opportuna matrice di precondizionamento.
 
-A partire da \eqref{eq:formaMatricialeSistemiLineari} e introducendo il precondizionatore sinistro $P\in\mathbb{R}^{n\times n}$, otteniamo il seguente sistema precondizionato
+A partire da \eqref{eq:formaMatricialeSistemiLineari}, introduciamo il precondizionatore sinistro $P\in\mathbb{R}^{n\times n}$, ottenendo il seguente sistema precondizionato
 \begin{equation}
     P^{-1}A\mathbf{x} = P^{-1}\mathbf{b},
 \end{equation}

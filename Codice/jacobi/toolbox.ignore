@@ -1,0 +1,17 @@
+resources
+**/*.prj
+**/*.prj.bak
+**/.git/**/*
+**/.svn/**/*
+**/.buildtool/**/*
+**/*.asv
+performanceAnalysis
+logs
+images
+jacobi
+derived
+tests
+.buildtool
+buildfile.m
+license.txt
+.gitignore

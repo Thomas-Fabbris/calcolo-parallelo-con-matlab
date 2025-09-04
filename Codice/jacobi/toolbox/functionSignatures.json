@@ -1,0 +1,146 @@
+{
+   "_schemaVersion": "1.0.0",
+   "jacobi": {
+      "inputs": [
+         {
+            "name": "A",
+            "kind": "required",
+            "type": [
+               [
+                  "square",
+                  "double"
+               ],
+               [
+                  "square",
+                  "single"
+               ],
+               [
+                  "square",
+                  "distributed"
+               ]
+            ],
+            "purpose": "Coefficient matrix"
+         },
+         {
+            "name": "b",
+            "kind": "required",
+            "type": [
+               [
+                  "column",
+                  "single"
+               ],
+               [
+                  "column",
+                  "double"
+               ],
+               [
+                  "column",
+                  "distributed"
+               ]
+            ],
+            "purpose": "Right side of linear equation"
+         },
+         {
+            "name": "tol",
+            "kind": "positional",
+            "type": [
+               [
+                  "double",
+                  ">0",
+                  "scalar"
+               ],
+               [
+                  "single",
+                  ">0",
+                  "scalar"
+               ]
+            ],
+            "default": "1e-6",
+            "purpose": "Method tolerance"
+         },
+         {
+            "name": "maxit",
+            "kind": "positional",
+            "type": [
+               [
+                  "double",
+                  ">=0",
+                  "scalar"
+               ],
+               [
+                  "single",
+                  ">=0",
+                  "scalar"
+               ]
+            ],
+            "default": "100",
+            "purpose": "Maximum number of iterations"
+         },
+         {
+            "name": "x0",
+            "kind": "positional",
+            "type": [
+               [
+                  "column",
+                  "single"
+               ],
+               [
+                  "column",
+                  "double"
+               ],
+               [
+                  "column",
+                  "distributed"
+               ]
+            ],
+            "default": "zeros(size(b),1)",
+            "purpose": "Initial guess"
+         }
+      ],
+      "outputs": [
+         {
+            "name": "x",
+            "type": "inferredFrom=b",
+            "purpose": "Linear system solution"
+         },
+         {
+            "name": "flag",
+            "type": [
+               "choices={0,1,2}"
+            ],
+            "purpose": "Convergence flag"
+         },
+         {
+            "name": "relres",
+            "type": [
+               [
+                  "double",
+                  ">=0",
+                  "scalar"
+               ],
+               [
+                  "single",
+                  ">=0",
+                  "scalar"
+               ]
+            ],
+            "purpose": "Relative residual error"
+         },
+         {
+            "name": "iter",
+            "type": [
+               "double",
+               "scalar",
+               ">=0"
+            ],
+            "purpose": "Iteration number"
+         },
+         {
+            "name": "resvec",
+            "type": "inferredFrom=b",
+            "purpose": "Residual error"
+         }
+      ],
+      "description": "Solve systems of linear equations - Jacobi method"
+   }
+}
