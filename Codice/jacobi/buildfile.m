@@ -23,7 +23,7 @@ end
     end
     
     function releaseTask(~)
-        releaseFolderName = "release";
+        releaseFolderName = "jacobi/release";
         % Create a release and put it in the release directory
         opts = matlab.addons.toolbox.ToolboxOptions("jacobi.prj");
 
