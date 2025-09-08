@@ -7,14 +7,14 @@
     
     <!-- (Required) Release of MATLAB. -->
     <matlabrelease>R2025a</matlabrelease>
-    <!-- (Required) Title of toolbox. -->
-    <name>Jacobi Method Toolbox</name>
+    <!-- (Required) Title of toolbox -->
+    <name>Jacobi Method</name>
     <!-- (Required) Label for the toolbox -->
     <type>toolbox</type>
-    <!-- (Required) Icon file to display in the Start button.-->
+    <!-- Icon file to display in the Start button -->
     <icon></icon>
     <!-- (Required if you supply help) Relative path to help (HTML) folder -->
-    <help_location>examples/html</help_location>
-    <!-- (Required if you supply help) Icon used in the Help browser TOC -->
+    <help_location>toolbox/html</help_location>
+    <!-- Icon used in the Help browser TOC -->
     <help_contents_icon></help_contents_icon>
 </productinfo>

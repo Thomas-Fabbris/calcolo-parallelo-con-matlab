@@ -14,4 +14,7 @@ tests
 .buildtool
 buildfile.m
 license.txt
+info.xml
+demos.xml
 .gitignore
+deploymentLog.html

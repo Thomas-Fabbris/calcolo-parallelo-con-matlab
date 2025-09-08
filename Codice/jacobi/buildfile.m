@@ -31,7 +31,7 @@ end
         opts.ToolboxGettingStartedGuide = fullfile("toolbox/doc/", "GettingStarted.mlx");
 
         % GitHub releases don't allow spaces, so replace spaces with underscores
-        mltbxFileName = strrep(opts.ToolboxName," ","_") + ".mltbx";
+        mltbxFileName = strrep(opts.ToolboxName," ","") + ".mltbx";
         opts.OutputFile = fullfile(releaseFolderName,mltbxFileName);
 
         % Create the release directory, if needed

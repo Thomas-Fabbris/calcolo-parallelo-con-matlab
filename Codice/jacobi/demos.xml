@@ -2,8 +2,10 @@
 <demos>
     <name>Jacobi Method</name>
     <type>toolbox</type>
-    <icon></icon>
-    <description>
+   <icon></icon>
+   <description>These examples will help you to familiarize with the main features offered by Jacobi Method Toolbox.</description>
+   <website><a href="https://www.mathworks.com/help/matlab/index.html">MATLAB Documentation</a></website>
+    <description isCdata="no">
         Use the Jacobi Method Toolbox to Solve Systems of Linear 
         Equations using the Jacobi Method
     </description>
@@ -14,7 +16,8 @@
            Solve Systems of Linear Equations with Jacobi Method
        </label>
         <type>M-file</type>
-        <source>JacobiMethodLinearSystemsExample</source>
+       <source>JacobiMethodLinearSystemsExample</source>
+       <dependency>Parallel Computing Toolbox</dependency>
     </demoitem>
 </demosection>
 </demos>
