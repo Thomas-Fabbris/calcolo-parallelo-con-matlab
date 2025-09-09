@@ -1,7 +1,8 @@
 %!TeX root = ../../Tesi.tex
 In questo paragrafo presentiamo un esempio di risoluzione di un sistema di equazioni lineari mediante la funzione
 \lstinline{jacobi} discussa nel paragrafo \ref{par:algoritmoJacobi}. \newline
-Tutto il codice proposto di seguito \`e stato eseguito su una workstation con 48 processore Intel\textsuperscript{\textregistered} Core\textsuperscript{\texttrademark} i7-1255U\footnote{Intel Core \`e un marchio registrato da Intel Corporation o da societ\`a da essa controllate.} e \qty{128}{\giga\byte} di memoria centrale; per brevit\`a abbiamo omesso le istruzioni impiegate nella stampa dei messaggi sulla finestra dei comandi e quelle per la creazione dei grafici.
+Tutto il codice proposto di seguito \`e stato eseguito su una \textit{workstation} del \textit{Control Systems and Automation Laboratory} (CAL) dell'Universit\`a degli Studi di Bergamo, caratterizzata da 24 processori fisici Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\texttrademark} E5-2687W v4\footnote{Xeon \`e un marchio registrato da Intel Corporation o da societ\`a da essa controllate.} e \qty{125}{\giga\byte} di memoria centrale; relativamente al software impiegato, ci siamo avvalsi di un'installazione di MATLAB R2024b compilata per la versione a 64 bit del sistema operativo Linux.\newline
+Per brevit\`a, abbiamo omesso le istruzioni impiegate per la stampa dei messaggi sulla finestra dei comandi e quelle per la creazione dei grafici.
 \subsection{Presentazione del problema}
 Consideriamo come matrice dei coefficienti $A$ la matrice derivante dalla discretizzazione dell'equazione di Poisson su un
 dominio quadrato $\Omega=[0, 1]\times[0, 1]$ mediante il metodo delle differenze finite\footnote{
@@ -31,7 +32,8 @@ Scegliendo come vettore dei termini noti
     \mathbf{b} = \sum_ {A_{i} \in J} A_{i},
 \end{equation*}
 dove $J = \{A_{1}, A_{2},\dots,A_{n}\}$ denota l'insieme delle colonne della matrice $A$, possiamo dimostrare che la soluzione
-del sistema sia $\mathbf{x} = (1, 1, ..., 1)^\top$, essendo $\mathbf{b}$ combinazione lineare, con coefficienti tutti uguali a $\num{1}$, delle colonne $A_{i}$. Questa scelta consente di stimare facilmente l'accuratezza della soluzione calcolata dal metodo.
+del sistema sia $\mathbf{x} = (1, 1, ..., 1)^\top$, essendo $\mathbf{b}$ combinazione lineare, con coefficienti tutti uguali a $\num{1}$, delle colonne $A_{i}$. \newline
+Questa scelta ci consente di stimare facilmente l'accuratezza della soluzione calcolata dal metodo.
 \subsection{Risoluzione con il metodo di Jacobi classico}
 Dapprima, risolviamo il sistema attraverso la funzione \lstinline{jacobi} nella sua configurazione predefinita:
 il numero massimo di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, mentre la tolleranza cercata durante la soluzione del problema \`e pari a ${10}^{-6}$.\newline
@@ -45,8 +47,8 @@ il numero massimo di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, men
     \end{matlabcode}
     \begin{matlaboutput}
     jacobi si è fermato all'iterazione numero 100 senza
-    raggiungere la tolleranza desiderata 1e-06 poiché il
-    numero massimo di iterazioni è stato raggiunto.
+    raggiungere la tolleranza desiderata (1e-06) poiché
+    il numero massimo di iterazioni è stato raggiunto.
     L'ultima iterazione presenta residuo relativo
     pari a 0.028.
     \end{matlaboutput}
@@ -78,11 +80,81 @@ il numero massimo di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, men
     Impiegando la configurazione personalizzata, il metodo di Jacobi converge e la soluzione calcolata presenta un errore assoluto sensibilmente minore, come
     mostrato dal confronto in figura \ref{fig:confrontoErroriAssoluti}.\newline
     L'evoluzione del residuo relativo nel corso dell'esecuzione, proposto in figura \ref{fig:evoluzioneResiduoRelativo}, conferma il motivo precedentemente supposto che ha portato il metodo a non raggiungere
-    una soluzione accettabile nel primo scenario.
+    una soluzione accettabile nel primo tentativo.
 
-    Il tempo di esecuzione sperimentato, pari a circa $\num{8}$ minuti per un problema di dimensioni non strabilianti, rappresenta un segnale chiaro
-    dell'intensit\`a computazionale richiesta dal metodo di Jacobi e giustifica il ricorso agli strumenti del calcolo parallelo per ottenere un miglioramento prestazionale.
-    \begin{figure}[!htbp]
+    Il tempo di esecuzione sperimentato, pari a circa otto minuti per un problema di dimensioni non strabilianti, rappresenta un segnale chiaro
+    dell'intensit\`a computazionale del metodo di Jacobi e giustifica il ricorso agli strumenti del calcolo parallelo con l'auspicio di registrare un miglioramento prestazionale.
+    \subsection{Risoluzione con il metodo di Jacobi per \textit{array} distribuiti}
+    Generando la matrice $A$ come un \textit{array} distribuito, possiamo trarre vantaggio dall'esecuzione parallela della funzione \lstinline{jacobi} da parte
+di un insieme di \textit{worker} su un qualsiasi sistema multiprocessore.
+
+Questo approccio alternativo risulta vantaggioso poich\'e la memorizzazione distribuita degli \textit{array} rende possibile la risoluzione di problemi in cui la matrice dei coefficienti ha dimensioni
+tali da non poter essere interamente contenuta nella memoria centrale di un calcolatore tradizionale.\newline
+In realt\`a, l'incremento di velocit\`a apportato dalla parallelizzazione dell'algoritmo \`e limitato dai costi di comunicazione e di sincronizzazione tra le unit\`a di lavoro, che costituiscono un collo di bottiglia ogniqualvolta il numero di processori fisici del sistema sia inadeguato rispetto all'ordine di grandezza del problema.
+
+La generazione dei dati e la risoluzione del sistema lineare risultante sono analoghi al caso seriale, eccetto per la creazione esplicita degli \textit{array}
+distribuiti mediante la funzione \lstinline{distributed}.\newline
+All'invocazione di \lstinline{distributed}, MATLAB avvia automaticamente un \textit{parallel pool} usando l'ambiente di esecuzione parallela predefinito e, dal momento che la funzione \lstinline{sum} \`e stata progettata per operare su diversi tipi di input, \lstinline{b} \`e automaticamente un \textit{array} distribuito, essendo
+ottenuto come somma di altri \textit{array} distribuiti.
+\begin{matlabcode}
+    A = distributed((gallery('poisson', m)));
+    b = sum(A,2);
+    [xJM3,flagJM3,relresJM3,iterJM3,resvecJM3] = jacobi(A,b,
+                                                 [],maxit);
+\end{matlabcode}
+\begin{matlaboutput}
+    Starting parallel pool (parpool) using the 'Processes' 
+    profile ...
+    Connected to parallel pool with 24 workers.
+
+    jacobi ha raggiunto la convergenza all'iterazione 210137
+    determinando una soluzione approssimata avente residuo
+    relativo pari a 1e-06.
+\end{matlaboutput}
+\begin{matlaboutput}
+    ans =
+
+    1.0000    1.0000    1.0000    1.0000    1.0000    ...
+
+    Tempo esecuzione jacobi con array distribuiti: 875.5708 sec.
+\end{matlaboutput}
+Al termine dell'elaborazione, possiamo spegnere il \textit{parallel pool}; la funzione \lstinline{gcp} restituisce un oggetto rappresentante l'istanza attiva del parpool, in modo da procedere con la sua eliminazione.
+\begin{matlabcode}
+    delete(gcp('nocreate'));
+\end{matlabcode}
+\begin{matlaboutput}
+    Parallel pool using the 'Processes' profile is shutting down.
+\end{matlaboutput}
+\subsection{Alcune considerazioni finali}
+La mancata convergenza della funzione \lstinline{jacobi} al primo tentativo, dovuta all'insufficiente numero di iterazioni a disposizione, costituisce un'evidenza a supporto del fatto che la velocit\`a di convergenza del metodo di Jacobi, ovvero la velocit\`a con la quale $\norm{\mathbf{e}^{(k)}}  \rightarrow 0 \text{ per } k\rightarrow{\infty}$, sia piuttosto bassa rispetto ad altri metodi iterativi.\newline
+Per questo motivo, nell'affrontare problemi \textit{compute-intensive}, si preferisce utilizzare un solutore pi\`u efficiente, come il metodo del gradiente coniugato precondizionato, e ricorrere a tecniche che diminuiscono il numero di iterazioni necessarie. \newline
+A questo proposito, accenniamo al precondizionamento di sistemi lineari, che si fonda sull'idea di ridurre il numero di condizionamento della matrice del sistema, moltiplicandola per un'opportuna matrice di precondizionamento.
+
+A partire da \eqref{eq:formaMatricialeSistemiLineari}, introduciamo il precondizionatore sinistro $P\in\mathbb{R}^{n\times n}$, ottenendo il seguente sistema precondizionato
+\begin{equation}
+    P^{-1}A\mathbf{x} = P^{-1}\mathbf{b}.
+\end{equation}
+In alternativa, possiamo avvalerci di precondizionatori destri e centrati trasformando il sistema \eqref{eq:formaMatricialeSistemiLineari} rispettivamente nella forma
+\begin{equation*}
+    AP^{-1}\mathbf{y} = \mathbf{b} \quad \text{con}\quad \mathbf{y} = P\mathbf{x},
+\end{equation*}
+oppure
+\begin{equation*}
+   P_{L}^{-1}AP_{R}^{-1}\mathbf{y}=P_{L}^{-1}\mathbf{b} \quad \text{con} \quad \mathbf{y} = P_{R}\mathbf{x}.
+\end{equation*}
+Perfino nel terzo scenario di esecuzione non abbiamo registrato alcun incremento di velocit\`a rispetto alla versione seriale dell'algoritmo, dal momento che l'\textit{overhead} per il coordinamento e la sincronizzazione dei \textit{worker} supera di gran lunga i benefici introdotti dalla parallelizzazione.
+
+L'analisi del profilo di esecuzione del codice di \lstinline{jacobi} mediante lo strumento \textit{Profiler} di MATLAB ha immediatamente evidenziato quale possa essere il principale collo di bottiglia: la funzione interna \lstinline{RemoteSpmdControllerImpl.awaitBlock} occupa la quasi totalit\`a del tempo di esecuzione del metodo di Jacobi, indicando che i \textit{worker} sono rimasti in uno stato di attesa per un intervallo di tempo significativo e non hanno proceduto con la computazione vera e propria nel frattempo.
+
+Innanzitutto, questo comportamento peculiare pu\'o essere spiegato dalla presenza di una latenza di comunicazione intrinseca nell'infrastruttura del Parallel Computing Toolbox; nonostante i \textit{worker} risiedano sullo stesso calcolatore, la comunicazione all'interno del \textit{parallel pool} non \`e a costo zero e l'effetto negativo sulle prestazioni si aggiunge progressivamente al ritardo accumulato in precedenza.
+
+Inoltre, il metodo di Jacobi \`e un algoritmo fortemente sincrono; a ogni passo dell'esecuzione, impone un coordinamento tra i \textit{worker} per calcolare la nuova soluzione approssimata e per valutare le condizioni di arresto basate sul controllo del residuo relativo e sulla verifica della divergenza del metodo.\newline
+L'aggiornamento del residuo del sistema $\mathbf{r}^{(k)}$, previsto da $\eqref{eq:metodoIterativoConResiduo}$, induce un'operazione di riduzione, in quanto \`e necessario recuperare l'intero vettore delle incognite $\mathbf{x}^{(k)}$ per determinare completamente il prodotto matrice-vettore $A\mathbf{x}^{(k)}$.\newline
+Analogamente, il calcolo della norma del residuo relativo $\norm{\mathbf{r}^{(k)}}$, sfruttato nel test di arresto dell'algoritmo, introduce un punto di barriera, secondo il quale l'esecuzione di ciascun \textit{worker} non pu\`o procedere finch\`e tutte le altre unit\`a di elaborazione non abbiano raggiunto il medesimo punto nel flusso di esecuzione del programma.
+
+In conclusione, il risultato ottenuto dall'applicazione della funzione \lstinline{jacobi} per la risoluzione di un sistema di equazioni lineari di grandi dimensioni si \`e rivelato negativo in termini di prestazioni, ma ha permesso di dimostrare come la scelta dell'algoritmo da eseguire influenzi la possibilit\`a di ottenere un reale \textit{speedup} delle prestazioni, mettendo in luce i limiti pratici del parallelismo a livello di dati in un sistema a memoria condivisa.
+
+\begin{figure}[!htbp]
         \centering
         \begin{subfigure}{0.58\textwidth}
             \centering
@@ -112,59 +184,3 @@ il numero massimo di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, men
         \caption{Rappresentazione dei risultati riguardanti la convergenza del metodo di Jacobi applicato al problema del paragrafo \ref{par:applicazioneMetodoJacobi}. Quando risultava necessario per migliorare la leggibilit\`a del grafico, abbiamo adottato una scala logaritmica sugli assi coordinati.}
         \label{fig:gruppoImmaginiAnalisiPrestazionale}
     \end{figure}
-    \subsection{Risoluzione con il metodo di Jacobi per \textit{array} distribuiti}
-    Generando la matrice $A$ come un \textit{array} distribuito, possiamo trarre vantaggio dall'esecuzione parallela della funzione \lstinline{jacobi} da parte
-di un insieme di \textit{worker} su un qualsiasi sistema multiprocessore.
-
-Questo approccio alternativo risulta vantaggioso poich\'e la memorizzazione distribuita degli \textit{array} rende possibile la risoluzione di problemi in cui la matrice dei coefficienti ha dimensioni
-tali da non poter essere interamente contenuta nella memoria centrale di un calcolatore tradizionale.\newline
-In realt\`a, l'incremento di velocit\`a apportato dalla parallelizzazione dell'algoritmo \`e limitato dai costi di comunicazione e di sincronizzazione tra le unit\`a di lavoro, che costituiscono un collo di bottiglia ogniqualvolta il numero di processori fisici del sistema sia inadeguato rispetto all'ordine di grandezza del problema.
-
-La generazione dei dati e la risoluzione del sistema lineare risultante sono analoghi al caso seriale, eccetto per la creazione esplicita degli \textit{array}
-distribuiti mediante la funzione \lstinline{distributed}.\newline
-All'invocazione di \lstinline{distributed}, MATLAB avvia automaticamente un \textit{parallel pool} usando l'ambiente di esecuzione parallela predefinito mentre, dal momento che la funzione \lstinline{sum} \`e stata progettata per operare su diversi tipi di input, \lstinline{b} \`e automaticamente un \textit{array} distribuito, essendo
-calcolato come somma di altri \textit{array} distribuiti.
-\begin{matlabcode}
-    A = distributed((gallery('poisson', m)));
-    b = sum(A,2);
-    [xJM3,flagJM3,relresJM3,iterJM3,resvecJM3] = jacobi(A,b,
-                                                 [],maxit);
-\end{matlabcode}
-\begin{matlaboutput}
-    Starting parallel pool (parpool) using the 'Processes' 
-    profile ...
-    Connected to parallel pool with 24 workers.
-
-    jacobi ha raggiunto la convergenza all'iterazione 210137
-    determinando una soluzione approssimata avente residuo
-    relativo pari a 1e-06.
-\end{matlaboutput}
-\begin{matlaboutput}
-    ans =
-
-    1.0000    1.0000    1.0000    1.0000    1.0000    ...
-\end{matlaboutput}
-Al termine dell'elaborazione, possiamo spegnere il \textit{parallel pool}. La funzione \lstinline{gcp} restituisce un oggetto rappresentante l'istanza attiva del parpool, in modo da procedere con la sua eliminazione.
-\begin{matlabcode}
-    delete(gcp('nocreate'));
-\end{matlabcode}
-\begin{matlaboutput}
-    Parallel pool using the 'Processes' profile is shutting down.
-\end{matlaboutput}
-\subsection{Alcune considerazioni finali}
-La mancata convergenza della funzione \lstinline{jacobi} al primo tentativo, dovuta all'insufficiente numero di iterazioni a disposizione, costituisce un'evidenza a supporto del fatto che la velocit\`a di convergenza del metodo di Jacobi, ovvero la velocit\`a con la quale $\norm{\mathbf{e}^{(k)}}  \rightarrow 0 \text{ per } k\rightarrow{\infty}$, sia piuttosto bassa rispetto ad altri metodi iterativi.\newline
-Per questo motivo, in problemi \textit{compute-intensive}, si preferisce utilizzare un solutore pi\`u efficiente, come il metodo del gradiente conoiugato precondizionato, e ricorrere a tecniche che, in definitiva, diminuiscono il numero di iterazioni necessarie. \newline
-A questo proposito, accenniamo al precondizionamento di sistemi lineari, che si fonda sull'idea di ridurre il numero di condizionamento della matrice del sistema, moltiplicandola per un'opportuna matrice di precondizionamento.
-
-A partire da \eqref{eq:formaMatricialeSistemiLineari}, introduciamo il precondizionatore sinistro $P\in\mathbb{R}^{n\times n}$, ottenendo il seguente sistema precondizionato
-\begin{equation}
-    P^{-1}A\mathbf{x} = P^{-1}\mathbf{b},
-\end{equation}
-In alternativa, possiamo avvalerci di precondizionatori destri e centrati trasformando il sistema \eqref{eq:formaMatricialeSistemiLineari} rispettivamente nella forma
-\begin{equation*}
-    AP^{-1}\mathbf{y} = \mathbf{b} \quad \text{con}\quad \mathbf{y} = P\mathbf{x},
-\end{equation*}
-oppure
-\begin{equation*}
-   P_{L}^{-1}AP_{R}^{-1}\mathbf{y}=P_{L}^{-1}\mathbf{b} \quad \text{con} \quad \mathbf{y} = P_{R}\mathbf{x}.
-\end{equation*}

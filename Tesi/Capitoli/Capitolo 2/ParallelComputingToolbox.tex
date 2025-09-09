@@ -110,8 +110,8 @@ singolo calcolatore, sfruttando la capacit\`a di memorizzazione offerta dalla co
 
 Gli \textit{array} distribuiti possono contenere dati di qualsiasi tipo e supportano la distribuzione degli elementi lungo una dimensione,
 per riga oppure per colonna.\newline
-A questo proposito, dobbiamo precisare che \`e prevista la possibilit\`a di definire distribuzioni dei dati alternative e che, molto spesso, il partizionamento degli elementi viene manipolato implicitamente dall'esecuzione di certe operazioni
-come \lstinline{gather}, una funzione utile a riunire un \textit{array} distribuito all'interno dello spazio di lavoro del \textit{client}.
+A questo proposito, dobbiamo precisare che \`e prevista la possibilit\`a di definire distribuzioni dei dati alternative e che, molto spesso, il partizionamento degli elementi viene manipolato implicitamente dall'esecuzione di alcune operazioni tipiche del calcolo parallelo,
+come l'operazione di riduzione, utile a trasformare un \textit{array} distribuito in un singolo oggetto.
 
 Un ulteriore vantaggio derivante dall'uso degli \textit{array} distribuiti \`e l'assenza di differenze sintattiche nell'accesso agli elementi rispetto agli \textit{array} tradizionali; l'infrastruttura sottostante garantisce, in ogni momento, una distribuzione dei dati idonea all'esecuzione delle operazioni
 richieste dall'utente.\newline
