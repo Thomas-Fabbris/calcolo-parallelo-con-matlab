@@ -37,10 +37,7 @@ Questa scelta ci consente di stimare facilmente l'accuratezza della soluzione ca
 \subsection{Risoluzione con il metodo di Jacobi classico}
 Dapprima, risolviamo il sistema attraverso la funzione \lstinline{jacobi} nella sua configurazione predefinita:
 il numero massimo di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, mentre la tolleranza cercata durante la soluzione del problema \`e pari a ${10}^{-6}$.\newline
-    Successivamente, calcoliamo l'errore assoluto alla $k$-esima iterazione come
-    \begin{equation*}
-        \norm{\mathbf{e}^{(k)}} = \norm{\mathbf{x} - \mathbf{x}^{(k)}}.
-    \end{equation*}
+    Successivamente, calcoliamo l'errore assoluto alla $k$-esima iterazione $\norm{\mathbf{e}^{(k)}}$.
     \begin{matlabcode}
     [xJM1,flagJM1,relresJM1,iterJM1,resvecJM1] = jacobi(A,b);
     errJM1 = abs(x - xJM1);
@@ -73,8 +70,7 @@ il numero massimo di iterazioni \lstinline{maxit} \`e fissato a $\num{100}$, men
     ans =
 
     1.0000    1.0000    1.0000    1.0000    1.0000    ...
-    \end{matlaboutput}
-    \begin{matlaboutput}
+   
     Tempo esecuzione jacobi: 451.9124 sec.
     \end{matlaboutput}
     Impiegando la configurazione personalizzata, il metodo di Jacobi converge e la soluzione calcolata presenta un errore assoluto sensibilmente minore, come
@@ -142,17 +138,17 @@ oppure
 \begin{equation*}
    P_{L}^{-1}AP_{R}^{-1}\mathbf{y}=P_{L}^{-1}\mathbf{b} \quad \text{con} \quad \mathbf{y} = P_{R}\mathbf{x}.
 \end{equation*}
-Perfino nel terzo scenario di esecuzione non abbiamo registrato alcun incremento di velocit\`a rispetto alla versione seriale dell'algoritmo, dal momento che l'\textit{overhead} per il coordinamento e la sincronizzazione dei \textit{worker} supera di gran lunga i benefici introdotti dalla parallelizzazione.
+Perfino nel terzo scenario di esecuzione non abbiamo registrato alcun incremento di velocit\`a rispetto alla versione seriale dell'algoritmo, dal momento che l'\textit{overhead} per il coordinamento e la sincronizzazione dei \textit{worker} ha largamente superato i benefici introdotti dalla parallelizzazione.
 
-L'analisi del profilo di esecuzione del codice di \lstinline{jacobi} mediante lo strumento \textit{Profiler} di MATLAB ha immediatamente evidenziato quale possa essere il principale collo di bottiglia: la funzione interna \lstinline{RemoteSpmdControllerImpl.awaitBlock} occupa la quasi totalit\`a del tempo di esecuzione del metodo di Jacobi, indicando che i \textit{worker} sono rimasti in uno stato di attesa per un intervallo di tempo significativo e non hanno proceduto con la computazione vera e propria nel frattempo.
+L'analisi del profilo di esecuzione di \lstinline{jacobi} mediante lo strumento \textit{Profiler} di MATLAB ha immediatamente evidenziato quale potesse essere il principale collo di bottiglia: la funzione interna \lstinline{RemoteSpmdControllerImpl.awaitBlock} ha occupato la quasi totalit\`a del tempo di esecuzione del metodo di Jacobi, indicando che i \textit{worker} sono rimasti in uno stato di attesa per un intervallo di tempo significativo e, nel frattempo, non hanno proceduto con la computazione vera e propria.
 
-Innanzitutto, questo comportamento peculiare pu\'o essere spiegato dalla presenza di una latenza di comunicazione intrinseca nell'infrastruttura del Parallel Computing Toolbox; nonostante i \textit{worker} risiedano sullo stesso calcolatore, la comunicazione all'interno del \textit{parallel pool} non \`e a costo zero e l'effetto negativo sulle prestazioni si aggiunge progressivamente al ritardo accumulato in precedenza.
-
-Inoltre, il metodo di Jacobi \`e un algoritmo fortemente sincrono; a ogni passo dell'esecuzione, impone un coordinamento tra i \textit{worker} per calcolare la nuova soluzione approssimata e per valutare le condizioni di arresto basate sul controllo del residuo relativo e sulla verifica della divergenza del metodo.\newline
-L'aggiornamento del residuo del sistema $\mathbf{r}^{(k)}$, previsto da $\eqref{eq:metodoIterativoConResiduo}$, induce un'operazione di riduzione, in quanto \`e necessario recuperare l'intero vettore delle incognite $\mathbf{x}^{(k)}$ per determinare completamente il prodotto matrice-vettore $A\mathbf{x}^{(k)}$.\newline
+Innanzitutto, il metodo di Jacobi \`e un algoritmo fortemente sincrono; a ogni passo dell'esecuzione, impone un coordinamento tra i \textit{worker} per calcolare la nuova soluzione approssimata e per valutare le condizioni di arresto basate sul controllo del residuo relativo e sulla verifica della divergenza del metodo.\newline
+L'aggiornamento del residuo $\mathbf{r}^{(k)}$, previsto da $\eqref{eq:metodoIterativoConResiduo}$, induce un'operazione di riduzione, in quanto \`e necessario recuperare l'intero vettore delle incognite $\mathbf{x}^{(k)}$ per determinare completamente il prodotto matrice-vettore $A\mathbf{x}^{(k)}$.\newline
 Analogamente, il calcolo della norma del residuo relativo $\norm{\mathbf{r}^{(k)}}$, sfruttato nel test di arresto dell'algoritmo, introduce un punto di barriera, secondo il quale l'esecuzione di ciascun \textit{worker} non pu\`o procedere finch\`e tutte le altre unit\`a di elaborazione non abbiano raggiunto il medesimo punto nel flusso di esecuzione del programma.
 
-In conclusione, il risultato ottenuto dall'applicazione della funzione \lstinline{jacobi} per la risoluzione di un sistema di equazioni lineari di grandi dimensioni si \`e rivelato negativo in termini di prestazioni, ma ha permesso di dimostrare come la scelta dell'algoritmo da eseguire influenzi la possibilit\`a di ottenere un reale \textit{speedup} delle prestazioni, mettendo in luce i limiti pratici del parallelismo a livello di dati in un sistema a memoria condivisa.
+Inoltre, il comportamento osservato pu\'o essere parzialmente attribuito alla latenza di comunicazione intrinseca nell'infrastruttura del Parallel Computing Toolbox; nonostante i \textit{worker} risiedano sullo stesso calcolatore, la comunicazione all'interno del \textit{parallel pool} non \`e a costo zero e il suo effetto negativo sulle prestazioni si aggiunge al ritardo accumulato in precedenza.
+
+In conclusione, il risultato ottenuto dall'applicazione della funzione \lstinline{jacobi} alla risoluzione di un sistema di equazioni lineari di grandi dimensioni si \`e rivelato negativo in termini di prestazioni, ma ha permesso di dimostrare come la scelta dell'algoritmo influenzi le possibilit\`a di ottenere un reale \textit{speedup} delle prestazioni, mettendo in luce i limiti pratici del parallelismo a livello di dati in un sistema a memoria condivisa.
 
 \begin{figure}[!htbp]
         \centering

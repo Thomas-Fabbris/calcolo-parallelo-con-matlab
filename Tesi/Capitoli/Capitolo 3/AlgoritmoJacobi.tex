@@ -17,7 +17,7 @@ Nello specifico, il prototipo della funzione MATLAB \`e
     breakatwhitespace=true
 }
 \begin{matlabcode}
-    [x,flag,relres,iter,resvec]=jacobi(A,b,tol,maxit,x0)
+    [x,flag,relres,iter,resvec]=jacobi(A,b,tol,maxit,x0,varargin)
 \end{matlabcode}
 La funzione \lstinline{jacobi} si aspetta di ricevere come parametri la matrice dei coefficienti $A$ del sistema \eqref{eq:formaMatricialeSistemiLineari} e il corrispondente vettore dei termini noti $\mathbf{b}$.\newline
 In aggiunta, l'utente pu\`o specificare i seguenti parametri opzionali:
