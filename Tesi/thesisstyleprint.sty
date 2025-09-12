@@ -1,0 +1,185 @@
+\ProvidesPackage{thesisstyleprint}
+
+% Importazione package
+\usepackage[utf8]{inputenc}
+\usepackage{adjustbox}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{appendix}
+\usepackage{array}
+\usepackage[italian]{babel}
+\usepackage[backend=biber, style=ieee, dashed=false]{biblatex}
+\usepackage{booktabs}
+\usepackage{bm}
+\usepackage{caption}
+\usepackage[style=italian]{csquotes}
+\usepackage{diagbox}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{emptypage}
+\usepackage{epigraph}
+\usepackage[T1]{fontenc}
+\usepackage{frontespizio}
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{multirow}
+\usepackage{parskip}
+\usepackage{placeins}
+\usepackage{pgfkeys}
+\usepackage{scrextend}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{setspace}
+\usepackage{siunitx}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{todonotes}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{listings}
+\usepackage[numbered,framed]{matlab-prettifier}
+
+% Bibliografia con Biblatex
+\addbibresource{./Bibliografia/Bibliografia.bib}
+
+% Dichiarazione simbolo per la caratteristica di una matrice
+\DeclareMathOperator{\car}{car}
+% Dichiarazione simbolo C++
+\newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +} }
+% Dichiarazione unità di misura flops
+\DeclareSIUnit{\flops}{flops}
+% Dichiarazione simbolo per la norma di un vettore
+\DeclarePairedDelimiter{\norm}{\|}{\|}
+% Dichiarazione simbolo per il valore assoluto di un numero reale
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+% Formattazione Teoremi
+\newtheoremstyle{stileTeorema}
+{\topsep}   % Spazio sopra
+{\topsep}   % Spazio sotto
+{}          % Font del corpo del testo
+{}          % Indentazione
+{\bfseries} % Stile dell'intestazione
+{}          % Indentazione
+{.5em}      % Spazio dopo l'intestazione
+{}          % Specifica dell'intestazione
+\theoremstyle{stileTeorema}
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{corollario}{Corollario}[chapter]
+\newtheorem{definizione}{Definizione}[chapter]
+
+% Formattazione esempi
+\newtheoremstyle{stileEsempio}
+{\topsep}                                    % Spazio sopra
+{\topsep}                                    % Spazio sotto
+{\normalfont}                                % Font del corpo del testo
+{}                                           % Indentazione
+{\bfseries}                                  % Stile dell'intestazione
+{}                                           % Indentazione
+{\newline}                                   % A capo dopo il titolo
+{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Specifica dell'intestazione
+\theoremstyle{stileEsempio}
+\newtheorem{esempio}{Esempio}[chapter]
+
+% Impostazione directory per immagini
+\graphicspath{{./Risorse}}
+
+% Stile intestazioni e piè di pagina
+\pagestyle{fancy}
+\fancyhf{}
+% Intestazione
+\setlength{\headheight}{15pt}
+\fancyhead[LE]{\nouppercase{\leftmark}}
+\fancyhead[RO]{\nouppercase{\rightmark}}
+% Piè di pagina
+\fancyfoot[LE,RO]{\thepage}
+% Separatore
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[LE,RO]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+\fancypagestyle{empty}{\fancyhf{}}
+\interfootnotelinepenalty=10000
+
+% Definizione acronimi da non sillabare
+\hyphenation{AFIPS}
+\hyphenation{AI}
+\hyphenation{AMD}
+\hyphenation{CMOS}
+\hyphenation{CPU}
+\hyphenation{DSA}
+\hyphenation{FPU}
+\hyphenation{HPC}
+\hyphenation{LAN}
+\hyphenation{IBM}
+\hyphenation{MATLAB}
+\hyphenation{PC}
+\hyphenation{WSC}
+
+% Definizione stile per il codice MATLAB in-line
+\lstset{
+  basicstyle=\ttfamily,
+  tabsize=3,
+  keepspaces=true,
+  belowskip = 0pt,
+}
+
+% Impostazione separatore decimale e separatore delle migliaia
+\sisetup{output-decimal-marker = {,},
+  product-units = single,
+  detect-weight,
+  group-separator = {.},
+}
+
+% Definizione stile di colonna numerico tabelle
+\newcolumntype{N}{S[table-format=1.4, table-header-format = \bfseries\raggedright]}
+
+% Definizione stile didascalie di tabelle e figure
+\captionsetup{labelfont=bf, labelsep=period}
+
+% Definizione stile intestazione capitoli
+\titleformat{\chapter}[hang]
+{\normalfont\huge\bfseries}
+{\thechapter.}
+{1em}
+{}
+
+% Stile dell'indice generale 
+% Formattazione per i capitoli
+\titlecontents{chapter}[1.5em]
+    {\bfseries}
+    {\contentslabel[\thecontentslabel.]{1.5em}}
+    {\hspace*{-1.5em}}
+    {\hfill\contentspage}
+% Formattazione per le sezioni
+\titlecontents{section}[3.8em] 
+    {}
+    {\contentslabel[\thecontentslabel.]{2.3em}}
+    {\hspace*{-2.3em}}
+    {\titlerule*[.3pc]{.}\contentspage}
+% Formattazione per le sottosezioni
+\titlecontents{subsection}[7.0em]
+    {}
+    {\contentslabel[\thecontentslabel.]{3.2em}}
+    {\hspace*{-3.2em}}
+    {\titlerule*[.3pc]{.}\contentspage}
+
+% Impostazione interlinea
+\onehalfspacing
+% Spazio tra paragrafi
+\setlength{\parskip}{1em}
+
+% Spazio tra tabelle e figure
+\setlength{\intextsep}{1.5\baselineskip}
+
+% Stile per terminazione delle pagine
+\raggedbottom
+\endinput
