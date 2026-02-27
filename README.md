@@ -1,4 +1,2 @@
-# Calcolo Parallelo con MATLAB
-La seguente repository contiene script e altri file utili per l'implementazione di algoritmi paralleli in MATLAB per la risoluzione di sistemi lineari.
-
-Prova Finale in Ingegneria Informatica presso Università degli Studi di Bergamo (A.A. 2024/2025) di Thomas Fabbris [1086063]
+# Introduzione al calcolo parallelo in MATLAB&copy;
+La seguente repository contiene gli script MATLAB e il report in Latex scritti per la Prova Finale in Ingegneria Informatica presso l'Università degli Studi di Bergamo (A.A. 2024/2025).
